@@ -276,7 +276,28 @@ img.boxed{border-radius:8px}
 .seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(26,24,51,.08)}
 .seg em{font-style:normal;font-size:11px;color:var(--soft)}
 
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px 18px;padding-top:6px}
+.folder{position:relative;aspect-ratio:1.08/1;display:block;width:100%;text-align:right;transition:transform .35s var(--ease)}
+.folder:hover{transform:translateY(-4px)}
+.f-tab{position:absolute;top:0;right:0;width:42%;height:22%;border-radius:18px 18px 0 0;background:var(--b)}
+.f-tab::after{content:"";position:absolute;left:-22px;bottom:0;width:30px;height:60%;background:var(--b);clip-path:polygon(100% 0,100% 100%,0 100%);border-top-right-radius:12px}
+.f-back{position:absolute;top:12%;inset-inline:0;bottom:0;border-radius:18px;background:var(--b);box-shadow:0 10px 24px -12px var(--b)}
+.f-paper{position:absolute;top:19%;height:40%;width:72%;right:12%;background:#fff;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.08);transition:transform .45s var(--ease)}
+.f-paper.p1{transform:rotate(-7deg) translateY(4px);opacity:.92}
+.f-paper.p2{transform:rotate(-3deg) translateY(2px);opacity:.96}
+.f-paper.p3{transform:rotate(1deg)}
+.folder:hover .f-paper.p1{transform:rotate(-9deg) translateY(-6px)}
+.folder:hover .f-paper.p2{transform:rotate(-4deg) translateY(-9px)}
+.folder:hover .f-paper.p3{transform:rotate(2deg) translateY(-12px)}
+.f-front{position:absolute;inset-inline:0;bottom:0;height:64%;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;color:#fff;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--b) 62%,#fff) 0%,color-mix(in srgb,var(--b) 88%,#fff) 45%,var(--b) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 0 0 1px rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+.f-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.f-name{font-size:18px;font-weight:700;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.12)}
+.f-ico{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.92);display:grid;place-items:center;flex:none}
+.f-ico img{width:26px;height:26px;object-fit:contain}
+.f-sub{font-size:12.5px;opacity:.9;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-date{margin-top:auto;font-size:12px;opacity:.92}
 .proj{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:18px;background:var(--card);display:flex;flex-direction:column;gap:12px;text-align:right;transition:box-shadow .25s,transform .3s var(--ease);cursor:pointer}
 .proj:hover{box-shadow:0 0 0 1px var(--line-2),0 10px 28px rgba(26,24,51,.07);transform:translateY(-2px)}
 .proj-top{display:flex;justify-content:space-between;align-items:flex-start}
@@ -923,17 +944,17 @@ function renderProjects(){
   $('pFilter').innerHTML = F.map(function(f){ var n = f[0]==='all' ? CLIENTS.length : CLIENTS.filter(function(c){return c.status===f[0];}).length; return '<button type="button" data-pf="'+f[0]+'" aria-pressed="'+(S.pf===f[0])+'">'+f[1]+'<em>'+n+'</em></button>'; }).join('');
   var list = CLIENTS.filter(function(c){ return S.pf==='all' || c.status===S.pf; });
   $('pgrid').innerHTML = list.map(function(c){
-    return '<article class="proj" tabindex="0" role="button" data-id="'+c.id+'" aria-label="افتح '+esc(c.name)+' في السبورة" style="--tint:'+c.tint+';--tint-soft:'+c.soft+'">'+
-      '<div class="proj-top"><span class="plogo-lg">'+logo(c)+'</span>'+pill(c.status)+'</div>'+
-      '<h3>'+esc(c.name)+'</h3>'+
-      '<div class="chips">'+c.services.map(function(s){return '<span class="chip tinted">'+esc(s)+'</span>';}).join('')+'</div>'+
-      '<div><div class="prow" style="margin-bottom:8px"><span>الإنجاز</span><b>'+c.pct+'%</b></div><div class="segs">'+segs(c.pct,14)+'</div></div>'+
-      '<div class="mini-steps">'+PHASES.map(function(p,i){ var k=i+1; return '<span class="'+(k<c.phase?'done':(k===c.phase?'now':''))+'">'+p+'</span>'; }).join('')+'</div>'+
-      '<div class="proj-foot"><span>'+esc(c.contract)+'</span><span>التسليم القادم: <b>'+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</b></span></div></article>';
+    var br = BRAND[c.id] || {c:c.tint};
+    return '<button type="button" class="folder" data-id="'+c.id+'" aria-label="افتح '+esc(c.name)+' في السبورة" style="--b:'+br.c+'">'+
+      '<span class="f-tab"></span><span class="f-back"></span>'+
+      '<span class="f-paper p1"></span><span class="f-paper p2"></span><span class="f-paper p3"></span>'+
+      '<span class="f-front"><span class="f-top"><span class="f-name">'+esc(c.name)+'</span><span class="f-ico">'+icon(c)+'</span></span>'+
+      '<span class="f-sub">'+esc(c.services.join(' · '))+'</span>'+
+      '<span class="f-date">'+PHASES[c.phase-1]+' · التسليم القادم '+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span></span></button>';
   }).join('');
 }
 $('pFilter').addEventListener('click', function(e){ var b=e.target.closest('[data-pf]'); if(b){ S.pf=b.dataset.pf; renderProjects(); } });
-$('pgrid').addEventListener('click', function(e){ var a=e.target.closest('.proj'); if(a) openClient(a.dataset.id); });
+$('pgrid').addEventListener('click', function(e){ var a=e.target.closest('.folder'); if(a) openClient(a.dataset.id); });
 $('pgrid').addEventListener('keydown', function(e){ if ((e.key==='Enter'||e.key===' ') && e.target.classList.contains('proj')){ e.preventDefault(); openClient(e.target.dataset.id); } });
 
 /* ---------- tasks page ---------- */
