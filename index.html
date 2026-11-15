@@ -104,8 +104,8 @@ svg{display:block}
 .sheet::before{content:"";position:absolute;top:0;right:28px;left:28px;height:3px;border-radius:0 0 3px 3px;background:var(--tint);transition:background .5s var(--ease)}
 .badge{position:absolute;top:-40px;right:22px;width:132px;height:74px;border-radius:16px;background:var(--card);box-shadow:0 0 0 5px var(--night);display:grid;place-items:center;padding:10px 14px;z-index:2}
 .badge{--lh:50px}.badge img{max-width:100%;max-height:var(--lh);object-fit:contain}
-.lg-crop{display:block;overflow:hidden;direction:ltr;max-width:100%;height:var(--lh,40px)}
-.lg-crop img{display:block;max-height:none!important;height:var(--lh,40px)!important;width:auto!important}
+.lg-crop{display:block;position:relative;overflow:hidden;direction:ltr;width:min(100%, calc(var(--lh,40px) * 2.354));height:auto}
+.lg-crop img{display:block;max-height:none!important;height:auto!important}
 img.to-dark{filter:brightness(0)}
 .tab .tlogo .wm{display:none}
 .wm{font-weight:700;color:var(--tint);text-align:center;line-height:1.15;letter-spacing:-.3px}
@@ -633,7 +633,7 @@ var OKRS = [
 /* ---------- helpers ---------- */
 var LOGOS = {};
 var LOGO_SRC = {
-  maknon:{src:'https://maknon.org.sa/wp-content/uploads/2023/04/logo-11.png', crop:349/200, w:'227.2%'},
+  maknon:{src:'https://maknon.org.sa/wp-content/uploads/2023/04/logo-11.png', crop:2.354, w:'263.2%', top:'-28.1%'},
   ithraa:{src:'https://ithraa.sa/ithraa-almotoon-logo-white.svg', dark:true},
   fatat20:{src:'https://fatat20.sa/wp-content/themes/20Fatat/images/logo.png'},
   naqla:{src:'https://naqla.com.sa/__l5e/assets-v1/8cb6464f-2a84-4f53-b2d0-8c3e314004b5/naqla-logo-official.png'},
@@ -648,7 +648,7 @@ function logo(c){
   if (id) return '<img src="/_blob/'+esc(id)+'" alt="شعار '+esc(c.name)+'" loading="lazy">';
   var L = LOGO_SRC[c.id];
   if (!L || BROKEN[c.id]) return wordmark(c);
-  var img = '<img src="'+L.src+'" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'" referrerpolicy="no-referrer"'+(L.dark?' class="to-dark"':'')+(L.crop?' style="max-width:none"':'')+'>';
+  var img = '<img src="'+L.src+'" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'" referrerpolicy="no-referrer"'+(L.dark?' class="to-dark"':'')+(L.crop?' style="position:absolute;left:0;top:'+L.top+';width:'+L.w+';max-width:none"':'')+'>';
   return L.crop ? '<span class="lg-crop" data-fbw="'+c.id+'" style="aspect-ratio:'+L.crop+'">'+img+'</span>' : img;
 }
 function hasLogo(c){ return !!(LOGOS[c.id] || (LOGO_SRC[c.id] && !BROKEN[c.id])); }
