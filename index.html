@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>آماد · إدارة المشاريع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --canvas:#E7E4DF; --shell:#F4F2EE; --card:#FFFFFF; --line:#ECE9E4; --line-2:#E0DCD5;
+  --ink:#1A1833; --ink-2:#4A4862; --muted:#6E6C80; --soft:#A3A1AE;
+  --night:#1A1833; --paper:#F3ECE3; --orange:#E59758; --mauve:#5F294A; --sand:#E2BEBA;
+  --orange-soft:#FCF0E5; --mauve-soft:#F6EEF2; --sand-soft:#FBF3F1; --night-soft:#EFEEF5;
+  --green:#2F8A63; --green-soft:#E6F3EC; --red:#B3261E; --red-soft:#FBE8E6;
+  --track:#EFEDE9;
+  --r-xl:24px; --r-lg:18px; --r-md:14px; --r-sm:10px;
+  --font:"Thmanyah Sans","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg{display:block}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ico.sm{width:16px;height:16px}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;margin:16px;padding:12px;min-height:calc(100vh - 32px);background:var(--shell);border-radius:30px}
+
+/* rail */
+.rail{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;position:sticky;top:28px;height:calc(100vh - 56px)}
+.mark{width:46px;height:46px;border-radius:14px;background:var(--night);color:var(--orange);display:grid;place-items:center;font-weight:700;font-size:13px;letter-spacing:-.2px;margin-bottom:22px}
+.rail-label{font-size:11px;color:var(--soft);margin:6px 0 2px}
+.rail-btn{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:var(--muted);position:relative;transition:background .2s,color .2s}
+.rail-btn:hover{background:rgba(255,255,255,.7);color:var(--ink)}
+.rail-btn[aria-current="page"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(26,24,51,.06),0 0 0 1px var(--line)}
+.rail-btn[aria-current="page"]::after{content:"";position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--orange)}
+.rail-btn[aria-disabled="true"]{opacity:.45;cursor:default}
+.tip{position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%) translateX(4px);background:var(--night);color:var(--paper);font-size:12px;padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s,transform .2s var(--ease);z-index:20}
+.rail-btn:hover .tip,.rail-btn:focus-visible .tip{opacity:1;transform:translateY(-50%)}
+.rail-sep{width:28px;height:1px;background:var(--line-2);margin:12px 0 4px}
+.avatar{margin-top:auto;width:40px;height:40px;border-radius:50%;background:var(--paper);color:var(--night);display:grid;place-items:center;font-weight:600;font-size:14px;box-shadow:0 0 0 3px var(--card)}
+.rail-foot{font-size:11px;color:var(--soft);margin-top:6px}
+
+/* workspace */
+.work{min-width:0;display:flex;flex-direction:column;gap:8px}
+.tabs{display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;height:38px;padding:0 14px 0 12px;border-radius:12px;color:var(--muted);font-size:13px;white-space:nowrap;transition:background .2s,color .2s}
+.tab:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+.tab[aria-current="true"]{background:var(--card);color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(26,24,51,.05),0 0 0 1px var(--line)}
+.tab .tlogo{width:22px;height:22px;border-radius:7px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;overflow:hidden}
+.tab .tlogo img{max-width:18px;max-height:18px;object-fit:contain}
+.tab .tlogo b{width:8px;height:8px;border-radius:50%;background:var(--tint)}
+.tab-add{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.tab-add:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+.tab-hint{margin-inline-start:auto;font-size:12px;color:var(--soft);padding-inline-end:8px;white-space:nowrap}
+
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;align-items:start}
+.stage.wide{grid-template-columns:minmax(0,1fr)}
+.stage.wide .aside{display:none}
+
+.panel{background:var(--card);border-radius:var(--r-xl);box-shadow:0 0 0 1px var(--line);min-width:0}
+.panel-head{height:62px;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid var(--line)}
+.crumb{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
+.crumb b{color:var(--ink);font-weight:500;display:flex;align-items:center;gap:6px}
+.head-tools{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.demo{font-size:11.5px;color:var(--muted);border:1px dashed var(--line-2);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.circle{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--ink-2);box-shadow:0 0 0 1px var(--line);position:relative;transition:background .2s}
+.circle:hover{background:var(--shell)}
+.circle .ping{position:absolute;top:9px;left:10px;width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 2px var(--card)}
+.panel-body{padding:26px 26px 30px}
+.view{display:none}
+.view.on{display:block;animation:rise .45s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.hello h1{margin:0;font-size:25px;font-weight:500;letter-spacing:-.2px}
+.hello p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.hello{margin-bottom:22px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 14px}
+.sec-head h2{margin:0;font-size:16px;font-weight:600}
+.sec-head h2 small{font-weight:400;color:var(--soft);font-size:13px;margin-inline-start:6px}
+.more{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.more:hover{color:var(--ink)}
+
+/* ============ BOARD ============ */
+.board{background:var(--night);border-radius:22px;padding:12px 12px 10px;position:relative}
+.board-top{height:34px;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 6px 6px}
+.live{display:flex;align-items:center;gap:8px;color:rgba(243,236,227,.72);font-size:12px;margin-inline-end:auto;padding-inline-start:150px}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(229,151,88,.6);animation:pulse 2.4s infinite}
+.live.paused i{animation:none;background:rgba(243,236,227,.4)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,151,88,.55)}70%{box-shadow:0 0 0 8px rgba(229,151,88,0)}100%{box-shadow:0 0 0 0 rgba(229,151,88,0)}}
+.bbtn{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--paper);box-shadow:inset 0 0 0 1px rgba(243,236,227,.2);transition:background .2s}
+.bbtn:hover{background:rgba(243,236,227,.1)}
+.bcount{font-size:12px;color:rgba(243,236,227,.7);min-width:34px;text-align:center}
+.sheet{background:var(--card);border-radius:16px;position:relative;padding:52px 30px 26px;min-height:300px}
+.sheet::before{content:"";position:absolute;top:0;right:28px;left:28px;height:3px;border-radius:0 0 3px 3px;background:var(--tint);transition:background .5s var(--ease)}
+.badge{position:absolute;top:-40px;right:22px;width:132px;height:74px;border-radius:16px;background:var(--card);box-shadow:0 0 0 5px var(--night);display:grid;place-items:center;padding:10px 14px;z-index:2}
+.badge img{max-width:100%;max-height:100%;object-fit:contain}
+.lg-crop{display:block;overflow:hidden;direction:ltr;max-width:100%;max-height:100%;height:100%}
+.lg-crop img{display:block}
+img.to-dark{filter:brightness(0)}
+.tab .tlogo .lg-crop{height:18px}
+.tab .tlogo .wm{display:none}
+.wm{font-weight:700;color:var(--tint);text-align:center;line-height:1.15;letter-spacing:-.3px}
+.badge .wm{font-size:17px}
+.sheet-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:34px;transition:opacity .25s var(--ease),transform .35s var(--ease)}
+.sheet-grid.out{opacity:0;transform:translateY(4px)}
+.eyebrow{font-size:12.5px;color:var(--muted)}
+.cname{font-size:32px;font-weight:600;letter-spacing:-.5px;line-height:1.25;margin:4px 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px;background:var(--shell);color:var(--ink-2)}
+.chip.tinted{background:var(--tint-soft);color:var(--tint)}
+.steps{display:flex;margin-top:26px}
+.st{flex:1;position:relative;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--soft)}
+.st::before{content:"";position:absolute;top:15px;right:34px;left:0;height:2px;background:var(--track);border-radius:2px}
+.st:last-child::before{display:none}
+.st .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--track);color:var(--muted);font-weight:600;font-size:13px;position:relative;z-index:1}
+.st.done{color:var(--ink-2)} .st.done .n{background:var(--night);color:var(--paper)} .st.done::before{background:var(--night)}
+.st.now{color:var(--ink);font-weight:600} .st.now .n{background:var(--orange);color:var(--night);box-shadow:0 0 0 5px var(--orange-soft)}
+.facts{display:flex;flex-direction:column;gap:14px;background:var(--shell);border-radius:16px;padding:18px}
+.fact{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px}
+.fact span:first-child{color:var(--muted)}
+.fact b{font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--green-soft);color:#1E6B49} .p-warn{background:var(--orange-soft);color:#8A4A17} .p-late{background:var(--red-soft);color:#8E1D17} .p-done{background:var(--night-soft);color:var(--night)}
+.segs{display:flex;gap:4px;direction:rtl}
+.segs i{flex:1;height:6px;border-radius:3px;background:#E3E0DA;transition:background .4s var(--ease)}
+.segs i.on{background:var(--orange)}
+.nextbox{background:var(--card);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.nextbox .cal{width:44px;height:48px;border-radius:10px;background:var(--tint-soft);color:var(--tint);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;line-height:1.1}
+.nextbox .cal b{font-size:18px}
+.nextbox .cal small{font-size:10.5px}
+.nextbox div small{display:block;color:var(--muted);font-size:12px}
+.nextbox div b{font-weight:600;font-size:14px}
+.board-foot{display:flex;align-items:center;justify-content:flex-end;padding:8px 6px 0}
+.dots{display:flex}
+.dots button{padding:10px 3px;display:flex}
+.dots i{display:block;height:6px;width:6px;border-radius:9px;background:rgba(243,236,227,.32);transition:width .35s var(--ease),background .35s}
+.dots button[aria-current="true"] i{width:22px;background:var(--orange)}
+
+/* mini tiles */
+.minis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.mini{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 12px;border-radius:16px;background:var(--bg);transition:transform .25s var(--ease)}
+.mini:hover{transform:translateY(-2px)}
+.mini .mi{width:40px;height:40px;border-radius:12px;background:var(--card);display:grid;place-items:center;color:var(--fg);flex:none}
+.mini b{display:block;font-size:20px;font-weight:600;line-height:1.2}
+.mini small{color:var(--muted);font-size:12px}
+.mini .chev{margin-inline-start:auto;color:var(--soft)}
+
+/* running cards */
+.marquee{overflow:hidden;margin:0 -26px;padding:4px 26px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 26px,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,transparent,#000 26px,#000 calc(100% - 26px),transparent)}
+.track{display:flex;gap:14px;width:max-content;animation:roll 55s linear infinite}
+.marquee:hover .track,.marquee:focus-within .track,.marquee.hold .track{animation-play-state:paused}
+@keyframes roll{from{transform:translateX(0)}to{transform:translateX(calc(50% + 7px))}}
+.pcard{width:272px;height:178px;flex:none;border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;text-align:right;background:var(--bg);color:var(--fg);position:relative;overflow:hidden;transition:transform .3s var(--ease)}
+.pcard:hover{transform:translateY(-3px)}
+.pcard::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;left:-70px;top:-90px;background:var(--glow);pointer-events:none}
+.pcard .plogo{width:84px;height:40px;border-radius:10px;background:#fff;display:grid;place-items:center;padding:6px 8px;position:relative;z-index:1}
+.pcard .plogo img{max-width:100%;max-height:100%;object-fit:contain}
+.pcard .plogo .wm{font-size:12px}
+.pcard h3{margin:12px 0 0;font-size:16.5px;font-weight:600;line-height:1.3;position:relative;z-index:1}
+.pcard .sv{font-size:12px;opacity:.74;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .pl{margin-top:auto;display:flex;justify-content:space-between;font-size:11.5px;opacity:.85;margin-bottom:6px}
+.pcard .segs i{background:var(--seg-off);height:5px}
+.pcard .segs i.on{background:var(--seg-on)}
+.pcard .pf{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11.5px;opacity:.9}
+.pcard .pf span{display:flex;align-items:center;gap:5px}
+
+/* schedule */
+.sched{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px}
+.box{border-radius:20px;box-shadow:0 0 0 1px var(--line);background:var(--card);padding:18px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-head b{font-weight:600;font-size:14px}
+.cal-nav{display:flex;gap:4px}
+.cal-nav button{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.cal-nav button:hover{background:var(--shell);color:var(--ink)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal-grid .wd{font-size:11.5px;color:var(--soft);padding:4px 0}
+.day{height:38px;border-radius:50%;width:38px;margin:0 auto;display:grid;place-items:center;font-size:13px;position:relative;background:var(--shell);color:var(--ink-2);transition:background .2s}
+.day:hover{background:var(--line-2)}
+.day.wknd{background:transparent;color:var(--soft)}
+.day.out{visibility:hidden}
+.day.today{background:var(--night);color:var(--paper);font-weight:600}
+.day.sel{box-shadow:0 0 0 2px var(--orange)}
+.day i{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--dot)}
+.dl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;min-height:30px}
+.dl-head b{font-weight:600;font-size:14px}
+.dl-head button{font-size:12px;color:var(--muted)}
+.dls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dl{border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:16px;background:var(--card);transition:box-shadow .2s}
+.dl.hl{box-shadow:0 0 0 2px var(--orange)}
+.dl-top{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.dl-top .ring{width:12px;height:12px;border-radius:50%;border:2px solid var(--dot);flex:none}
+.dl-top .chip{margin-inline-start:auto;background:transparent;box-shadow:0 0 0 1px var(--line-2);font-size:11px;padding:2px 9px}
+.dl-date{margin:12px 0 2px;display:flex;align-items:baseline;gap:6px}
+.dl-date b{font-size:26px;font-weight:600;line-height:1}
+.dl-date span{color:var(--muted);font-size:13px}
+.dl-client{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dl-client i{width:6px;height:6px;border-radius:50%;background:var(--tint)}
+.dl-rem{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:12px 0 6px}
+.dl-rem b{color:var(--ink);font-weight:600}
+.bar{height:5px;background:var(--track);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--c,var(--orange));transition:width .6s var(--ease)}
+.empty{grid-column:1/-1;border-radius:18px;border:1px dashed var(--line-2);padding:28px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ============ ASIDE ============ */
+.aside{background:var(--card);border-radius:var(--r-xl);box-shadow:0 0 0 1px var(--line);display:flex;flex-direction:column;position:sticky;top:12px;max-height:calc(100vh - 110px)}
+.aside-tabs{display:flex;gap:20px;padding:0 22px;height:62px;align-items:flex-end;border-bottom:1px solid var(--line)}
+.aside-tabs button{padding-bottom:16px;font-size:13px;color:var(--soft);border-bottom:2px solid transparent;margin-bottom:-1px}
+.aside-tabs button[aria-selected="true"]{color:var(--ink);font-weight:600;border-color:var(--ink)}
+.aside-body{padding:20px 18px 18px;overflow:auto;flex:1}
+.today-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:14px}
+.today-head h2{margin:0;font-size:18px;font-weight:600}
+.today-head small{color:var(--muted);font-size:12.5px}
+.soft-btn{display:inline-flex;align-items:center;gap:6px;background:var(--orange-soft);color:#7A3F12;font-size:12.5px;font-weight:500;padding:8px 12px;border-radius:12px;white-space:nowrap}
+.soft-btn:hover{background:#F8E3D0}
+.filt{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.filt button{display:flex;align-items:center;gap:6px;color:var(--muted)}
+.filt button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+.filt em{font-style:normal;font-size:11px;background:var(--shell);color:var(--muted);border-radius:999px;padding:0 7px;min-width:20px;text-align:center}
+.filt button[aria-pressed="true"] em{background:var(--night);color:var(--paper)}
+.addrow{display:none;gap:6px;margin-bottom:12px}
+.addrow.on{display:flex}
+.addrow input{flex:1;min-width:0;border:1px solid var(--line-2);border-radius:12px;padding:9px 12px;font-size:13px;outline:0;background:var(--card)}
+.addrow input:focus{border-color:var(--orange)}
+.addrow button{background:var(--night);color:var(--paper);border-radius:12px;padding:0 14px;font-size:13px}
+.tasks{display:flex;flex-direction:column;gap:10px}
+.tk{border-radius:16px;box-shadow:0 0 0 1px var(--line);padding:14px 14px 12px;background:var(--card);transition:box-shadow .2s,opacity .3s}
+.tk:hover{box-shadow:0 0 0 1px var(--line-2),0 4px 14px rgba(26,24,51,.05)}
+.tk-top{display:flex;gap:10px;align-items:flex-start}
+.tk-top div{flex:1;min-width:0}
+.tk-top b{display:block;font-weight:500;font-size:13.5px;line-height:1.5}
+.tk-top small{color:var(--muted);font-size:12px}
+.tk.done .tk-top b{text-decoration:line-through;text-decoration-color:var(--soft);color:var(--muted)}
+.check{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--line-2);display:grid;place-items:center;flex:none;margin-top:2px;color:transparent;transition:background .2s,color .2s,box-shadow .2s}
+.check:hover{box-shadow:inset 0 0 0 1.5px var(--orange)}
+.tk.done .check{background:var(--night);color:var(--paper);box-shadow:none}
+.tk-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+.role{display:flex;align-items:center;gap:6px}
+.role i{width:22px;height:22px;border-radius:50%;background:var(--tint-soft);color:var(--tint);display:grid;place-items:center;font-style:normal;font-size:10.5px;font-weight:600}
+.feed{display:flex;flex-direction:column;gap:16px}
+.feed-row{display:flex;gap:12px;font-size:13px}
+.feed-row i{width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;background:var(--tint-soft);color:var(--tint);font-style:normal;font-weight:700;font-size:12px}
+.feed-row small{display:block;color:var(--muted);font-size:11.5px}
+
+/* ============ PAGES ============ */
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
+.page-head h1{margin:0;font-size:25px;font-weight:500}
+.page-head p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.seg{display:inline-flex;background:var(--shell);border-radius:12px;padding:4px;gap:2px}
+.seg button{padding:7px 14px;border-radius:9px;font-size:13px;color:var(--muted);min-height:34px;display:flex;align-items:center;gap:6px}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(26,24,51,.08)}
+.seg em{font-style:normal;font-size:11px;color:var(--soft)}
+
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.proj{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:18px;background:var(--card);display:flex;flex-direction:column;gap:12px;text-align:right;transition:box-shadow .25s,transform .3s var(--ease);cursor:pointer}
+.proj:hover{box-shadow:0 0 0 1px var(--line-2),0 10px 28px rgba(26,24,51,.07);transform:translateY(-2px)}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start}
+.plogo-lg{width:112px;height:56px;border-radius:14px;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;padding:8px 12px;background:#fff;position:relative}
+.plogo-lg img{max-width:100%;max-height:100%;object-fit:contain}
+.plogo-lg .wm{font-size:14px}
+.proj h3{margin:0;font-size:17px;font-weight:600}
+.proj .desc{font-size:12.5px;color:var(--muted);margin-top:-8px}
+.prow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.prow b{color:var(--ink);font-weight:600}
+.mini-steps{display:flex;gap:4px}
+.mini-steps span{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--shell);color:var(--soft)}
+.mini-steps span.done{background:var(--night-soft);color:var(--ink-2)}
+.mini-steps span.now{background:var(--orange);color:var(--night);font-weight:600}
+.proj-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:12px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);gap:10px}
+.proj-foot b{color:var(--ink);font-weight:500}
+
+.kanban{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kcol{background:var(--shell);border-radius:18px;padding:12px}
+.kcol-head{display:flex;align-items:center;gap:8px;padding:4px 4px 12px;font-size:13.5px;font-weight:600}
+.kcol-head i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.kcol-head em{margin-inline-start:auto;font-style:normal;font-weight:400;font-size:12px;color:var(--muted);background:var(--card);border-radius:999px;padding:0 8px}
+.kt{background:var(--card);border-radius:14px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(26,24,51,.04)}
+.kt small{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11.5px}
+.kt small i{width:6px;height:6px;border-radius:50%;background:var(--tint)}
+.kt p{margin:6px 0 10px;font-weight:500;font-size:13.5px;line-height:1.5}
+.kt .meta{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted)}
+
+.tl{border-radius:20px;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.tl-scroll{overflow-x:auto}
+.tl-inner{min-width:760px;position:relative}
+.tl-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.tl-days div{text-align:center;padding:12px 0 10px;font-size:15px;font-weight:600}
+.tl-days div small{display:block;font-size:11px;color:var(--soft);font-weight:400}
+.tl-days div.today{color:var(--orange)}
+.tl-days div.today small{color:var(--orange)}
+.tl-body{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:56px;padding:14px 0;background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:calc(100% / 7) 100%}
+.tl-body .wk{grid-row:1/-1;background:repeating-linear-gradient(135deg,transparent 0 8px,rgba(26,24,51,.025) 8px 9px)}
+.tl-bar{margin:6px 6px;border-radius:12px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;background:var(--bg);color:var(--fg);z-index:1}
+.tl-bar i{width:22px;height:22px;border-radius:7px;background:#fff;flex:none;display:grid;place-items:center;font-style:normal;color:var(--tint);font-size:10px;font-weight:700}
+.tl-now{position:absolute;top:0;bottom:0;width:2px;background:var(--orange);z-index:2}
+.tl-now::before{content:"اليوم";position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--orange);color:var(--night);font-size:10.5px;font-weight:600;padding:1px 8px;border-radius:6px}
+
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}.s6{grid-column:span 6}
+.stat{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:18px;background:var(--card)}
+.stat-top{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.stat-top .si{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--bg);color:var(--fg)}
+.stat-top a{margin-inline-start:auto;font-size:11.5px;color:var(--soft);font-weight:400}
+.stat-mid{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 10px;font-size:13px}
+.stat-mid b{font-size:15px;font-weight:600}
+.big{font-size:34px;font-weight:600;letter-spacing:-.5px;line-height:1.1;margin:16px 0 4px}
+.trend{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.trend.up{color:var(--green)} .trend.down{color:var(--red)}
+.lrow{display:grid;grid-template-columns:130px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:9px 0;font-size:13px}
+.lrow b{text-align:left;font-weight:600}
+.lrow .bar{height:8px}
+.crow{display:grid;grid-template-columns:56px minmax(0,1fr) 40px;gap:12px;align-items:center;padding:8px 0;font-size:13px}
+.crow .tiny{width:56px;height:30px;border-radius:8px;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;padding:3px 5px;background:#fff}
+.crow .tiny img{max-width:100%;max-height:100%;object-fit:contain}
+.crow .tiny .wm{font-size:9px}
+.crow b{text-align:left;font-weight:600}
+.okr{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:26px;margin-bottom:12px}
+.okr-h{display:flex;gap:16px;align-items:center}
+.okr-h small{color:var(--muted);font-size:12px}
+.okr-h p{margin:2px 0 0;font-size:16px;font-weight:600;line-height:1.5}
+.ringbox{width:66px;height:66px;position:relative;flex:none}
+.ringbox svg{transform:rotate(-90deg)}
+.ringbox b{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:600}
+.kr{padding:10px 0;border-bottom:1px solid var(--line)}
+.kr:last-child{border-bottom:0}
+.kr-t{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:8px}
+.kr-t b{white-space:nowrap}
+
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.lcard{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:16px;display:flex;flex-direction:column;gap:12px}
+.lprev{height:100px;border-radius:14px;background:var(--shell);display:grid;place-items:center;padding:14px}
+.lprev img{max-width:100%;max-height:100%;object-fit:contain}
+.lprev .wm{font-size:16px;opacity:.55}
+.lcard-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.lcard-row b{font-weight:600}
+.upbtn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;padding:8px 12px;border-radius:12px;background:var(--night);color:var(--paper);position:relative;overflow:hidden}
+.upbtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.note{border-radius:16px;background:var(--orange-soft);color:#6E3810;padding:14px 16px;font-size:13px;margin-bottom:16px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--night);color:var(--paper);padding:10px 18px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1280px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .aside{position:static;max-height:none}
+}
+@media (max-width:1100px){
+  .minis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sched{grid-template-columns:minmax(0,1fr)}
+  .kanban{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .s4,.s5,.s7,.s6{grid-column:span 12}
+  .okr{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);margin:0;border-radius:0;padding:10px 10px 84px;min-height:100vh}
+  .rail{position:fixed;bottom:0;left:0;right:0;top:auto;height:68px;flex-direction:row;justify-content:space-around;background:var(--card);border-top:1px solid var(--line);z-index:30;padding:0 8px}
+  .mark,.rail-label,.rail-sep,.avatar,.rail-foot,.tip{display:none}
+  .rail-btn[aria-current="page"]{box-shadow:none;background:var(--shell)}
+  .panel-head{padding:0 16px}
+  .demo{display:none}
+  .panel-body{padding:20px 16px 24px}
+  .sheet{padding:44px 18px 20px}
+  #liveTxt{display:none}
+  .sheet-grid{grid-template-columns:minmax(0,1fr);gap:22px}
+  .live{padding-inline-start:120px}
+  .badge{width:112px;height:64px;right:14px;top:-40px}
+  .cname{font-size:26px}
+  .marquee{margin:0 -16px;padding:4px 16px}
+}
+@media (max-width:560px){
+  .dls,.kanban{grid-template-columns:minmax(0,1fr)}
+  .mini{padding:12px 10px;gap:10px}.mini .mi{width:34px;height:34px}.mini .chev{display:none}
+  .hello h1{font-size:21px}
+  .head-tools .circle:not(.keep){display:none}
+  .st{font-size:11.5px}
+  .lrow{grid-template-columns:96px minmax(0,1fr) 40px}
+  .tab-hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .track{animation:none}
+  .marquee{overflow-x:auto}
+  .view.on{animation:none}
+  .live i{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ RAIL ============ -->
+  <nav class="rail" aria-label="القائمة الرئيسية">
+    <div class="mark" aria-label="آماد" role="img">آماد</div>
+    <div class="rail-label">القائمة</div>
+    <a class="rail-btn" href="#overview" data-page="overview"><svg class="ico" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg><span class="tip">نظرة عامة</span><span class="sr">نظرة عامة</span></a>
+    <a class="rail-btn" href="#projects" data-page="projects"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg><span class="tip">المشاريع</span><span class="sr">المشاريع</span></a>
+    <a class="rail-btn" href="#tasks" data-page="tasks"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 8.5l1.5 1.5 3-3M8.5 15l1.5 1.5 3-3"/></svg><span class="tip">المهام</span><span class="sr">المهام</span></a>
+    <a class="rail-btn" href="#performance" data-page="performance"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/></svg><span class="tip">الأداء</span><span class="sr">الأداء</span></a>
+    <a class="rail-btn" href="#goals" data-page="goals"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg><span class="tip">الأهداف</span><span class="sr">الأهداف</span></a>
+    <div class="rail-sep"></div>
+    <div class="rail-label">الإدارة</div>
+    <a class="rail-btn" href="#logos" data-page="logos"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg><span class="tip">شعارات العملاء</span><span class="sr">شعارات العملاء</span></a>
+    <span class="rail-btn" aria-disabled="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="tip">الإعدادات · قريبًا</span></span>
+    <div class="avatar" title="حسابي" aria-label="حسابي" role="img">ع</div>
+  </nav>
+
+  <!-- ============ WORK ============ -->
+  <div class="work">
+    <div class="tabs" id="tabs" role="tablist" aria-label="المشاريع المثبتة"></div>
+
+    <div class="stage" id="stage">
+      <main class="panel">
+        <header class="panel-head">
+          <div class="crumb">آماد <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg><b id="crumb"></b></div>
+          <div class="head-tools">
+            <span class="demo">بيانات توضيحية</span>
+            <button class="circle" type="button" aria-label="الرسائل"><svg class="ico sm" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5A8 8 0 1 1 21 12z"/></svg></button>
+            <button class="circle" type="button" aria-label="التنبيهات"><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg><span class="ping"></span></button>
+            <button class="circle keep" type="button" aria-label="بحث"><svg class="ico sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></button>
+          </div>
+        </header>
+
+        <div class="panel-body">
+
+          <!-- OVERVIEW -->
+          <section class="view" id="v-overview" aria-label="نظرة عامة">
+            <div class="hello">
+              <h1 id="greet"></h1>
+              <p id="greetSub"></p>
+            </div>
+
+            <div class="board" id="board">
+              <div class="board-top">
+                <span class="live" id="live"><i></i><span id="liveTxt">السبورة · عرض تلقائي</span></span>
+                <button class="bbtn" type="button" id="bPlay" aria-label="إيقاف العرض التلقائي"></button>
+                <button class="bbtn" type="button" id="bPrev" aria-label="العميل السابق"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+                <span class="bcount" id="bCount"></span>
+                <button class="bbtn" type="button" id="bNext" aria-label="العميل التالي"><svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+              </div>
+              <div class="sheet" id="sheet">
+                <div class="badge" id="badge"></div>
+                <div class="sheet-grid" id="sheetGrid">
+                  <div>
+                    <div class="eyebrow" id="sDesc"></div>
+                    <div class="cname" id="sName"></div>
+                    <div class="chips" id="sTags"></div>
+                    <div class="steps" id="sSteps"></div>
+                  </div>
+                  <div class="facts">
+                    <div class="fact"><span>الحالة</span><span id="sStatus"></span></div>
+                    <div class="fact"><span>نوع العقد</span><b id="sContract"></b></div>
+                    <div>
+                      <div class="fact" style="margin-bottom:8px"><span>نسبة الإنجاز</span><b id="sPct"></b></div>
+                      <div class="segs" id="sSegs"></div>
+                    </div>
+                    <div class="nextbox" id="sNext"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="board-foot"><div class="dots" id="dots"></div></div>
+            </div>
+
+            <div class="minis" id="minis"></div>
+
+            <div class="sec-head">
+              <h2>المشاريع الجارية<small id="runCount"></small></h2>
+              <a class="more" href="#projects">عرض الكل <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a>
+            </div>
+            <div class="marquee" id="marquee"><div class="track" id="track"></div></div>
+
+            <div class="sec-head">
+              <h2>الجدول</h2>
+            </div>
+            <div class="sched">
+              <div class="box">
+                <div class="cal-head">
+                  <b id="calTitle"></b>
+                  <div class="cal-nav">
+                    <button type="button" id="calPrev" aria-label="الشهر السابق"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+                    <button type="button" id="calNext" aria-label="الشهر التالي"><svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+                  </div>
+                </div>
+                <div class="cal-grid" id="calGrid"></div>
+              </div>
+              <div>
+                <div class="dl-head"><b id="dlTitle">التسليمات القادمة</b><button type="button" id="dlReset" hidden>عرض القادمة</button></div>
+                <div class="dls" id="dls"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PROJECTS -->
+          <section class="view" id="v-projects" aria-label="المشاريع">
+            <div class="page-head">
+              <div><h1>المشاريع</h1><p>كل عملاء آماد ومرحلة كل مشروع.</p></div>
+              <div class="seg" id="pFilter" role="group" aria-label="تصفية المشاريع"></div>
+            </div>
+            <div class="pgrid" id="pgrid"></div>
+          </section>
+
+          <!-- TASKS -->
+          <section class="view" id="v-tasks" aria-label="المهام">
+            <div class="page-head">
+              <div><h1>المهام</h1><p>على منهجية آماد: نفهم، نبتكر، ننفّذ، نقيس.</p></div>
+              <div class="seg" role="group" aria-label="طريقة العرض">
+                <button type="button" data-tv="board" aria-pressed="true">اللوحة</button>
+                <button type="button" data-tv="timeline" aria-pressed="false">الجدول الزمني</button>
+              </div>
+            </div>
+            <div id="tv-board" class="kanban"></div>
+            <div id="tv-timeline" class="tl" hidden><div class="tl-scroll"><div class="tl-inner" id="tlInner"></div></div></div>
+          </section>
+
+          <!-- PERFORMANCE -->
+          <section class="view" id="v-performance" aria-label="الأداء">
+            <div class="page-head"><div><h1>الأداء</h1><p>مؤشرات الأداء الرئيسية لشهر نوفمبر.</p></div></div>
+            <div class="bento" id="perf"></div>
+          </section>
+
+          <!-- GOALS -->
+          <section class="view" id="v-goals" aria-label="الأهداف">
+            <div class="page-head"><div><h1>الأهداف</h1><p>الأهداف والنتائج الرئيسية للربع الرابع.</p></div></div>
+            <div id="okrs"></div>
+          </section>
+
+          <!-- LOGOS -->
+          <section class="view" id="v-logos" aria-label="شعارات العملاء">
+            <div class="page-head"><div><h1>شعارات العملاء</h1><p>ارفع شعار كل عميل مرة واحدة، ويظهر في السبورة والمشاريع وكل الصفحات.</p></div></div>
+            <div class="note" id="logoNote">تحميل حالة الشعارات…</div>
+            <div class="lgrid" id="lgrid"></div>
+          </section>
+
+        </div>
+      </main>
+
+      <!-- ============ ASIDE ============ -->
+      <aside class="aside" aria-label="مهام اليوم">
+        <div class="aside-tabs" role="tablist">
+          <button type="button" role="tab" aria-selected="true" data-at="today">مهام اليوم</button>
+          <button type="button" role="tab" aria-selected="false" data-at="feed">آخر النشاط</button>
+        </div>
+        <div class="aside-body">
+          <div id="at-today">
+            <div class="today-head">
+              <div><h2>مهام اليوم</h2><small id="todayDate"></small></div>
+              <button class="soft-btn" type="button" id="addBtn"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>مهمة جديدة</button>
+            </div>
+            <form class="addrow" id="addRow"><label class="sr" for="addInput">عنوان المهمة</label><input id="addInput" placeholder="اكتب المهمة واضغط إضافة" autocomplete="off"><button type="submit">إضافة</button></form>
+            <div class="filt" id="tFilt"></div>
+            <div class="tasks" id="tasks"></div>
+          </div>
+          <div id="at-feed" hidden><div class="feed" id="feed"></div></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- data ---------- */
+var TODAY = new Date(2026, 10, 16);
+var MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+var WD = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+var WD_S = ['ح','ن','ث','ر','خ','ج','س'];
+var PHASES = ['نفهم','نبتكر','ننفّذ','نقيس'];
+var STATUS = {
+  ok:{t:'على المسار',c:'p-ok',dot:'#2F8A63'}, warn:{t:'يحتاج متابعة',c:'p-warn',dot:'#E59758'},
+  late:{t:'متأخر',c:'p-late',dot:'#B3261E'}, done:{t:'مكتمل',c:'p-done',dot:'#1A1833'}
+};
+function D(m,d){ return new Date(2026, m, d); }
+var CLIENTS = [
+  {id:'maknon', name:'مكنون', desc:'الجمعية الخيرية لتحفيظ القرآن الكريم بالرياض', contract:'عقد سنوي', services:['حملات تسويقية','برامج','إدارة السوشل ميديا'], phase:3, pct:62, status:'ok', next:'اعتماد خطة محتوى ديسمبر', kind:'خطة', due:D(10,24), start:D(10,3), tint:'#1F6B5E'},
+  {id:'ithraa', name:'إثراء المتون', desc:'شركة غير ربحية لتطوير التعليم الشرعي', contract:'يُحدد', services:['إدارة التسويق','العلاقات العامة'], phase:2, pct:35, status:'warn', next:'مسودة خطة العلاقات العامة', kind:'خطة', due:D(10,19), start:D(10,9), tint:'#7A5530'},
+  {id:'sabeai', name:'السبيعي الخيرية', desc:'مؤسسة السبيعي الخيرية', contract:'يُحدد', services:['تفعيل وتبني الكفاءات'], phase:1, pct:15, status:'ok', next:'ورشة الفهم مع فريق المؤسسة', kind:'ورشة', due:D(10,22), start:D(10,12), tint:'#24476B'},
+  {id:'fatat20', name:'فتاة العشرين', desc:'جمعية فتاة العشرين', contract:'يُحدد', services:['تصميم مقاطع','مونتاج','إخراج'], phase:3, pct:70, status:'late', next:'مونتاج المقطع الثالث', kind:'إنتاج', due:D(10,17), start:D(10,5), tint:'#8A3D63'},
+  {id:'naqla', name:'نقلة', desc:'منصة الفرص المهنية في القطاع غير الربحي', contract:'يُحدد', services:['إدارة الحسابات','المحتوى'], phase:4, pct:85, status:'ok', next:'التقرير الشهري لنوفمبر', kind:'تقرير', due:D(10,30), start:D(10,1), tint:'#2E5E8A'},
+  {id:'jathwa', name:'جذوة', desc:'الجهة قيد التأكيد', contract:'يُحدد', services:['إدارة الحسابات','المحتوى'], phase:2, pct:40, status:'warn', next:'تأكيد نطاق العمل مع العميل', kind:'اجتماع', due:D(10,18), start:D(10,11), tint:'#8A4B12'},
+  {id:'norah', name:'نورة الملاحي', desc:'مؤسسة نورة الملاحي الأهلية', contract:'يُحدد', services:['بودكاست رقمي'], phase:3, pct:50, status:'ok', next:'تسجيل الحلقة الثانية', kind:'إنتاج', due:D(10,26), start:D(10,10), tint:'#3F3A6B'}
+];
+var BY = {}; CLIENTS.forEach(function(c){ BY[c.id] = c; c.soft = c.tint + '14'; });
+var PINNED = ['maknon','naqla','fatat20'];
+
+var TASKS = [
+  {id:'t1', t:'مراجعة مونتاج المقطع الثالث', c:'fatat20', time:'9:30 – 10:30 ص', role:'المونتاج', done:true},
+  {id:'t2', t:'اجتماع البريف مع العميل', c:'jathwa', time:'11:00 – 12:00 م', role:'مدير الحساب', done:false},
+  {id:'t3', t:'كتابة منشورات الأسبوع', c:'maknon', time:'12:30 – 2:00 م', role:'المحتوى', done:true},
+  {id:'t4', t:'تجهيز أسئلة ورشة الفهم', c:'sabeai', time:'2:00 – 3:00 م', role:'الاستراتيجية', done:false},
+  {id:'t5', t:'مراجعة مسودة العلاقات العامة', c:'ithraa', time:'3:30 – 4:30 م', role:'مدير الحساب', done:false},
+  {id:'t6', t:'تجهيز سكربت الحلقة الثانية', c:'norah', time:'5:00 – 6:00 م', role:'المحتوى', done:false}
+];
+var FEED = [
+  ['fatat20','تم رفع النسخة الثانية من المقطع الثالث للمراجعة','قبل 25 دقيقة'],
+  ['maknon','اعتمد العميل تصاميم منشورات الأسبوع','قبل ساعة'],
+  ['naqla','اكتمل جمع أرقام التقرير الشهري','قبل 3 ساعات'],
+  ['ithraa','أُرسلت مسودة خطة العلاقات العامة للمراجعة الداخلية','أمس'],
+  ['norah','تم حجز الاستوديو لتسجيل الحلقة الثانية','أمس']
+];
+function K(t,c,due,who){ return {t:t,c:c,due:due,who:who}; }
+var KANBAN = [
+  {name:'نفهم', c:'#B9B6C6', items:[K('ورشة الفهم مع فريق المؤسسة','sabeai','22 نوفمبر','مدير الحساب'),K('اجتماع البريف وتحديد النطاق','jathwa','18 نوفمبر','مدير الحساب')]},
+  {name:'نبتكر', c:'#E2BEBA', items:[K('مسودة خطة العلاقات العامة','ithraa','19 نوفمبر','الاستراتيجية'),K('أفكار حملة رمضان','maknon','25 نوفمبر','الإبداع')]},
+  {name:'ننفّذ', c:'#E59758', items:[K('مونتاج المقطع الثالث','fatat20','17 نوفمبر','المونتاج'),K('تسجيل الحلقة الثانية','norah','26 نوفمبر','الإنتاج'),K('تصاميم منشورات ديسمبر','maknon','24 نوفمبر','التصميم')]},
+  {name:'نقيس', c:'#1A1833', items:[K('التقرير الشهري لنوفمبر','naqla','30 نوفمبر','التحليل'),K('قياس أداء الحملة السابقة','maknon','2 ديسمبر','التحليل')]}
+];
+var TL = [ /* start/end = day index 0..6 for 15–21 Nov */
+  {t:'جلسة أفكار حملة رمضان', c:'maknon', s:0, e:1, bg:'#1A1833', fg:'#F3ECE3'},
+  {t:'مونتاج المقطع الثالث', c:'fatat20', s:0, e:2, bg:'#5F294A', fg:'#F3ECE3'},
+  {t:'مسودة خطة العلاقات العامة', c:'ithraa', s:1, e:4, bg:'#E59758', fg:'#1A1833'},
+  {t:'اجتماع البريف', c:'jathwa', s:3, e:3, bg:'#E2BEBA', fg:'#1A1833'},
+  {t:'كتابة سكربت الحلقة الثانية', c:'norah', s:2, e:4, bg:'#EFEEF5', fg:'#1A1833'},
+  {t:'تصاميم منشورات ديسمبر', c:'maknon', s:3, e:4, bg:'#1A1833', fg:'#F3ECE3'}
+];
+var OKRS = [
+  {t:'نسلّم كل عمل في وقته وبجودة ثابتة.', krs:[['التسليم في الموعد 90%','86%',96],['جولات التعديل جولتان أو أقل','2.3',70],['اعتماد الخطة الشهرية قبل بداية الشهر بخمسة أيام','4 / 7',57]]},
+  {t:'نثبت أثر كل حملة بالأرقام.', krs:[['تقرير شهري لكل عقد مستمر','5 / 6',83],['قياس قبلي وبعدي لكل حملة','3 / 5',60]]},
+  {t:'ننمّي المحفظة ونحافظ على عملائنا.', krs:[['3 عملاء جدد هذا الربع','1 / 3',33],['تجديد العقود السنوية','قيد التفاوض',40]]}
+];
+
+/* ---------- helpers ---------- */
+var LOGOS = {};
+var LOGO_SRC = {
+  maknon:{src:'https://maknon.org.sa/wp-content/uploads/2023/04/logo-11.png', crop:349/200, w:'227.2%'},
+  ithraa:{src:'https://ithraa.sa/ithraa-almotoon-logo-white.svg', dark:true},
+  fatat20:{src:'https://fatat20.sa/wp-content/themes/20Fatat/images/logo.png'},
+  naqla:{src:'https://naqla.com.sa/__l5e/assets-v1/8cb6464f-2a84-4f53-b2d0-8c3e314004b5/naqla-logo-official.png'},
+  norah:{src:'https://norahfoundation.org.sa/wp-content/uploads/2025/07/cropped-png-270x270.png'}
+};
+var BROKEN = {};
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function wordmark(c){ return '<span class="wm" style="--tint:'+c.tint+'">'+esc(c.name)+'</span>'; }
+function logo(c){
+  var id = LOGOS[c.id];
+  if (id) return '<img src="/_blob/'+esc(id)+'" alt="شعار '+esc(c.name)+'" loading="lazy">';
+  var L = LOGO_SRC[c.id];
+  if (!L || BROKEN[c.id]) return wordmark(c);
+  var img = '<img src="'+L.src+'" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'" referrerpolicy="no-referrer"'+(L.dark?' class="to-dark"':'')+(L.crop?' style="width:'+L.w+';max-width:none;height:auto"':'')+'>';
+  return L.crop ? '<span class="lg-crop" data-fbw="'+c.id+'" style="aspect-ratio:'+L.crop+'">'+img+'</span>' : img;
+}
+function hasLogo(c){ return !!(LOGOS[c.id] || (LOGO_SRC[c.id] && !BROKEN[c.id])); }
+document.addEventListener('error', function(e){
+  var t = e.target; if (!t || t.tagName !== 'IMG' || !t.dataset || !t.dataset.fb) return;
+  var id = t.dataset.fb; BROKEN[id] = true;
+  var w = t.closest('[data-fbw]') || t; var span = document.createElement('span'); span.innerHTML = wordmark(BY[id]); w.replaceWith(span.firstChild);
+}, true);
+function pill(k){ var s = STATUS[k]; return '<span class="pill '+s.c+'">'+s.t+'</span>'; }
+function segs(p,n){ n = n||12; var on = Math.round(p/100*n), h=''; for (var i=0;i<n;i++) h += '<i class="'+(i<on?'on':'')+'"></i>'; return h; }
+function daysBetween(a,b){ return Math.round((b - a)/864e5); }
+function remaining(d){ var n = daysBetween(TODAY,d); if (n<0) return 'متأخر '+(-n===1?'يوم':-n+' أيام'); if (n===0) return 'اليوم'; if (n===1) return 'يوم واحد'; if (n===2) return 'يومان'; if (n<=10) return n+' أيام'; return n+' يومًا'; }
+function sameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+var I = {
+  chev:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>',
+  cal:'<svg class="ico sm" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  check:'<svg class="ico sm" viewBox="0 0 24 24" style="stroke-width:2.4"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  pause:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>',
+  play:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M17 5L7 12l10 7z"/></svg>',
+  up:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+  folder:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2h7.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg>',
+  send:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg>',
+  alert:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5M12 16v.5"/></svg>',
+  clock:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  target:'<svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>',
+  doc:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>',
+  ok:'<svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+  upload:'<svg class="ico sm" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>'
+};
+function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast.h); toast.h=setTimeout(function(){t.classList.remove('on');},2600); }
+
+/* ---------- state ---------- */
+var S = { page:'overview', idx:0, auto:true, hover:false, pf:'all', tv:'board', selDay:null, calM:TODAY.getMonth(), calY:TODAY.getFullYear(), tf:'all', at:'today' };
+try { var saved = JSON.parse(localStorage.getItem('amaad-done')||'null'); if (saved) TASKS.forEach(function(t){ if (t.id in saved) t.done = saved[t.id]; }); } catch(e){}
+
+/* ---------- header / greeting ---------- */
+function greet(){
+  var h = new Date().getHours();
+  $('greet').textContent = (h < 12 ? 'صباح الخير' : 'مساء الخير') + '، فريق آماد';
+  $('greetSub').textContent = 'هذه نظرة سريعة على مشاريعكم · ' + WD[TODAY.getDay()] + ' ' + TODAY.getDate() + ' ' + MONTHS[TODAY.getMonth()];
+  $('todayDate').textContent = WD[TODAY.getDay()] + '، ' + TODAY.getDate() + ' ' + MONTHS[TODAY.getMonth()];
+}
+
+/* ---------- tabs ---------- */
+function renderTabs(){
+  var cur = CLIENTS[S.idx].id;
+  $('tabs').innerHTML = PINNED.map(function(id){
+    var c = BY[id], img = hasLogo(c) ? logo(c) : '<b style="--tint:'+c.tint+'"></b>';
+    return '<button class="tab" type="button" role="tab" data-id="'+id+'" aria-current="'+(S.page==='overview'&&cur===id)+'"><span class="tlogo">'+img+'</span>'+esc(c.name)+'</button>';
+  }).join('') + '<button class="tab-add" type="button" id="tabAdd" aria-label="تثبيت مشروع آخر"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><span class="tab-hint">المشاريع المثبتة</span>';
+}
+$('tabs').addEventListener('click', function(e){
+  var b = e.target.closest('[data-id]');
+  if (b){ openClient(b.dataset.id); return; }
+  if (e.target.closest('#tabAdd')){
+    var nextId = CLIENTS.map(function(c){return c.id;}).filter(function(id){ return PINNED.indexOf(id) < 0; })[0];
+    if (!nextId){ toast('كل المشاريع مثبتة'); return; }
+    PINNED.push(nextId); renderTabs(); toast('تم تثبيت ' + BY[nextId].name);
+  }
+});
+function openClient(id){
+  for (var i=0;i<CLIENTS.length;i++) if (CLIENTS[i].id===id){ S.idx=i; }
+  S.auto = false;
+  if (location.hash !== '#overview' && location.hash !== '') location.hash = 'overview'; else { renderBoard(true); renderTabs(); }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- board ---------- */
+function renderBoard(anim){
+  var c = CLIENTS[S.idx];
+  var apply = function(){
+    var sh = $('sheet'); sh.style.setProperty('--tint', c.tint); sh.style.setProperty('--tint-soft', c.soft);
+    $('badge').innerHTML = logo(c);
+    $('sDesc').textContent = c.desc;
+    $('sName').textContent = c.name;
+    $('sTags').innerHTML = c.services.map(function(s){ return '<span class="chip tinted">'+esc(s)+'</span>'; }).join('');
+    $('sSteps').innerHTML = PHASES.map(function(p,i){ var k=i+1, cl = k<c.phase?'done':(k===c.phase?'now':''); return '<div class="st '+cl+'"><span class="n">'+(k<c.phase?I.check:k)+'</span>'+p+'</div>'; }).join('');
+    $('sStatus').innerHTML = pill(c.status);
+    $('sContract').textContent = c.contract;
+    $('sPct').textContent = c.pct + '%';
+    $('sSegs').innerHTML = segs(c.pct);
+    $('sNext').innerHTML = '<div class="cal"><b>'+c.due.getDate()+'</b><small>'+MONTHS[c.due.getMonth()]+'</small></div><div><small>التسليم القادم · '+remaining(c.due)+'</small><b>'+esc(c.next)+'</b></div>';
+    $('bCount').textContent = (S.idx+1) + ' / ' + CLIENTS.length;
+    $('dots').innerHTML = CLIENTS.map(function(x,i){ return '<button type="button" data-i="'+i+'" aria-label="عرض '+esc(x.name)+'" aria-current="'+(i===S.idx)+'"><i></i></button>'; }).join('');
+    $('bPlay').innerHTML = S.auto ? I.pause : I.play;
+    $('bPlay').setAttribute('aria-label', S.auto ? 'إيقاف العرض التلقائي' : 'تشغيل العرض التلقائي');
+    $('live').classList.toggle('paused', !S.auto);
+    $('liveTxt').textContent = S.auto ? 'السبورة · عرض تلقائي' : 'السبورة · متوقف';
+    Array.prototype.forEach.call(document.querySelectorAll('.pcard'), function(p){ p.setAttribute('aria-current', p.dataset.id===c.id ? 'true':'false'); });
+  };
+  if (!anim){ apply(); return; }
+  var g = $('sheetGrid'); g.classList.add('out');
+  setTimeout(function(){ apply(); g.classList.remove('out'); }, 200);
+}
+function go(i, manual){ S.idx = (i + CLIENTS.length) % CLIENTS.length; if (manual) S.auto = false; renderBoard(true); renderTabs(); }
+$('bPrev').onclick = function(){ go(S.idx-1, true); };
+$('bNext').onclick = function(){ go(S.idx+1, true); };
+$('bPlay').onclick = function(){ S.auto = !S.auto; renderBoard(false); };
+$('dots').addEventListener('click', function(e){ var b=e.target.closest('button'); if (b) go(+b.dataset.i, true); });
+$('board').addEventListener('mouseenter', function(){ S.hover = true; });
+$('board').addEventListener('mouseleave', function(){ S.hover = false; });
+setInterval(function(){ if (S.auto && !S.hover && S.page==='overview' && !document.hidden) go(S.idx+1); }, 7000);
+
+/* ---------- mini tiles ---------- */
+function renderMinis(){
+  var weekEnd = new Date(TODAY); weekEnd.setDate(TODAY.getDate()+6);
+  var thisWeek = CLIENTS.filter(function(c){ return c.due >= TODAY && c.due <= weekEnd; }).length;
+  var warn = CLIENTS.filter(function(c){ return c.status==='warn'; }).length;
+  var late = CLIENTS.filter(function(c){ return c.status==='late'; }).length;
+  var tiles = [
+    [CLIENTS.length,'مشاريع نشطة',I.folder,'#EFEEF5','#1A1833','#projects'],
+    [thisWeek,'تسليمات هذا الأسبوع',I.send,'#FCF0E5','#B4652A','#tasks'],
+    [warn,'تحتاج متابعة',I.clock,'#F6EEF2','#5F294A','#projects'],
+    [late,'متأخر',I.alert,'#FBE8E6','#B3261E','#projects']
+  ];
+  $('minis').innerHTML = tiles.map(function(t){
+    return '<a class="mini" href="'+t[5]+'" style="--bg:'+t[3]+';--fg:'+t[4]+'"><span class="mi">'+t[2]+'</span><span><b>'+t[0]+'</b><small>'+t[1]+'</small></span><span class="chev">'+I.chev+'</span></a>';
+  }).join('');
+}
+
+/* ---------- running project cards ---------- */
+var CARD_THEMES = [
+  {bg:'#1A1833', fg:'#F3ECE3', on:'#E59758', off:'rgba(243,236,227,.18)', glow:'rgba(229,151,88,.16)'},
+  {bg:'#E59758', fg:'#1A1833', on:'#1A1833', off:'rgba(26,24,51,.16)', glow:'rgba(255,255,255,.22)'},
+  {bg:'#5F294A', fg:'#F3ECE3', on:'#F3ECE3', off:'rgba(243,236,227,.2)', glow:'rgba(226,190,186,.18)'}
+];
+function renderRunning(){
+  var one = function(dup){ return CLIENTS.map(function(c,i){
+    var th = CARD_THEMES[i % CARD_THEMES.length];
+    return '<button type="button" class="pcard" data-id="'+c.id+'" '+(dup?'tabindex="-1" aria-hidden="true"':'aria-label="اعرض '+esc(c.name)+' في السبورة"')+' style="--bg:'+th.bg+';--fg:'+th.fg+';--seg-on:'+th.on+';--seg-off:'+th.off+';--glow:'+th.glow+'">'+
+      '<span class="plogo">'+logo(c)+'</span><h3>'+esc(c.name)+'</h3><span class="sv">'+esc(c.services.join(' · '))+'</span>'+
+      '<span class="pl"><span>الإنجاز</span><span>'+c.pct+'%</span></span><span class="segs">'+segs(c.pct,10)+'</span>'+
+      '<span class="pf"><span>'+I.target+PHASES[c.phase-1]+'</span><span>'+I.cal+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span></span></button>';
+  }).join(''); };
+  $('track').innerHTML = one(false) + one(true);
+  $('runCount').textContent = CLIENTS.length;
+}
+$('track').addEventListener('click', function(e){ var b = e.target.closest('.pcard'); if (b) openClient(b.dataset.id); });
+
+/* ---------- calendar & deadlines ---------- */
+function renderCal(){
+  var y=S.calY, m=S.calM, first=new Date(y,m,1), n=new Date(y,m+1,0).getDate();
+  $('calTitle').textContent = MONTHS[m] + ' ' + y;
+  var h = WD_S.map(function(d){ return '<span class="wd">'+d+'</span>'; }).join('');
+  for (var i=0;i<first.getDay();i++) h += '<span class="day out"></span>';
+  for (var d=1; d<=n; d++){
+    var dt = new Date(y,m,d), wk = dt.getDay()===5 || dt.getDay()===6;
+    var hits = CLIENTS.filter(function(c){ return sameDay(c.due,dt); });
+    var cls = 'day' + (wk?' wknd':'') + (sameDay(dt,TODAY)?' today':'') + (S.selDay && sameDay(dt,S.selDay)?' sel':'');
+    var dot = hits.length ? '<i style="--dot:'+STATUS[hits[0].status].dot+'"></i>' : '';
+    var lbl = d + ' ' + MONTHS[m] + (hits.length ? '، ' + hits.length + ' تسليم' : '');
+    h += '<button type="button" class="'+cls+'" data-d="'+d+'" aria-label="'+lbl+'">'+d+dot+'</button>';
+  }
+  $('calGrid').innerHTML = h;
+}
+$('calGrid').addEventListener('click', function(e){ var b=e.target.closest('[data-d]'); if(!b) return; S.selDay = new Date(S.calY,S.calM,+b.dataset.d); renderCal(); renderDeadlines(); });
+$('calPrev').onclick = function(){ S.calM--; if (S.calM<0){S.calM=11;S.calY--;} renderCal(); };
+$('calNext').onclick = function(){ S.calM++; if (S.calM>11){S.calM=0;S.calY++;} renderCal(); };
+$('dlReset').onclick = function(){ S.selDay=null; renderCal(); renderDeadlines(); };
+function renderDeadlines(){
+  var list;
+  if (S.selDay){
+    list = CLIENTS.filter(function(c){ return sameDay(c.due,S.selDay); });
+    $('dlTitle').textContent = 'تسليمات ' + S.selDay.getDate() + ' ' + MONTHS[S.selDay.getMonth()];
+    $('dlReset').hidden = false;
+  } else {
+    list = CLIENTS.filter(function(c){ return c.due >= TODAY; }).sort(function(a,b){ return a.due-b.due; }).slice(0,4);
+    $('dlTitle').textContent = 'التسليمات القادمة';
+    $('dlReset').hidden = true;
+  }
+  if (!list.length){ $('dls').innerHTML = '<div class="empty">لا توجد تسليمات في هذا اليوم.</div>'; return; }
+  $('dls').innerHTML = list.map(function(c){
+    var total = Math.max(1, daysBetween(c.start, c.due)), gone = Math.min(total, Math.max(0, daysBetween(c.start, TODAY)));
+    var p = Math.round(gone/total*100), col = STATUS[c.status].dot;
+    return '<article class="dl" style="--tint:'+c.tint+'"><div class="dl-top"><span class="ring" style="--dot:'+col+'"></span>'+esc(c.next)+'<span class="chip">'+c.kind+'</span></div>'+
+      '<div class="dl-date"><b>'+c.due.getDate()+'</b><span>'+MONTHS[c.due.getMonth()]+' · '+WD[c.due.getDay()]+'</span></div>'+
+      '<div class="dl-client"><i></i>'+esc(c.name)+'</div>'+
+      '<div class="dl-rem"><span>المتبقي</span><b>'+remaining(c.due)+'</b></div><div class="bar"><i style="width:'+p+'%;--c:'+col+'"></i></div></article>';
+  }).join('');
+}
+
+/* ---------- aside: today tasks & feed ---------- */
+function renderTasks(){
+  var all = TASKS.length, open = TASKS.filter(function(t){return !t.done;}).length, done = all-open;
+  var F = [['all','الكل',all],['open','مفتوحة',open],['done','منجزة',done]];
+  $('tFilt').innerHTML = F.map(function(f){ return '<button type="button" data-f="'+f[0]+'" aria-pressed="'+(S.tf===f[0])+'">'+f[1]+'<em>'+f[2]+'</em></button>'; }).join('');
+  var list = TASKS.filter(function(t){ return S.tf==='all' || (S.tf==='open' ? !t.done : t.done); });
+  $('tasks').innerHTML = list.length ? list.map(function(t){
+    var c = BY[t.c];
+    return '<article class="tk'+(t.done?' done':'')+'" style="--tint:'+c.tint+';--tint-soft:'+c.soft+'"><div class="tk-top"><button type="button" class="check" data-t="'+t.id+'" aria-pressed="'+t.done+'" aria-label="'+(t.done?'إلغاء إنجاز':'إنجاز')+' '+esc(t.t)+'">'+I.check+'</button><div><b>'+esc(t.t)+'</b><small>'+esc(c.name)+'</small></div></div>'+
+      '<div class="tk-foot"><span>اليوم · '+esc(t.time)+'</span><span class="role"><i>'+esc(t.role.charAt(0))+'</i>'+esc(t.role)+'</span></div></article>';
+  }).join('') : '<div class="empty">لا توجد مهام هنا.</div>';
+}
+$('tFilt').addEventListener('click', function(e){ var b=e.target.closest('[data-f]'); if(b){ S.tf=b.dataset.f; renderTasks(); } });
+$('tasks').addEventListener('click', function(e){
+  var b = e.target.closest('[data-t]'); if (!b) return;
+  TASKS.forEach(function(t){ if (t.id===b.dataset.t) t.done = !t.done; });
+  try { var m={}; TASKS.forEach(function(t){ m[t.id]=t.done; }); localStorage.setItem('amaad-done', JSON.stringify(m)); } catch(err){}
+  renderTasks();
+});
+$('addBtn').onclick = function(){ $('addRow').classList.toggle('on'); if ($('addRow').classList.contains('on')) $('addInput').focus(); };
+$('addRow').addEventListener('submit', function(e){
+  e.preventDefault(); var v = $('addInput').value.trim(); if (!v) return;
+  TASKS.unshift({id:'n'+Date.now(), t:v, c:CLIENTS[S.idx].id, time:'بدون وقت', role:'الفريق', done:false});
+  $('addInput').value=''; $('addRow').classList.remove('on'); S.tf='all'; renderTasks(); toast('أُضيفت المهمة إلى '+CLIENTS[S.idx].name);
+});
+function renderFeed(){
+  $('feed').innerHTML = FEED.map(function(f){ var c=BY[f[0]]; return '<div class="feed-row" style="--tint:'+c.tint+';--tint-soft:'+c.soft+'"><i>'+esc(c.name.charAt(0))+'</i><div>'+esc(f[1])+'<small>'+esc(c.name)+' · '+esc(f[2])+'</small></div></div>'; }).join('');
+}
+document.querySelector('.aside-tabs').addEventListener('click', function(e){
+  var b = e.target.closest('[data-at]'); if (!b) return;
+  Array.prototype.forEach.call(document.querySelectorAll('.aside-tabs button'), function(x){ x.setAttribute('aria-selected', x===b); });
+  $('at-today').hidden = b.dataset.at!=='today'; $('at-feed').hidden = b.dataset.at!=='feed';
+});
+
+/* ---------- projects page ---------- */
+function renderProjects(){
+  var F = [['all','الكل'],['ok','على المسار'],['warn','تحتاج متابعة'],['late','متأخر']];
+  $('pFilter').innerHTML = F.map(function(f){ var n = f[0]==='all' ? CLIENTS.length : CLIENTS.filter(function(c){return c.status===f[0];}).length; return '<button type="button" data-pf="'+f[0]+'" aria-pressed="'+(S.pf===f[0])+'">'+f[1]+'<em>'+n+'</em></button>'; }).join('');
+  var list = CLIENTS.filter(function(c){ return S.pf==='all' || c.status===S.pf; });
+  $('pgrid').innerHTML = list.map(function(c){
+    return '<article class="proj" tabindex="0" role="button" data-id="'+c.id+'" aria-label="افتح '+esc(c.name)+' في السبورة" style="--tint:'+c.tint+';--tint-soft:'+c.soft+'">'+
+      '<div class="proj-top"><span class="plogo-lg">'+logo(c)+'</span>'+pill(c.status)+'</div>'+
+      '<h3>'+esc(c.name)+'</h3><div class="desc">'+esc(c.desc)+'</div>'+
+      '<div class="chips">'+c.services.map(function(s){return '<span class="chip tinted">'+esc(s)+'</span>';}).join('')+'</div>'+
+      '<div><div class="prow" style="margin-bottom:8px"><span>الإنجاز</span><b>'+c.pct+'%</b></div><div class="segs">'+segs(c.pct,14)+'</div></div>'+
+      '<div class="mini-steps">'+PHASES.map(function(p,i){ var k=i+1; return '<span class="'+(k<c.phase?'done':(k===c.phase?'now':''))+'">'+p+'</span>'; }).join('')+'</div>'+
+      '<div class="proj-foot"><span>'+esc(c.contract)+'</span><span>التسليم القادم: <b>'+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</b></span></div></article>';
+  }).join('');
+}
+$('pFilter').addEventListener('click', function(e){ var b=e.target.closest('[data-pf]'); if(b){ S.pf=b.dataset.pf; renderProjects(); } });
+$('pgrid').addEventListener('click', function(e){ var a=e.target.closest('.proj'); if(a) openClient(a.dataset.id); });
+$('pgrid').addEventListener('keydown', function(e){ if ((e.key==='Enter'||e.key===' ') && e.target.classList.contains('proj')){ e.preventDefault(); openClient(e.target.dataset.id); } });
+
+/* ---------- tasks page ---------- */
+function renderKanban(){
+  $('tv-board').innerHTML = KANBAN.map(function(col){
+    return '<div class="kcol"><div class="kcol-head" style="--c:'+col.c+'"><i></i>'+col.name+'<em>'+col.items.length+'</em></div>'+
+      col.items.map(function(k){ var c=BY[k.c]; return '<article class="kt" style="--tint:'+c.tint+'"><small><i></i>'+esc(c.name)+'</small><p>'+esc(k.t)+'</p><div class="meta"><span>'+esc(k.due)+'</span><span class="pill p-done" style="font-weight:400">'+esc(k.who)+'</span></div></article>'; }).join('')+'</div>';
+  }).join('');
+}
+function renderTimeline(){
+  var start = new Date(2026,10,15), days = '', wk = '';
+  for (var i=0;i<7;i++){ var d=new Date(start); d.setDate(start.getDate()+i); days += '<div class="'+(sameDay(d,TODAY)?'today':'')+'">'+d.getDate()+'<small>'+WD[d.getDay()]+'</small></div>'; if (d.getDay()===5||d.getDay()===6) wk += '<span class="wk" style="grid-column:'+(i+1)+'"></span>'; }
+  var bars = TL.map(function(b,r){ var c=BY[b.c]; return '<div class="tl-bar" style="grid-row:'+(r+1)+';grid-column:'+(b.s+1)+' / '+(b.e+2)+';--bg:'+b.bg+';--fg:'+b.fg+';--tint:'+c.tint+'" title="'+esc(b.t)+' · '+esc(c.name)+'"><i>'+esc(c.name.charAt(0))+'</i>'+esc(b.t)+'</div>'; }).join('');
+  var todayIdx = daysBetween(start, TODAY);
+  var now = '<span class="tl-now" style="right:calc('+((todayIdx+0.5)/7*100)+'% - 1px)"></span>';
+  $('tlInner').innerHTML = '<div class="tl-days">'+days+'</div><div class="tl-body">'+wk+bars+now+'</div>';
+}
+Array.prototype.forEach.call(document.querySelectorAll('[data-tv]'), function(b){
+  b.addEventListener('click', function(){
+    S.tv = b.dataset.tv;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tv]'), function(x){ x.setAttribute('aria-pressed', x===b); });
+    $('tv-board').hidden = S.tv!=='board'; $('tv-timeline').hidden = S.tv!=='timeline';
+  });
+});
+
+/* ---------- performance ---------- */
+function renderPerf(){
+  var top = [
+    ['التسليم في الموعد','#FCF0E5','#B4652A',I.send,'هذا الشهر','86%',86,'#E59758','الهدف 90%'],
+    ['اعتماد الخطط الشهرية','#F6EEF2','#5F294A',I.doc,'قبل بداية الشهر','4 / 7',57,'#5F294A','الهدف 7 من 7'],
+    ['التقارير الشهرية','#E6F3EC','#2F8A63',I.ok,'لكل عقد مستمر','5 / 6',83,'#2F8A63','الهدف 6 من 6']
+  ];
+  var h = top.map(function(t){
+    return '<div class="stat s4"><div class="stat-top"><span class="si" style="--bg:'+t[1]+';--fg:'+t[2]+'">'+t[3]+'</span>'+t[0]+'<a>'+t[8]+'</a></div><div class="stat-mid"><span class="muted" style="color:var(--muted)">'+t[4]+'</span><b>'+t[5]+'</b></div><div class="bar" style="height:7px"><i style="width:'+t[6]+'%;--c:'+t[7]+'"></i></div></div>';
+  }).join('');
+  var nums = [['رضا العملاء','4.4','من 5 · الهدف 4.5','up','+0.2'],['متوسط جولات التعديل','2.3','الهدف جولتان أو أقل','down','+0.3'],['متوسط مدة اعتماد العميل','3.1 يوم','الهدف يومان','down','+0.6']];
+  h += nums.map(function(n){ return '<div class="stat s4"><div class="stat-top">'+n[0]+'</div><div class="big">'+n[1]+'</div><div style="display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)"><span class="trend '+n[3]+'">'+n[4]+'</span>'+n[2]+'</div></div>'; }).join('');
+  var load = [['إدارة الحسابات',80],['كتابة المحتوى',70],['التصميم',92],['المونتاج والإخراج',112],['التصوير',45]];
+  h += '<div class="stat s7"><div class="stat-top" style="margin-bottom:10px">عبء العمل على الفريق<a>من الطاقة الأسبوعية</a></div>'+
+    load.map(function(l){ var col = l[1]>100?'#B3261E':(l[1]>=85?'#E59758':'#1A1833'); return '<div class="lrow"><span>'+l[0]+'</span><div class="bar"><i style="width:'+Math.min(l[1],100)+'%;--c:'+col+'"></i></div><b>'+l[1]+'%</b></div>'; }).join('')+
+    '<p style="margin:10px 0 0;font-size:12px;color:var(--muted)">فوق 100% يعني أن المهام أكثر من طاقة الفريق هذا الأسبوع.</p></div>';
+  h += '<div class="stat s5"><div class="stat-top" style="margin-bottom:10px">الإنجاز حسب العميل</div>'+
+    CLIENTS.slice().sort(function(a,b){return b.pct-a.pct;}).map(function(c){ return '<div class="crow"><span class="tiny">'+logo(c)+'</span><div class="bar"><i style="width:'+c.pct+'%;--c:'+c.tint+'"></i></div><b>'+c.pct+'%</b></div>'; }).join('')+'</div>';
+  $('perf').innerHTML = h;
+}
+
+/* ---------- goals ---------- */
+function renderGoals(){
+  $('okrs').innerHTML = OKRS.map(function(o,n){
+    var avg = Math.round(o.krs.reduce(function(a,k){return a+k[2];},0)/o.krs.length), C = 2*Math.PI*28, off = C*(1-avg/100);
+    return '<div class="okr"><div class="okr-h"><div class="ringbox"><svg width="66" height="66" viewBox="0 0 66 66" aria-hidden="true"><circle cx="33" cy="33" r="28" fill="none" stroke="#EFEDE9" stroke-width="6"/><circle cx="33" cy="33" r="28" fill="none" stroke="#E59758" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><b>'+avg+'%</b></div><div><small>الهدف '+(n+1)+'</small><p>'+o.t+'</p></div></div><div>'+
+      o.krs.map(function(k){ var col = k[2]>=85?'#2F8A63':(k[2]>=60?'#E59758':'#B3261E'); return '<div class="kr"><div class="kr-t"><span>'+k[0]+'</span><b>'+k[1]+'</b></div><div class="bar" style="height:6px"><i style="width:'+k[2]+'%;--c:'+col+'"></i></div></div>'; }).join('')+'</div></div>';
+  }).join('');
+}
+
+/* ---------- logos page (assets + db) ---------- */
+var ASSETS = null, DB = null;
+function renderLogosPage(){
+  $('lgrid').innerHTML = CLIENTS.map(function(c){
+    var has = hasLogo(c);
+    var btn = ASSETS ? '<label class="upbtn">'+I.upload+(has?'تغيير':'رفع الشعار')+'<input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" data-up="'+c.id+'" aria-label="رفع شعار '+esc(c.name)+'"></label>' : '';
+    return '<div class="lcard" data-drop="'+c.id+'"><div class="lprev">'+logo(c)+'</div><div class="lcard-row"><div><b>'+esc(c.name)+'</b><div style="font-size:12px;color:var(--muted)">'+(has?'تمت الإضافة':'بدون شعار')+'</div></div>'+btn+'</div></div>';
+  }).join('');
+}
+function trimImage(file){
+  return new Promise(function(resolve){
+    if (file.type === 'image/svg+xml'){ resolve(file); return; }
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function(){
+      var sc = Math.min(1, 1600/Math.max(img.width,img.height)), w = Math.round(img.width*sc), h = Math.round(img.height*sc);
+      var cv = document.createElement('canvas'); cv.width=w; cv.height=h; var cx = cv.getContext('2d'); cx.drawImage(img,0,0,w,h);
+      var px = cx.getImageData(0,0,w,h).data;
+      var at = function(x,y){ var i=(y*w+x)*4; return [px[i],px[i+1],px[i+2],px[i+3]]; };
+      var bg = at(1,1), cs = [at(w-2,1),at(1,h-2),at(w-2,h-2)];
+      var near = function(a,b){ if (a[3]<16 && b[3]<16) return true; return Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])+Math.abs(a[2]-b[2])<40 && Math.abs(a[3]-b[3])<40; };
+      var uniform = cs.every(function(c){ return near(c,bg); });
+      var x0=0,y0=0,x1=w-1,y1=h-1;
+      if (uniform){
+        var isBg = function(x,y){ return near(at(x,y),bg); };
+        var rowBg = function(y){ for (var x=0;x<w;x+=2) if (!isBg(x,y)) return false; return true; };
+        var colBg = function(x){ for (var y=0;y<h;y+=2) if (!isBg(x,y)) return false; return true; };
+        while (y0<y1 && rowBg(y0)) y0++; while (y1>y0 && rowBg(y1)) y1--;
+        while (x0<x1 && colBg(x0)) x0++; while (x1>x0 && colBg(x1)) x1--;
+      }
+      var cw = x1-x0+1, ch = y1-y0+1;
+      if (cw < 8 || ch < 8){ x0=0;y0=0;cw=w;ch=h; }
+      var pad = Math.round(Math.max(cw,ch)*0.04);
+      var out = document.createElement('canvas'); out.width = cw+pad*2; out.height = ch+pad*2;
+      var ox = out.getContext('2d');
+      if (bg[3] > 16 && !(bg[0]>235&&bg[1]>235&&bg[2]>235)){ ox.fillStyle = 'rgb('+bg[0]+','+bg[1]+','+bg[2]+')'; ox.fillRect(0,0,out.width,out.height); }
+      ox.drawImage(cv, x0, y0, cw, ch, pad, pad, cw, ch);
+      URL.revokeObjectURL(url);
+      out.toBlob(function(b){ resolve(b || file); }, 'image/png');
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+$('lgrid').addEventListener('change', function(e){ var inp = e.target.closest('[data-up]'); if (inp && inp.files && inp.files[0]) uploadLogo(inp.dataset.up, inp.files[0]); });
+function uploadLogo(id, file){
+  if (!ASSETS || !file) return;
+  toast('جاري رفع شعار ' + BY[id].name + '…');
+  trimImage(file).then(function(blob){ return ASSETS.upload(blob, {type: blob.type || file.type || 'image/png'}); })
+  .then(function(res){ LOGOS[id] = res.id; renderLogosEverywhere(); if (DB) return DB.doc('logos/'+id).set({asset: res.id, at: new Date().toISOString()}); })
+  .then(function(){ toast('تمت إضافة شعار ' + BY[id].name); })
+  .catch(function(err){ toast('تعذّر الرفع: ' + ((err && err.code) || 'خطأ غير معروف')); });
+}
+$('lgrid').addEventListener('dragover', function(e){ var c = e.target.closest('[data-drop]'); if (c && ASSETS){ e.preventDefault(); c.style.boxShadow = '0 0 0 2px #E59758'; } });
+$('lgrid').addEventListener('dragleave', function(e){ var c = e.target.closest('[data-drop]'); if (c) c.style.boxShadow = ''; });
+$('lgrid').addEventListener('drop', function(e){ var c = e.target.closest('[data-drop]'); if (!c || !ASSETS) return; e.preventDefault(); c.style.boxShadow = ''; var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) uploadLogo(c.dataset.drop, f); });
+function renderLogosEverywhere(){ renderBoard(false); renderTabs(); renderRunning(); renderProjects(); renderPerf(); renderLogosPage(); }
+
+function initCapabilities(){
+  if (!window.claude || typeof window.claude.use !== 'function'){ $('logoNote').textContent = 'الشعارات مأخوذة من المواقع الرسمية للعملاء. السبيعي الخيرية وجذوة بانتظار ملفات الشعار.'; return; }
+  var timer = setTimeout(function(){ $('logoNote').textContent = 'تعذّر الوصول لبيانات الشعارات حاليًا.'; }, 10000);
+  window.claude.use('db').then(function(db){
+    DB = db;
+    if (!db){ clearTimeout(timer); $('logoNote').textContent = 'سجّل الدخول لعرض الشعارات المحفوظة.'; return; }
+    db.collection('logos').onSnapshot(function(snap){
+      clearTimeout(timer);
+      var m = {}; snap.docs.forEach(function(d){ var v = d.data(); if (v && typeof v.asset==='string' && /^[A-Za-z0-9_-]{8,64}$/.test(v.asset) && BY[d.id]) m[d.id] = v.asset; });
+      LOGOS = m; renderLogosEverywhere(); updateNote();
+    }, function(){ clearTimeout(timer); $('logoNote').textContent = 'تعذّر تحميل الشعارات.'; });
+  });
+  window.claude.use('assets').then(function(a){ ASSETS = a; renderLogosPage(); updateNote(); });
+}
+function updateNote(){
+  var missing = CLIENTS.filter(function(c){ return !hasLogo(c); }).length;
+  $('logoNote').textContent = ASSETS
+    ? (missing ? 'باقي ' + missing + ' من ' + CLIENTS.length + ' بدون شعار. ارفع ملف الشعار (PNG أو SVG)، وتُقص الحواف الفارغة تلقائيًا.' : 'كل الشعارات مضافة.')
+    : (missing ? 'رفع الشعارات متاح لمالك الصفحة ومحرريها.' : 'كل الشعارات مضافة.');
+}
+
+/* ---------- routing ---------- */
+var NAMES = {overview:'نظرة عامة', projects:'المشاريع', tasks:'المهام', performance:'الأداء', goals:'الأهداف', logos:'شعارات العملاء'};
+function route(){
+  var p = (location.hash||'#overview').slice(1); if (!NAMES[p]) p = 'overview';
+  S.page = p;
+  Object.keys(NAMES).forEach(function(k){ $('v-'+k).classList.toggle('on', k===p); });
+  Array.prototype.forEach.call(document.querySelectorAll('.rail-btn[data-page]'), function(a){ if (a.dataset.page===p) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  $('crumb').innerHTML = (p==='overview' ? '<svg class="ico sm" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>' : '') + NAMES[p];
+  $('stage').classList.toggle('wide', p!=='overview');
+  renderTabs();
+  if (p==='overview') renderBoard(false);
+}
+window.addEventListener('hashchange', function(){ route(); window.scrollTo(0,0); });
+
+/* ---------- boot ---------- */
+greet(); renderMinis(); renderRunning(); renderCal(); renderDeadlines(); renderTasks(); renderFeed();
+renderProjects(); renderKanban(); renderTimeline(); renderPerf(); renderGoals(); renderLogosPage();
+route(); renderBoard(false);
+initCapabilities();
+})();
+</script>
+</body>
+</html>
