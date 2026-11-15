@@ -58,7 +58,7 @@ svg{display:block}
 .tab:hover{background:rgba(255,255,255,.6);color:var(--ink)}
 .tab[aria-current="true"]{background:var(--card);color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(26,24,51,.05),0 0 0 1px var(--line)}
 .tab .tlogo{width:22px;height:22px;border-radius:7px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;overflow:hidden}
-.tab .tlogo{--lh:16px}.tab .tlogo img{max-width:18px;max-height:var(--lh);object-fit:contain}
+.tab .tlogo{--lh:16px;background:transparent;box-shadow:none}.tab .tlogo img{max-width:18px;max-height:var(--lh);object-fit:contain}
 .tab .tlogo b{width:8px;height:8px;border-radius:50%;background:var(--tint)}
 .tab-add{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
 .tab-add:hover{background:rgba(255,255,255,.6);color:var(--ink)}
@@ -161,15 +161,23 @@ img.to-dark{filter:brightness(0)}
 .track{display:flex;gap:14px;width:max-content;animation:roll 55s linear infinite}
 .marquee:hover .track,.marquee:focus-within .track,.marquee.hold .track{animation-play-state:paused}
 @keyframes roll{from{transform:translateX(0)}to{transform:translateX(calc(50% + 7px))}}
-.pcard{width:268px;height:186px;flex:none;border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;text-align:right;background:#fff;color:var(--ink);position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s}
+.pcard{width:290px;height:auto;gap:16px;flex:none;border-radius:18px;padding:16px 18px 14px;display:flex;flex-direction:column;text-align:right;background:#fff;color:var(--ink);position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s}
 .pcard:hover{transform:translateY(-3px);box-shadow:0 0 0 1px var(--b),0 10px 24px rgba(26,24,51,.07)}
 .pcard[aria-current="true"]{box-shadow:0 0 0 2px var(--b)}
-.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--b2),var(--b))}
-.pcard::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;left:-80px;bottom:-110px;background:var(--bs);pointer-events:none}
+.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--b2),var(--b))}
+.pcard::after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;left:-70px;bottom:-110px;background:var(--bs);pointer-events:none}
 .pcard>*{position:relative;z-index:1}
-.pcard .plogo{height:44px;display:flex;align-items:center;justify-content:flex-start;--lh:44px}
-.pcard .plogo img{max-height:44px;max-width:150px;object-fit:contain}
-.pcard .plogo img.boxed{border-radius:8px}
+.ph{display:flex;align-items:center;gap:14px;min-width:0}
+.pi{width:48px;height:48px;flex:none;display:grid;place-items:center}
+.pi img{width:48px;height:48px;object-fit:contain}
+.pdiv{width:1px;align-self:stretch;margin:2px 0;background:rgba(128,128,128,.5)}
+.pt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.pcard h3{margin:0;font-size:15.5px;font-weight:600;line-height:1.35}
+.pcard .sv{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.pcard .pf{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink-2)}
+.pcard .pf span{display:flex;align-items:center;gap:6px}
+.pcard .pf svg{color:var(--b)}
+img.boxed{border-radius:8px}
 .pcard .plogo .wm{font-size:15px}
 .pcard h3{margin:10px 0 0;font-size:15.5px;font-weight:600;line-height:1.3}
 .pcard .sv{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -741,7 +749,7 @@ function greet(){
 function renderTabs(){
   var cur = CLIENTS[S.idx].id;
   $('tabs').innerHTML = PINNED.map(function(id){
-    var c = BY[id], img = hasLogo(c) ? logo(c) : '<b style="--tint:'+c.tint+'"></b>';
+    var c = BY[id], img = icon(c);
     return '<button class="tab" type="button" role="tab" data-id="'+id+'" aria-current="'+(S.page==='overview'&&cur===id)+'"><span class="tlogo">'+img+'</span>'+esc(c.name)+'</button>';
   }).join('') + '<button class="tab-add" type="button" id="tabAdd" aria-label="تثبيت مشروع آخر"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><span class="tab-hint">المشاريع المثبتة</span>';
 }
@@ -820,12 +828,12 @@ var CARD_THEMES = [
   {bg:'#E59758', fg:'#1A1833', on:'#1A1833', off:'rgba(26,24,51,.16)', glow:'rgba(255,255,255,.22)'},
   {bg:'#5F294A', fg:'#F3ECE3', on:'#F3ECE3', off:'rgba(243,236,227,.2)', glow:'rgba(226,190,186,.18)'}
 ];
+function icon(c){ return '<img src="icons/'+c.id+'.png" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'">'; }
 function renderRunning(){
   var one = function(dup){ return CLIENTS.map(function(c,i){
     var br = BRAND[c.id] || {c:c.tint, soft:'#F4F2EE', c2:c.tint};
     return '<button type="button" class="pcard" data-id="'+c.id+'" '+(dup?'tabindex="-1" aria-hidden="true"':'aria-label="اعرض '+esc(c.name)+' في السبورة"')+' style="--b:'+br.c+';--b2:'+br.c2+';--bs:'+br.soft+'">'+
-      '<span class="plogo">'+logo(c)+'</span><h3>'+esc(c.name)+'</h3><span class="sv">'+esc(c.services.join(' · '))+'</span>'+
-      '<span class="pl"><span>الإنجاز</span><b>'+c.pct+'%</b></span><span class="segs">'+segs(c.pct,10)+'</span>'+
+      '<span class="ph"><span class="pi">'+icon(c)+'</span><span class="pdiv"></span><span class="pt"><h3>'+esc(c.name)+'</h3><span class="sv">'+esc(c.services.join(' · '))+'</span></span></span>'+
       '<span class="pf"><span>'+I.target+PHASES[c.phase-1]+'</span><span>'+I.cal+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span></span></button>';
   }).join(''); };
   $('track').innerHTML = one(false) + one(true);
