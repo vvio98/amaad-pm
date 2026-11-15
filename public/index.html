@@ -370,14 +370,22 @@ img.boxed{border-radius:8px}
   .aside{position:static;max-height:none;min-height:0}
   .hello{margin-bottom:16px}
   #v-overview.on{display:flex;flex-direction:column;height:100%}
-  #v-overview .board{flex:1 0 auto;display:flex;flex-direction:column}
-  #v-overview .sheet{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
-  #v-overview .sec-head{margin:18px 0 10px}
+  #v-overview .board{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+  #v-overview .sheet{flex:1 1 auto;min-height:0;padding-top:46px;padding-bottom:20px;display:flex;flex-direction:column;justify-content:center}
+  #v-overview .sec-head{margin:14px 0 8px}
+  #v-overview .marquee{flex:none}
+  #v-overview .facts{gap:10px;padding:14px}
+  #v-overview .steps{margin-top:18px}
+  #v-overview .cname{margin:2px 0 8px}
   #v-tasks.on{display:flex;flex-direction:column;height:100%}
   #v-tasks .page-head{margin-bottom:16px}
   #tv-board{flex:1;min-height:0}
   #tv-board .kcol{overflow:auto}
   .page-head{margin-bottom:18px}
+}
+@media (min-width:1101px) and (max-height:920px){
+  .hello{margin-bottom:12px}
+  .hello h1{font-size:22px}
 }
 @media (min-width:1101px) and (max-height:760px){
   .hello p{display:none}
