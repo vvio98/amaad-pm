@@ -161,19 +161,26 @@ img.to-dark{filter:brightness(0)}
 .track{display:flex;gap:14px;width:max-content;animation:roll 55s linear infinite}
 .marquee:hover .track,.marquee:focus-within .track,.marquee.hold .track{animation-play-state:paused}
 @keyframes roll{from{transform:translateX(0)}to{transform:translateX(calc(50% + 7px))}}
-.pcard{width:272px;height:178px;flex:none;border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;text-align:right;background:var(--bg);color:var(--fg);position:relative;overflow:hidden;transition:transform .3s var(--ease)}
-.pcard:hover{transform:translateY(-3px)}
-.pcard::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;left:-70px;top:-90px;background:var(--glow);pointer-events:none}
-.pcard .plogo{width:84px;height:40px;border-radius:10px;background:#fff;display:grid;place-items:center;padding:6px 8px;position:relative;z-index:1}
-.pcard .plogo{--lh:28px}.pcard .plogo img{max-width:100%;max-height:var(--lh);object-fit:contain}
-.pcard .plogo .wm{font-size:12px}
-.pcard h3{margin:12px 0 0;font-size:16.5px;font-weight:600;line-height:1.3;position:relative;z-index:1}
-.pcard .sv{font-size:12px;opacity:.74;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard .pl{margin-top:auto;display:flex;justify-content:space-between;font-size:11.5px;opacity:.85;margin-bottom:6px}
-.pcard .segs i{background:var(--seg-off);height:5px}
-.pcard .segs i.on{background:var(--seg-on)}
-.pcard .pf{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11.5px;opacity:.9}
+.pcard{width:268px;height:186px;flex:none;border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;text-align:right;background:#fff;color:var(--ink);position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 0 0 1px var(--b),0 10px 24px rgba(26,24,51,.07)}
+.pcard[aria-current="true"]{box-shadow:0 0 0 2px var(--b)}
+.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--b2),var(--b))}
+.pcard::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;left:-80px;bottom:-110px;background:var(--bs);pointer-events:none}
+.pcard>*{position:relative;z-index:1}
+.pcard .plogo{height:44px;display:flex;align-items:center;justify-content:flex-start;--lh:44px}
+.pcard .plogo img{max-height:44px;max-width:150px;object-fit:contain}
+.pcard .plogo img.boxed{border-radius:8px}
+.pcard .plogo .wm{font-size:15px}
+.pcard h3{margin:10px 0 0;font-size:15.5px;font-weight:600;line-height:1.3}
+.pcard .sv{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .pl{margin-top:auto;display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:6px}
+.pcard .pl b{color:var(--b);font-weight:700}
+.pcard .segs i{background:#ECEAE6;height:5px}
+.pcard .segs i.on{background:var(--b)}
+.pcard .pf{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11.5px;color:var(--ink-2)}
 .pcard .pf span{display:flex;align-items:center;gap:5px}
+.pcard .pf svg{color:var(--b)}
+img.boxed{border-radius:8px}
 
 /* schedule */
 .sched{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px}
@@ -363,8 +370,8 @@ img.to-dark{filter:brightness(0)}
   .aside{position:static;max-height:none;min-height:0}
   .hello{margin-bottom:16px}
   #v-overview.on{display:flex;flex-direction:column;height:100%}
-  #v-overview .board{flex:1;min-height:0;display:flex;flex-direction:column}
-  #v-overview .sheet{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+  #v-overview .board{flex:1 0 auto;display:flex;flex-direction:column}
+  #v-overview .sheet{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
   #v-overview .sec-head{margin:18px 0 10px}
   #v-tasks.on{display:flex;flex-direction:column;height:100%}
   #v-tasks .page-head{margin-bottom:16px}
@@ -614,7 +621,7 @@ var CLIENTS = [
   {id:'sabeai', name:'السبيعي الخيرية', desc:'مؤسسة السبيعي الخيرية', contract:'يُحدد', services:['تفعيل وتبني الكفاءات'], phase:1, pct:15, status:'ok', next:'ورشة الفهم مع فريق المؤسسة', kind:'ورشة', due:D(10,22), start:D(10,12), tint:'#24476B'},
   {id:'fatat20', name:'فتاة العشرين', desc:'جمعية فتاة العشرين', contract:'يُحدد', services:['تصميم مقاطع','مونتاج','إخراج'], phase:3, pct:70, status:'late', next:'مونتاج المقطع الثالث', kind:'إنتاج', due:D(10,17), start:D(10,5), tint:'#8A3D63'},
   {id:'naqla', name:'نقلة', desc:'منصة الفرص المهنية في القطاع غير الربحي', contract:'يُحدد', services:['إدارة الحسابات','المحتوى'], phase:4, pct:85, status:'ok', next:'التقرير الشهري لنوفمبر', kind:'تقرير', due:D(10,30), start:D(10,1), tint:'#2E5E8A'},
-  {id:'jathwa', name:'جذوة', desc:'الجهة قيد التأكيد', contract:'يُحدد', services:['إدارة الحسابات','المحتوى'], phase:2, pct:40, status:'warn', next:'تأكيد نطاق العمل مع العميل', kind:'اجتماع', due:D(10,18), start:D(10,11), tint:'#8A4B12'},
+  {id:'jathwa', name:'جذوة', desc:'جذوة', contract:'يُحدد', services:['إدارة الحسابات','المحتوى'], phase:2, pct:40, status:'warn', next:'تأكيد نطاق العمل مع العميل', kind:'اجتماع', due:D(10,18), start:D(10,11), tint:'#8A4B12'},
   {id:'norah', name:'نورة الملاحي', desc:'مؤسسة نورة الملاحي الأهلية', contract:'يُحدد', services:['بودكاست رقمي'], phase:3, pct:50, status:'ok', next:'تسجيل الحلقة الثانية', kind:'إنتاج', due:D(10,26), start:D(10,10), tint:'#3F3A6B'}
 ];
 var BY = {}; CLIENTS.forEach(function(c){ BY[c.id] = c; c.soft = c.tint + '14'; });
@@ -659,12 +666,16 @@ var OKRS = [
 /* ---------- helpers ---------- */
 var LOGOS = {};
 var LOGO_SRC = {
-  maknon:{src:'https://maknon.org.sa/wp-content/uploads/2023/03/maknon_logo.jpg'},
-  ithraa:{src:'https://ithraa.sa/ithraa-almotoon-logo-white.svg', dark:true},
-  fatat20:{src:'https://fatat20.sa/wp-content/themes/20Fatat/images/logo.png'},
-  naqla:{src:'https://naqla.com.sa/__l5e/assets-v1/8cb6464f-2a84-4f53-b2d0-8c3e314004b5/naqla-logo-official.png'},
-  norah:{src:'https://norahfoundation.org.sa/wp-content/uploads/2025/07/cropped-png-270x270.png'}
+  maknon:{src:'logos/maknon.png'}, ithraa:{src:'logos/ithraa.png'}, sabeai:{src:'logos/sabeai.png'},
+  fatat20:{src:'logos/fatat20.png'}, naqla:{src:'logos/naqla.png'}, jathwa:{src:'logos/jathwa.png', boxed:true}, norah:{src:'logos/norah.png'}
 };
+var BRAND = {
+  maknon:{c:'#2B7F64', soft:'#EEF6F2', c2:'#BE9E68'}, ithraa:{c:'#626A85', soft:'#EFF0F5', c2:'#33A6B8'},
+  sabeai:{c:'#0D7F9A', soft:'#EAF5F8', c2:'#7DC352'}, fatat20:{c:'#8E4E8E', soft:'#F6EEF6', c2:'#5BBDBD'},
+  naqla:{c:'#0B5C4E', soft:'#E9F8F2', c2:'#3EF5C0'}, jathwa:{c:'#1A1A5E', soft:'#F0F0F8', c2:'#F5C38B'},
+  norah:{c:'#0B8C87', soft:'#E8F6F5', c2:'#BE9A62'}
+};
+CLIENTS.forEach(function(c){ if (BRAND[c.id]){ c.tint = BRAND[c.id].c; c.soft = c.tint + '14'; } });
 var BROKEN = {};
 var $ = function(id){ return document.getElementById(id); };
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
@@ -674,7 +685,7 @@ function logo(c){
   if (id) return '<img src="/_blob/'+esc(id)+'" alt="شعار '+esc(c.name)+'" loading="lazy">';
   var L = LOGO_SRC[c.id];
   if (!L || BROKEN[c.id]) return wordmark(c);
-  var img = '<img src="'+L.src+'" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'" referrerpolicy="no-referrer"'+(L.dark?' class="to-dark"':'')+(L.crop?' style="position:absolute;left:0;top:'+L.top+';width:'+L.w+';max-width:none"':'')+'>';
+  var img = '<img src="'+L.src+'" alt="شعار '+esc(c.name)+'" data-fb="'+c.id+'" referrerpolicy="no-referrer"'+(L.dark?' class="to-dark"':(L.boxed?' class="boxed"':''))+(L.crop?' style="position:absolute;left:0;top:'+L.top+';width:'+L.w+';max-width:none"':'')+'>';
   return L.crop ? '<span class="lg-crop" data-fbw="'+c.id+'" style="aspect-ratio:'+L.crop+'">'+img+'</span>' : img;
 }
 function hasLogo(c){ return !!(LOGOS[c.id] || (LOGO_SRC[c.id] && !BROKEN[c.id])); }
@@ -803,10 +814,10 @@ var CARD_THEMES = [
 ];
 function renderRunning(){
   var one = function(dup){ return CLIENTS.map(function(c,i){
-    var th = CARD_THEMES[i % CARD_THEMES.length];
-    return '<button type="button" class="pcard" data-id="'+c.id+'" '+(dup?'tabindex="-1" aria-hidden="true"':'aria-label="اعرض '+esc(c.name)+' في السبورة"')+' style="--bg:'+th.bg+';--fg:'+th.fg+';--seg-on:'+th.on+';--seg-off:'+th.off+';--glow:'+th.glow+'">'+
+    var br = BRAND[c.id] || {c:c.tint, soft:'#F4F2EE', c2:c.tint};
+    return '<button type="button" class="pcard" data-id="'+c.id+'" '+(dup?'tabindex="-1" aria-hidden="true"':'aria-label="اعرض '+esc(c.name)+' في السبورة"')+' style="--b:'+br.c+';--b2:'+br.c2+';--bs:'+br.soft+'">'+
       '<span class="plogo">'+logo(c)+'</span><h3>'+esc(c.name)+'</h3><span class="sv">'+esc(c.services.join(' · '))+'</span>'+
-      '<span class="pl"><span>الإنجاز</span><span>'+c.pct+'%</span></span><span class="segs">'+segs(c.pct,10)+'</span>'+
+      '<span class="pl"><span>الإنجاز</span><b>'+c.pct+'%</b></span><span class="segs">'+segs(c.pct,10)+'</span>'+
       '<span class="pf"><span>'+I.target+PHASES[c.phase-1]+'</span><span>'+I.cal+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span></span></button>';
   }).join(''); };
   $('track').innerHTML = one(false) + one(true);
