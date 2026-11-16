@@ -402,6 +402,132 @@ img.boxed{border-radius:8px}
 .toast.on{opacity:1;transform:translateX(-50%)}
 
 
+
+/* ============ BENTO OVERVIEW ============ */
+.bov{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+.tile{border-radius:22px;background:var(--card);box-shadow:0 0 0 1px var(--line);padding:16px 18px;min-width:0;min-height:0;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.tile-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.tile-h b{font-size:13.5px;font-weight:600}
+.tile-h small,.tile-h a{font-size:11.5px;color:var(--muted)}
+.tile-h a:hover{color:var(--ink)}
+.t-board{grid-column:1/8;grid-row:1/3;padding:0;background:transparent;box-shadow:none}
+.t-board .board{height:100%;display:flex;flex-direction:column;border-radius:22px}
+.t-board .sheet{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:22px 24px}
+.t-board .sheet-grid{gap:22px}
+.t-board .cname{font-size:28px;margin:0 0 8px}
+.t-board .steps{margin-top:18px}
+.t-board .facts{padding:14px;gap:10px}
+.t-board .badge{width:64px;height:64px;border-radius:16px;padding:8px}
+.t-next{grid-column:8/10;grid-row:1;background:var(--orange);color:var(--night);box-shadow:none;transition:transform .3s var(--ease)}
+.t-next:hover{transform:translateY(-2px)}
+.t-next::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;left:-60px;bottom:-70px;background:rgba(255,255,255,.18)}
+.t-next .lbl{font-size:12px;font-weight:500;opacity:.8}
+.t-next .num{font-size:44px;font-weight:700;line-height:1;margin-top:auto;letter-spacing:-1px}
+.t-next .num small{font-size:15px;font-weight:600;margin-inline-start:4px;letter-spacing:0}
+.t-next .what{font-size:13px;font-weight:600;line-height:1.4;margin-top:8px;position:relative;z-index:1}
+.t-next .who{display:flex;align-items:center;gap:6px;font-size:11.5px;margin-top:6px;opacity:.85;position:relative;z-index:1}
+.t-next .who img{width:18px;height:18px;object-fit:contain;background:#fff;border-radius:5px;padding:1px}
+.t-pulse{grid-column:10/13;grid-row:1}
+.pulse-body{display:flex;align-items:center;gap:14px;flex:1;min-height:0}
+.pring{width:92px;height:92px;flex:none;position:relative}
+.pring svg{transform:rotate(-90deg)}
+.pring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.pring b{font-size:20px;font-weight:700}
+.pring small{font-size:10px;color:var(--muted)}
+.pstats{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+.pstat{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);gap:6px}
+.pstat b{font-size:16px;color:var(--ink);font-weight:700}
+.pstat i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none;margin-inline-end:6px;display:inline-block}
+.t-today{grid-column:8/13;grid-row:2}
+.tt-prog{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--muted);margin:-2px 0 10px}
+.tt-prog .bar{flex:1;height:6px}
+.tt-list{display:flex;flex-direction:column;gap:2px;overflow:auto;min-height:0}
+.tt{display:flex;align-items:center;gap:10px;padding:7px 4px;border-radius:10px}
+.tt:hover{background:var(--shell)}
+.tt .check{width:20px;height:20px;margin:0}
+.tt.done .check{background:var(--night);color:var(--paper);box-shadow:none}
+.tt .tx{flex:1;min-width:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt.done .tx{text-decoration:line-through;color:var(--muted)}
+.tt img{width:20px;height:20px;object-fit:contain;flex:none}
+.tt .tm{font-size:11px;color:var(--soft);white-space:nowrap}
+.t-status{grid-column:1/5;grid-row:3}
+.stack{display:flex;height:10px;border-radius:999px;overflow:hidden;gap:3px;margin-bottom:10px}
+.stack i{display:block;height:100%;border-radius:999px;background:var(--c)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-bottom:10px}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.legend b{color:var(--ink)}
+.attn{display:flex;flex-direction:column;gap:6px;overflow:auto;min-height:0}
+.attn button{display:flex;align-items:center;gap:10px;text-align:right;padding:6px 8px;border-radius:10px;background:var(--shell);font-size:12.5px}
+.attn button:hover{background:var(--line-2)}
+.attn img{width:22px;height:22px;object-fit:contain;flex:none}
+.attn span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attn .pill{font-size:10.5px;padding:2px 8px}
+.t-phases{grid-column:5/9;grid-row:3}
+.phs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1;min-height:0}
+.ph-col{border-radius:14px;background:var(--shell);padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.ph-col.now{background:var(--orange-soft)}
+.ph-col b{font-size:22px;font-weight:700;line-height:1}
+.ph-col small{font-size:11.5px;color:var(--muted)}
+.ph-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;margin-top:2px}
+.ph-col{padding:8px 6px;gap:3px}
+.ph-icons button{width:22px!important;height:22px!important;border-radius:7px!important}
+.ph-icons img{width:15px!important;height:15px!important}
+.ph-icons button{width:26px;height:26px;border-radius:8px;background:#fff;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center}
+.ph-icons img{width:18px;height:18px;object-fit:contain}
+.t-week{grid-column:9/13;grid-row:3}
+.wk-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:10px}
+.wkd{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:12px;font-size:10.5px;color:var(--soft);position:relative}
+.wkd b{font-size:14px;color:var(--ink-2);font-weight:600}
+.wkd.today{background:var(--night);color:rgba(243,236,227,.7)}
+.wkd.today b{color:var(--paper)}
+.wkd.off b{color:var(--soft)}
+.wkd i{width:5px;height:5px;border-radius:50%;background:var(--dot)}
+.wk-list{display:flex;flex-direction:column;gap:6px;overflow:auto;min-height:0}
+.wk-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.wk-item img{width:20px;height:20px;object-fit:contain;flex:none}
+.wk-item span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wk-item em{font-style:normal;color:var(--muted);font-size:11px;white-space:nowrap}
+.t-run{grid-column:1/13;grid-row:4;padding:10px 0 12px;background:transparent;box-shadow:none;overflow:visible}
+.t-run-head{display:flex;justify-content:space-between;align-items:center;padding:0 4px 6px;font-size:12.5px;color:var(--muted)}
+.t-run-head small{margin-inline-start:6px;color:var(--soft)}
+.t-run .marquee{margin:0;padding:4px 2px}
+@media (min-width:1101px){
+  #v-overview.on{display:flex;flex-direction:column;height:100%}
+  #v-overview .bov{flex:1;min-height:0;grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto}
+}
+@media (max-width:1100px){
+  .bov{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .t-board,.t-today,.t-run,.t-status,.t-phases,.t-week{grid-column:1/-1;grid-row:auto}
+  .t-next,.t-pulse{grid-column:auto;grid-row:auto;min-height:170px}
+  .t-today .tt-list,.attn,.wk-list{overflow:visible}
+}
+@media (max-width:560px){ .t-next,.t-pulse{grid-column:1/-1} }
+
+
+.t-board .sheet-grid{grid-template-columns:minmax(0,1fr)!important;gap:14px}
+.t-board .facts{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:14px;padding:12px 14px;background:var(--shell)}
+.t-board .facts>.fact:nth-child(-n+2){display:none}
+.t-board .nextbox{padding:8px 10px}
+.t-board .s-head .cname{font-size:26px}
+#v-overview .hello{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+#v-overview .hello h1{font-size:20px}
+#v-overview .hello p{margin:0}
+.t-run{padding:4px 0 2px}
+.t-run-head{padding-bottom:4px}
+
+.t-board #sTags{display:none}
+.t-board .sheet{padding:14px 18px;overflow:hidden}
+.t-board .badge{width:54px;height:54px;padding:6px;border-radius:14px}
+.t-board .badge img{max-height:40px}
+.t-board .s-head{gap:12px}
+.t-board .s-head .cname{font-size:24px;margin:0}
+.t-board .steps{margin-top:6px}
+.t-board .st .n{width:28px;height:28px;font-size:12px}
+.t-board .st::before{top:13px;right:30px}
+.t-board .board-top{height:30px;padding-bottom:4px}
+.t-board .board-foot{padding-top:4px}
+.t-board .dots button{padding:6px 3px}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -414,9 +540,6 @@ img.boxed{border-radius:8px}
   .panel-body{flex:1;min-height:0;overflow:auto;padding:22px 26px}
   .aside{position:static;max-height:none;min-height:0}
   .hello{margin-bottom:16px}
-  #v-overview.on{display:flex;flex-direction:column;height:100%}
-  #v-overview .board{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
-  #v-overview .sheet{flex:1 1 auto;min-height:0;padding-top:26px;padding-bottom:22px;display:flex;flex-direction:column;justify-content:center}
   #v-overview .sec-head{margin:10px 0 4px}
   #v-overview .sec-head h2{font-size:13px;font-weight:500;color:var(--muted)}
   #v-overview .marquee{flex:none}
@@ -493,6 +616,7 @@ img.boxed{border-radius:8px}
     <a class="rail-btn" href="#overview" data-page="overview"><svg class="ico" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg><span class="tip">نظرة عامة</span><span class="sr">نظرة عامة</span></a>
     <a class="rail-btn" href="#projects" data-page="projects"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg><span class="tip">المشاريع</span><span class="sr">المشاريع</span></a>
     <a class="rail-btn" href="#tasks" data-page="tasks"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 8.5l1.5 1.5 3-3M8.5 15l1.5 1.5 3-3"/></svg><span class="tip">المهام</span><span class="sr">المهام</span></a>
+    <a class="rail-btn" href="#calendar" data-page="calendar"><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor"/><circle cx="12" cy="14.5" r="1" fill="currentColor"/></svg><span class="tip">التقويم</span><span class="sr">التقويم</span></a>
     <a class="rail-btn" href="#performance" data-page="performance"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/></svg><span class="tip">الأداء</span><span class="sr">الأداء</span></a>
     <a class="rail-btn" href="#goals" data-page="goals"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg><span class="tip">الأهداف</span><span class="sr">الأهداف</span></a>
     <div class="rail-sep"></div>
@@ -527,6 +651,8 @@ img.boxed{border-radius:8px}
               <p id="greetSub"></p>
             </div>
 
+            <div class="bov">
+              <div class="tile t-board">
             <div class="board" id="board">
               <div class="board-top">
                 <span class="live" id="live"><i></i><span id="liveTxt">السبورة · عرض تلقائي</span></span>
@@ -539,7 +665,7 @@ img.boxed{border-radius:8px}
                 <div class="sheet-grid" id="sheetGrid">
                   <div>
                     <div class="s-head"><div class="badge" id="badge"></div><div><div class="eyebrow" id="sDesc"></div>
-                    <div class="cname" id="sName"></div></div></div>
+                    <div class="cname" id="sName"></div></div><span id="sStatus2" style="margin-inline-start:auto"></span></div>
                     <div class="chips" id="sTags"></div>
                     <div class="steps" id="sSteps"></div>
                   </div>
@@ -557,12 +683,18 @@ img.boxed{border-radius:8px}
               <div class="board-foot"><div class="dots" id="dots"></div></div>
             </div>
 
-            
-            <div class="sec-head">
-              <h2>المشاريع الجارية<small id="runCount"></small></h2>
-              <a class="more" href="#projects">عرض الكل <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a>
+              </div>
+              <a class="tile t-next" href="#calendar" id="tNext"></a>
+              <div class="tile t-pulse" id="tPulse"></div>
+              <div class="tile t-today" id="tToday"></div>
+              <div class="tile t-status" id="tStatus"></div>
+              <div class="tile t-phases" id="tPhases"></div>
+              <div class="tile t-week" id="tWeek"></div>
+              <div class="tile t-run">
+                <div class="t-run-head"><span>المشاريع الجارية<small id="runCount"></small></span><a class="more" href="#projects">عرض الكل <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a></div>
+                <div class="marquee" id="marquee"><div class="track" id="track"></div></div>
+              </div>
             </div>
-            <div class="marquee" id="marquee"><div class="track" id="track"></div></div>
 
           </section>
 
@@ -582,11 +714,16 @@ img.boxed{border-radius:8px}
               <div class="seg" role="group" aria-label="طريقة العرض">
                 <button type="button" data-tv="board" aria-pressed="true">اللوحة</button>
                 <button type="button" data-tv="timeline" aria-pressed="false">الجدول الزمني</button>
-                <button type="button" data-tv="cal" aria-pressed="false">التقويم</button>
               </div>
             </div>
             <div id="tv-board" class="kanban"></div>
-            <div class="sched" id="tv-cal" hidden>
+            <div id="tv-timeline" class="tl" hidden><div class="tl-scroll"><div class="tl-inner" id="tlInner"></div></div></div>
+          </section>
+
+          <!-- CALENDAR -->
+          <section class="view" id="v-calendar" aria-label="التقويم">
+            <div class="page-head"><div><h1>التقويم</h1><p>مواعيد التسليم لكل المشاريع. اضغط على أي يوم لعرض تسليماته.</p></div></div>
+            <div class="sched">
               <div class="box">
                 <div class="cal-head">
                   <b id="calTitle"></b>
@@ -602,7 +739,6 @@ img.boxed{border-radius:8px}
                 <div class="dls" id="dls"></div>
               </div>
             </div>
-            <div id="tv-timeline" class="tl" hidden><div class="tl-scroll"><div class="tl-inner" id="tlInner"></div></div></div>
           </section>
 
           <!-- PERFORMANCE -->
@@ -815,7 +951,7 @@ function renderBoard(anim){
     $('sName').textContent = c.name;
     $('sTags').innerHTML = c.services.map(function(s){ return '<span class="chip tinted">'+esc(s)+'</span>'; }).join('');
     $('sSteps').innerHTML = PHASES.map(function(p,i){ var k=i+1, cl = k<c.phase?'done':(k===c.phase?'now':''); return '<div class="st '+cl+'"><span class="n">'+(k<c.phase?I.check:k)+'</span>'+p+'</div>'; }).join('');
-    $('sStatus').innerHTML = pill(c.status);
+    $('sStatus').innerHTML = pill(c.status); var s2=$('sStatus2'); if (s2) s2.innerHTML = pill(c.status);
     $('sContract').textContent = c.contract;
     $('sPct').textContent = c.pct + '%';
     $('sSegs').innerHTML = segs(c.pct);
@@ -991,7 +1127,7 @@ Array.prototype.forEach.call(document.querySelectorAll('[data-tv]'), function(b)
   b.addEventListener('click', function(){
     S.tv = b.dataset.tv;
     Array.prototype.forEach.call(document.querySelectorAll('[data-tv]'), function(x){ x.setAttribute('aria-pressed', x===b); });
-    $('tv-board').hidden = S.tv!=='board'; $('tv-timeline').hidden = S.tv!=='timeline'; $('tv-cal').hidden = S.tv!=='cal';
+    $('tv-board').hidden = S.tv!=='board'; $('tv-timeline').hidden = S.tv!=='timeline';
   });
 });
 
@@ -1104,14 +1240,14 @@ function updateNote(){
 }
 
 /* ---------- routing ---------- */
-var NAMES = {overview:'نظرة عامة', projects:'المشاريع', tasks:'المهام', performance:'الأداء', goals:'الأهداف', logos:'شعارات العملاء'};
+var NAMES = {overview:'نظرة عامة', projects:'المشاريع', tasks:'المهام', calendar:'التقويم', performance:'الأداء', goals:'الأهداف', logos:'شعارات العملاء'};
 function route(){
   var p = (location.hash||'#overview').slice(1); if (!NAMES[p]) p = 'overview';
   S.page = p;
   Object.keys(NAMES).forEach(function(k){ $('v-'+k).classList.toggle('on', k===p); });
   Array.prototype.forEach.call(document.querySelectorAll('.rail-btn[data-page]'), function(a){ if (a.dataset.page===p) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   $('crumb').innerHTML = (p==='overview' ? '<svg class="ico sm" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>' : '') + NAMES[p];
-  $('stage').classList.toggle('wide', p!=='overview');
+  $('stage').classList.add('wide');
   renderTabs();
   if (p==='overview') renderBoard(false);
 }
@@ -1121,6 +1257,54 @@ window.addEventListener('hashchange', function(){ route(); window.scrollTo(0,0);
 greet(); renderRunning(); renderCal(); renderDeadlines(); renderTasks(); renderFeed();
 renderProjects(); renderKanban(); renderTimeline(); renderPerf(); renderGoals(); renderLogosPage();
 route(); renderBoard(false);
+
+/* ---------- bento overview tiles ---------- */
+function weekStart(){ var d = new Date(TODAY); d.setDate(TODAY.getDate()-TODAY.getDay()); return d; }
+function renderTiles(){
+  // nearest delivery
+  var up = CLIENTS.filter(function(c){ return c.due >= TODAY; }).sort(function(a,b){ return a.due-b.due; });
+  var n = up[0], dd = daysBetween(TODAY, n.due);
+  $('tNext').innerHTML = '<span class="lbl">أقرب تسليم</span><span class="num">'+(dd===0?'اليوم':dd)+(dd>0?'<small>'+(dd===1?'يوم':(dd===2?'يومان':'أيام'))+'</small>':'')+'</span>'+
+    '<span class="what">'+esc(n.next)+'</span><span class="who">'+icon(n)+esc(n.name)+' · '+n.due.getDate()+' '+MONTHS[n.due.getMonth()]+'</span>';
+  // pulse
+  var ws = weekStart(), we = new Date(ws); we.setDate(ws.getDate()+6);
+  var wk = CLIENTS.filter(function(c){ return c.due >= ws && c.due <= we; });
+  var late = CLIENTS.filter(function(c){ return c.status==='late'; }).length, warn = CLIENTS.filter(function(c){ return c.status==='warn'; }).length;
+  var C = 2*Math.PI*38, on = 86;
+  $('tPulse').innerHTML = '<div class="tile-h"><b>نبض المحفظة</b><a href="#performance">الأداء ←</a></div><div class="pulse-body"><div class="pring"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#EFEDE9" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#E59758" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-on/100)).toFixed(1)+'"/></svg><div><b>'+on+'%</b><small>في الموعد</small></div></div>'+
+    '<div class="pstats"><div class="pstat"><span><i style="--c:#1A1833"></i>مشاريع نشطة</span><b>'+CLIENTS.length+'</b></div><div class="pstat"><span><i style="--c:#E59758"></i>تسليمات الأسبوع</span><b>'+wk.length+'</b></div><div class="pstat"><span><i style="--c:#B3261E"></i>متأخر</span><b>'+late+'</b></div></div></div>';
+  // today
+  var done = TASKS.filter(function(t){ return t.done; }).length;
+  var list = TASKS.slice().sort(function(a,b){ return a.done-b.done; });
+  $('tToday').innerHTML = '<div class="tile-h"><b>مهام اليوم</b><a href="#tasks">كل المهام ←</a></div>'+
+    '<div class="tt-prog"><span>'+done+' من '+TASKS.length+' منجزة</span><div class="bar"><i style="width:'+Math.round(done/TASKS.length*100)+'%;--c:#2F8A63"></i></div></div><div class="tt-list">'+
+    list.map(function(t){ var c = BY[t.c]; return '<div class="tt'+(t.done?' done':'')+'"><button type="button" class="check" data-t="'+t.id+'" aria-pressed="'+t.done+'" aria-label="'+(t.done?'إلغاء إنجاز':'إنجاز')+' '+esc(t.t)+'">'+I.check+'</button>'+icon(c)+'<span class="tx">'+esc(t.t)+'</span><span class="tm">'+esc(t.time)+'</span></div>'; }).join('')+'</div>';
+  // status
+  var ok = CLIENTS.length-late-warn, tot = CLIENTS.length;
+  var attn = CLIENTS.filter(function(c){ return c.status!=='ok'; }).sort(function(a,b){ return (a.status==='late'?0:1)-(b.status==='late'?0:1); });
+  $('tStatus').innerHTML = '<div class="tile-h"><b>حالة المشاريع</b><small>'+tot+' مشاريع</small></div>'+
+    '<div class="stack"><i style="flex:'+ok+';--c:#2F8A63"></i><i style="flex:'+warn+';--c:#E59758"></i><i style="flex:'+late+';--c:#B3261E"></i></div>'+
+    '<div class="legend"><span><i style="--c:#2F8A63"></i>على المسار <b>'+ok+'</b></span><span><i style="--c:#E59758"></i>متابعة <b>'+warn+'</b></span><span><i style="--c:#B3261E"></i>متأخر <b>'+late+'</b></span></div>'+
+    '<div class="attn">'+attn.map(function(c){ return '<button type="button" data-open="'+c.id+'">'+icon(c)+'<span>'+esc(c.name)+' · '+esc(c.next)+'</span>'+pill(c.status)+'</button>'; }).join('')+'</div>';
+  // phases
+  $('tPhases').innerHTML = '<div class="tile-h"><b>مراحل العمل</b><small>منهجية آماد</small></div><div class="phs">'+
+    PHASES.map(function(p,i){ var cs = CLIENTS.filter(function(c){ return c.phase===i+1; }); var mx = Math.max.apply(null,[1,2,3,4].map(function(k){ return CLIENTS.filter(function(c){return c.phase===k;}).length; }));
+      return '<div class="ph-col'+(cs.length===mx?' now':'')+'"><b>'+cs.length+'</b><small>'+p+'</small><div class="ph-icons">'+cs.map(function(c){ return '<button type="button" data-open="'+c.id+'" title="'+esc(c.name)+'" aria-label="'+esc(c.name)+'">'+icon(c)+'</button>'; }).join('')+'</div></div>'; }).join('')+'</div>';
+  // week
+  var days = '', items = [];
+  for (var i=0;i<7;i++){ var d = new Date(ws); d.setDate(ws.getDate()+i); var hits = CLIENTS.filter(function(c){ return sameDay(c.due,d); }); hits.forEach(function(c){ items.push([c,d]); });
+    days += '<div class="wkd'+(sameDay(d,TODAY)?' today':'')+(d.getDay()>=5?' off':'')+'">'+WD_S[d.getDay()]+'<b>'+d.getDate()+'</b>'+(hits.length?'<i style="--dot:'+STATUS[hits[0].status].dot+'"></i>':'<i style="--dot:transparent"></i>')+'</div>'; }
+  $('tWeek').innerHTML = '<div class="tile-h"><b>هذا الأسبوع</b><a href="#calendar">التقويم ←</a></div><div class="wk-strip">'+days+'</div><div class="wk-list">'+
+    (items.length ? items.map(function(x){ return '<div class="wk-item">'+icon(x[0])+'<span>'+esc(x[0].next)+'</span><em>'+WD[x[1].getDay()]+'</em></div>'; }).join('') : '<div class="wk-item"><span style="color:var(--muted)">لا تسليمات هذا الأسبوع.</span></div>')+'</div>';
+}
+document.querySelector('.bov').addEventListener('click', function(e){
+  var o = e.target.closest('[data-open]'); if (o){ openClient(o.dataset.open); return; }
+  var b = e.target.closest('.t-today [data-t]'); if (!b) return;
+  TASKS.forEach(function(t){ if (t.id===b.dataset.t) t.done = !t.done; });
+  try { var m={}; TASKS.forEach(function(t){ m[t.id]=t.done; }); localStorage.setItem('amaad-done', JSON.stringify(m)); } catch(err){}
+  renderTiles(); renderTasks();
+});
+renderTiles();
 initCapabilities();
 /* ---------- frosted glass scrollbars ---------- */
 (function(){
