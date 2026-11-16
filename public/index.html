@@ -109,17 +109,18 @@ svg{display:block}
 /* ============ BOARD ============ */
 .board{background:var(--night);border-radius:22px;padding:12px 12px 10px;position:relative}
 .board-top{height:34px;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 6px 6px}
-.live{display:flex;align-items:center;gap:8px;color:rgba(243,236,227,.72);font-size:12px;margin-inline-end:auto;padding-inline-start:150px}
+.live{display:flex;align-items:center;gap:8px;color:rgba(243,236,227,.72);font-size:12px;margin-inline-end:auto}
 .live i{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(229,151,88,.6);animation:pulse 2.4s infinite}
 .live.paused i{animation:none;background:rgba(243,236,227,.4)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,151,88,.55)}70%{box-shadow:0 0 0 8px rgba(229,151,88,0)}100%{box-shadow:0 0 0 0 rgba(229,151,88,0)}}
 .bbtn{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--paper);box-shadow:inset 0 0 0 1px rgba(243,236,227,.2);transition:background .2s}
 .bbtn:hover{background:rgba(243,236,227,.1)}
 .bcount{font-size:12px;color:rgba(243,236,227,.7);min-width:34px;text-align:center}
-.sheet{background:var(--card);border-radius:16px;position:relative;padding:52px 30px 26px;min-height:300px}
+.sheet{background:var(--card);border-radius:16px;position:relative;padding:28px 30px 26px;min-height:300px}
 .sheet::before{content:"";position:absolute;top:0;right:28px;left:28px;height:3px;border-radius:0 0 3px 3px;background:var(--tint);transition:background .5s var(--ease)}
-.badge{position:absolute;top:-40px;right:22px;width:132px;height:74px;border-radius:16px;background:var(--card);box-shadow:0 0 0 5px var(--night);display:grid;place-items:center;padding:10px 14px;z-index:2}
-.badge{--lh:50px}.badge img{max-width:100%;max-height:var(--lh);object-fit:contain}
+.s-head{display:flex;align-items:center;gap:16px;margin-bottom:4px}
+.badge{width:76px;height:76px;flex:none;border-radius:18px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;padding:10px}
+.badge{--lh:56px}.badge img{max-width:100%;max-height:var(--lh);object-fit:contain}
 .lg-crop{display:block;position:relative;overflow:hidden;direction:ltr;width:min(100%, calc(var(--lh,40px) * 2.354));height:auto}
 .lg-crop img{display:block;max-height:none!important;height:auto!important}
 img.to-dark{filter:brightness(0)}
@@ -415,7 +416,7 @@ img.boxed{border-radius:8px}
   .hello{margin-bottom:16px}
   #v-overview.on{display:flex;flex-direction:column;height:100%}
   #v-overview .board{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
-  #v-overview .sheet{flex:1 1 auto;min-height:0;padding-top:46px;padding-bottom:20px;display:flex;flex-direction:column;justify-content:center}
+  #v-overview .sheet{flex:1 1 auto;min-height:0;padding-top:26px;padding-bottom:22px;display:flex;flex-direction:column;justify-content:center}
   #v-overview .sec-head{margin:10px 0 4px}
   #v-overview .sec-head h2{font-size:13px;font-weight:500;color:var(--muted)}
   #v-overview .marquee{flex:none}
@@ -460,8 +461,7 @@ img.boxed{border-radius:8px}
   .sheet{padding:44px 18px 20px}
   #liveTxt{display:none}
   .sheet-grid{grid-template-columns:minmax(0,1fr);gap:22px}
-  .live{padding-inline-start:120px}
-  .badge{width:112px;height:64px;right:14px;top:-40px}
+  .badge{width:60px;height:60px}
   .cname{font-size:26px}
   .marquee{margin:0 -16px;padding:4px 16px}
 }
@@ -536,11 +536,10 @@ img.boxed{border-radius:8px}
                 <button class="bbtn" type="button" id="bNext" aria-label="العميل التالي"><svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
               </div>
               <div class="sheet" id="sheet">
-                <div class="badge" id="badge"></div>
                 <div class="sheet-grid" id="sheetGrid">
                   <div>
-                    <div class="eyebrow" id="sDesc"></div>
-                    <div class="cname" id="sName"></div>
+                    <div class="s-head"><div class="badge" id="badge"></div><div><div class="eyebrow" id="sDesc"></div>
+                    <div class="cname" id="sName"></div></div></div>
                     <div class="chips" id="sTags"></div>
                     <div class="steps" id="sSteps"></div>
                   </div>
@@ -811,7 +810,7 @@ function renderBoard(anim){
   var c = CLIENTS[S.idx];
   var apply = function(){
     var sh = $('sheet'); sh.style.setProperty('--tint', c.tint); sh.style.setProperty('--tint-soft', c.soft);
-    $('badge').innerHTML = logo(c);
+    $('badge').innerHTML = icon(c);
     $('sDesc').textContent = c.desc;
     $('sName').textContent = c.name;
     $('sTags').innerHTML = c.services.map(function(s){ return '<span class="chip tinted">'+esc(s)+'</span>'; }).join('');
