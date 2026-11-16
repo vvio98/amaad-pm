@@ -6,7 +6,8 @@
 <title>آماد · إدارة المشاريع</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<script>(function(){try{var l=localStorage.getItem('amaad-lang')||'ar',t=localStorage.getItem('amaad-theme')||'light',h=document.documentElement;h.lang=l;h.dir=l==='en'?'ltr':'rtl';h.setAttribute('data-theme',t);}catch(e){}})();</script>
 <style>
 :root{
   --canvas:#E7E4DF; --shell:#F4F2EE; --card:#FFFFFF; --line:#ECE9E4; --line-2:#E0DCD5;
@@ -178,7 +179,7 @@ img.to-dark{filter:brightness(0)}
 .track{display:flex;gap:14px;width:max-content;animation:roll 70s linear infinite}
 .marquee:hover .track,.marquee:focus-within .track,.marquee.hold .track{animation-play-state:paused}
 @keyframes roll{from{transform:translateX(0)}to{transform:translateX(calc(50% + 7px))}}
-.pcard{width:236px;height:auto;gap:0;flex:none;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;text-align:right;background:rgba(255,255,255,.75);color:var(--ink);position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s}
+.pcard{width:236px;height:auto;gap:0;flex:none;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;text-align:start;background:rgba(255,255,255,.75);color:var(--ink);position:relative;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .3s var(--ease),box-shadow .3s}
 .pcard:hover{transform:translateY(-2px);box-shadow:0 0 0 1px var(--b),0 10px 24px rgba(26,24,51,.07)}
 .pcard[aria-current="true"]{box-shadow:0 0 0 2px var(--b)}
 .pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;opacity:.7;background:linear-gradient(90deg,var(--b2),var(--b))}
@@ -294,7 +295,7 @@ img.boxed{border-radius:8px}
 .seg em{font-style:normal;font-size:11px;color:var(--soft)}
 
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px 18px;padding-top:6px}
-.folder{position:relative;aspect-ratio:1.08/1;display:block;width:100%;text-align:right;transition:transform .35s var(--ease)}
+.folder{position:relative;aspect-ratio:1.08/1;display:block;width:100%;text-align:start;transition:transform .35s var(--ease)}
 .folder:hover{transform:translateY(-4px)}
 .f-tab{position:absolute;top:0;right:0;width:42%;height:22%;border-radius:18px 18px 0 0;background:var(--b)}
 .f-tab::after{content:"";position:absolute;left:-22px;bottom:0;width:30px;height:60%;background:var(--b);clip-path:polygon(100% 0,100% 100%,0 100%);border-top-right-radius:12px}
@@ -315,7 +316,7 @@ img.boxed{border-radius:8px}
 .f-ico img{width:26px;height:26px;object-fit:contain}
 .f-sub{font-size:12.5px;opacity:.9;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .f-date{margin-top:auto;font-size:12px;opacity:.92}
-.proj{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:18px;background:var(--card);display:flex;flex-direction:column;gap:12px;text-align:right;transition:box-shadow .25s,transform .3s var(--ease);cursor:pointer}
+.proj{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:18px;background:var(--card);display:flex;flex-direction:column;gap:12px;text-align:start;transition:box-shadow .25s,transform .3s var(--ease);cursor:pointer}
 .proj:hover{box-shadow:0 0 0 1px var(--line-2),0 10px 28px rgba(26,24,51,.07);transform:translateY(-2px)}
 .proj-top{display:flex;justify-content:space-between;align-items:flex-start}
 .plogo-lg{width:112px;height:56px;border-radius:14px;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;padding:8px 12px;background:#fff;position:relative}
@@ -370,13 +371,13 @@ img.boxed{border-radius:8px}
 .trend{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
 .trend.up{color:var(--green)} .trend.down{color:var(--red)}
 .lrow{display:grid;grid-template-columns:130px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:9px 0;font-size:13px}
-.lrow b{text-align:left;font-weight:600}
+.lrow b{text-align:end;font-weight:600}
 .lrow .bar{height:8px}
 .crow{display:grid;grid-template-columns:56px minmax(0,1fr) 40px;gap:12px;align-items:center;padding:8px 0;font-size:13px}
 .crow .tiny{width:56px;height:30px;border-radius:8px;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;padding:3px 5px;background:#fff}
 .crow .tiny{--lh:22px}.crow .tiny img{max-width:100%;max-height:var(--lh);object-fit:contain}
 .crow .tiny .wm{font-size:9px}
-.crow b{text-align:left;font-weight:600}
+.crow b{text-align:end;font-weight:600}
 .okr{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:26px;margin-bottom:12px}
 .okr-h{display:flex;gap:16px;align-items:center}
 .okr-h small{color:var(--muted);font-size:12px}
@@ -459,7 +460,7 @@ img.boxed{border-radius:8px}
 .legend i{width:7px;height:7px;border-radius:50%;background:var(--c)}
 .legend b{color:var(--ink)}
 .attn{display:flex;flex-direction:column;gap:6px;overflow:auto;min-height:0}
-.attn button{display:flex;align-items:center;gap:10px;text-align:right;padding:6px 8px;border-radius:10px;background:var(--shell);font-size:12.5px}
+.attn button{display:flex;align-items:center;gap:10px;text-align:start;padding:6px 8px;border-radius:10px;background:var(--shell);font-size:12.5px}
 .attn button:hover{background:var(--line-2)}
 .attn img{width:22px;height:22px;object-fit:contain;flex:none}
 .attn span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -601,7 +602,7 @@ img.boxed{border-radius:8px}
 .mega-in{background:#F4F2EE;border-radius:22px;padding:12px;display:flex;flex-direction:column;min-height:0;position:relative}
 .mega-in .bov{flex:1;min-height:0}
 /* board tile becomes light */
-.t-board .board{background:#fff!important;box-shadow:0 0 0 1px var(--line)}
+.t-board .board{background:var(--card)!important;box-shadow:0 0 0 1px var(--line)}
 .t-board .live{color:var(--muted)}
 .t-board .bbtn{color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
 .t-board .bbtn:hover{background:var(--shell)}
@@ -631,11 +632,11 @@ img.boxed{border-radius:8px}
 .panel-body:has(#v-overview.on){padding:0!important}
 #v-overview .mega{border-radius:24px;margin:6px;padding:12px 10px 10px}
 #v-overview .mega .hello{padding:0 10px 12px}
-#v-overview .mega-in{padding:10px;background:#F4F2EE;border-radius:20px}
+#v-overview .mega-in{padding:10px;background:var(--shell);border-radius:20px}
 #v-overview .mega-in .tile{box-shadow:0 0 0 1px var(--line)}
 #v-overview .mega-in .t-run,#v-overview .mega-in .t-board{box-shadow:none}
 @media (max-width:1100px){ .panel-body:has(#v-overview.on){padding:0!important} }
-#v-overview .pcard{background:#fff}
+#v-overview .pcard{background:var(--card)}
 #v-overview .marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
 
 /* board: no boxed panels, content sits directly on the white board */
@@ -643,7 +644,7 @@ img.boxed{border-radius:8px}
 .bd-side{gap:18px}
 .bd-next{justify-content:flex-end}
 
-.t-next{background:#fff!important;box-shadow:0 0 0 1px var(--line)!important}
+.t-next{background:var(--card)!important;box-shadow:0 0 0 1px var(--line)!important}
 .t-next::after{display:none!important}
 .t-next .lbl{color:var(--muted)!important;font-weight:500}
 .t-next .num{color:var(--ink)!important}
@@ -673,7 +674,7 @@ img.boxed{border-radius:8px}
 .panel-head .circle:hover{background:rgba(243,236,227,.08)}
 .panel-head .circle .ping{box-shadow:0 0 0 2px var(--night)}
 .panel-head .demo{color:rgba(243,236,227,.7);border-color:rgba(243,236,227,.25)}
-.panel-body{background:#fff;margin:0 10px 10px;border-radius:18px}
+.panel-body{background:var(--card);margin:0 10px 10px;border-radius:18px}
 /* overview: the old navy mega frame becomes plain white */
 .panel-body:has(#v-overview.on){padding:18px 20px!important}
 #v-overview .mega{background:transparent!important;padding:0!important;margin:0!important;border-radius:0!important;overflow:visible}
@@ -687,7 +688,7 @@ img.boxed{border-radius:8px}
 
 /* ===== team v2 ===== */
 .av{background:color-mix(in srgb,var(--c) 12%,#fff)!important;color:var(--c)!important;font-weight:700;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 18%,transparent)}
-.team-stack{display:flex!important;align-items:center;gap:12px;padding:5px 5px 5px 16px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line);text-decoration:none;transition:box-shadow .2s var(--ease)}
+.team-stack{display:flex!important;align-items:center;gap:12px;padding:5px 5px 5px 16px;border-radius:999px;background:var(--card);box-shadow:0 0 0 1px var(--line);text-decoration:none;transition:box-shadow .2s var(--ease)}
 .team-stack:hover{box-shadow:0 0 0 1px var(--line),0 6px 18px rgba(26,24,51,.07)}
 .team-stack .avs{display:flex;align-items:center}
 .team-stack .av{width:36px!important;height:36px!important;font-size:11px!important;margin-inline-start:-7px;letter-spacing:-.5px;box-shadow:0 0 0 2.5px #fff!important}
@@ -698,9 +699,9 @@ img.boxed{border-radius:8px}
 .page-head:has(#teamView){display:flex;justify-content:space-between;align-items:center}
 .seg{display:inline-flex;padding:3px;border-radius:999px;box-shadow:0 0 0 1px var(--line)}
 .seg button{border:0;background:none;font:inherit;font-size:12.5px;padding:6px 14px;border-radius:999px;color:var(--muted);cursor:pointer}
-.seg button.on{background:#fff;color:var(--ink);box-shadow:0 0 0 1px var(--line),0 1px 3px rgba(0,0,0,.05)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line),0 1px 3px rgba(0,0,0,.05)}
 .team-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;gap:14px!important}
-.member{position:relative;background:#fff;border-radius:18px!important;padding:44px 16px 16px!important;gap:6px!important;transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
+.member{position:relative;background:var(--card);border-radius:18px!important;padding:44px 16px 16px!important;gap:6px!important;transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
 .member:hover{box-shadow:0 0 0 1px var(--line),0 10px 26px rgba(26,24,51,.07);transform:translateY(-2px)}
 .member .m-top{position:absolute;inset:12px 12px auto 12px;display:flex;justify-content:space-between;align-items:center;color:#B9B4AC}
 .member .m-top .m-dot{width:8px;height:8px;border-radius:50%;background:#2F8A63;box-shadow:0 0 0 3px #E6F3EC}
@@ -802,6 +803,70 @@ img.boxed{border-radius:8px}
   .view.on{animation:none}
   .live i{animation:none}
 }
+/* ===== typography tokens ===== */
+:root{
+  --h1:96px/116px; --h2:60px/60px; --h3:48px/48px; --h4:36px/40px; --h5:24px/32px; --h6:20px/28px;
+  --sub1:16px/24px; --sub2:14px/20px; --body1:16px/24px; --body2:14px/20px; --cap1:12px/16px; --cap2:12px/16px; --btn1:16px/24px; --btn2:14px/20px;
+  --font-en:"Thmanyah Sans","IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif;
+}
+html[lang=en]{--font:var(--font-en)}
+body{font:400 var(--body2) var(--font)}
+.page-head h1,.hello h1,#v-overview .hello h1{font:600 var(--h5) var(--font)!important;letter-spacing:-.2px}
+.page-head p,.hello p{font:400 var(--body2) var(--font)!important}
+.bd-name b{font:700 var(--h4) var(--font)!important;letter-spacing:-.4px}
+.tile-h b,.t-run-head span,.dl-head b,.stat-top,.sec-head h2{font:600 var(--sub2) var(--font)!important}
+.tile-h small,.tile-h a,.more,.eyebrow,.bn-l,.lbl,.demo,.crumb,.tab-hint,.rail-label{font-family:var(--font)!important}
+.seg button,.soft-btn,.upbtn,button.tab-add{font:600 var(--btn2) var(--font)}
+.chip,.m-role,.member .who span,small{font-family:var(--font)}
+.member b{font:600 var(--sub1) var(--font)!important}
+
+/* ===== head toggles ===== */
+.tgl{height:38px;min-width:38px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:600 var(--cap1) var(--font);color:var(--paper);box-shadow:0 0 0 1px rgba(243,236,227,.22);transition:background .2s}
+.tgl:hover{background:rgba(243,236,227,.08)}
+.tgl svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tgl .sun{display:none} html[data-theme=dark] .tgl .sun{display:block} html[data-theme=dark] .tgl .moon{display:none}
+
+/* ===== LTR fixes ===== */
+html[dir=ltr] .tip{right:auto;left:calc(100% + 10px)}
+html[dir=ltr] .ico.flip, html[dir=ltr] .bbtn svg, html[dir=ltr] .more svg, html[dir=ltr] .crumb svg, html[dir=ltr] #calPrev svg, html[dir=ltr] #calNext svg{transform:scaleX(-1)}
+html[lang=en] .tl-now::before{content:"Today"}
+html[dir=ltr] .f-paper{right:auto;left:12%}
+
+/* ===== dark mode ===== */
+html[data-theme=dark]{
+  --canvas:#0C0B17; --shell:#13121F; --card:#1B1A2C; --line:#2A2840; --line-2:#36344F;
+  --ink:#F1EEF7; --ink-2:#CDC9DC; --muted:#9C99B2; --soft:#6F6C88; --track:#2C2A42;
+  --orange-soft:rgba(229,151,88,.14); --mauve-soft:rgba(190,110,160,.16); --sand-soft:rgba(226,190,186,.12); --night-soft:rgba(160,155,220,.12);
+  --green:#4CB487; --green-soft:rgba(76,180,135,.15); --red:#E5675E; --red-soft:rgba(229,103,94,.15);
+  color-scheme:dark;
+}
+html[data-theme=dark] body{background:var(--canvas)}
+html[data-theme=dark] .panel{background:#07060F!important}
+html[data-theme=dark] .panel-body{background:var(--shell)!important}
+html[data-theme=dark] .mark{box-shadow:0 0 0 1px var(--line)}
+html[data-theme=dark] .rail-btn:hover,html[data-theme=dark] .tab:hover,html[data-theme=dark] .tab-add:hover{background:rgba(255,255,255,.06)}
+html[data-theme=dark] .rail-btn[aria-current="page"],html[data-theme=dark] .tab[aria-current="true"]{box-shadow:0 0 0 1px var(--line)}
+html[data-theme=dark] .avatar{background:#2A2840;color:var(--ink);box-shadow:0 0 0 3px var(--shell)}
+html[data-theme=dark] .tile,html[data-theme=dark] .t-board .board,html[data-theme=dark] .t-next,html[data-theme=dark] #v-overview .pcard,
+html[data-theme=dark] .member,html[data-theme=dark] .team-stack,html[data-theme=dark] .seg button.on,html[data-theme=dark] .stat,html[data-theme=dark] .okr,
+html[data-theme=dark] .lcard,html[data-theme=dark] .cal,html[data-theme=dark] .dl,html[data-theme=dark] .kcol,html[data-theme=dark] .tk,html[data-theme=dark] .tl,
+html[data-theme=dark] .sheet{background:var(--card)!important}
+html[data-theme=dark] .team-stack .av{box-shadow:0 0 0 2.5px var(--card)!important}
+html[data-theme=dark] .team-stack .av.plus{background:#2A2840!important;color:var(--ink)!important}
+html[data-theme=dark] .av{background:color-mix(in srgb,var(--c) 28%,#1B1A2C)!important;color:color-mix(in srgb,var(--c) 45%,#fff)!important}
+html[data-theme=dark] .ct:hover{background:rgba(255,255,255,.06)}
+html[data-theme=dark] .gthumb{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));border-color:rgba(255,255,255,.18)}
+html[data-theme=dark] img.to-dark{filter:brightness(0) invert(1)}
+
+html[data-theme=dark] .st.done .n,html[data-theme=dark] .day.today,html[data-theme=dark] .wkd.today,html[data-theme=dark] .tk.done .check,html[data-theme=dark] .tt.done .check,
+html[data-theme=dark] .filt button[aria-pressed="true"] em,html[data-theme=dark] .addrow button,html[data-theme=dark] .upbtn{background:#ECE8F4!important;color:#1A1833!important}
+html[data-theme=dark] .wkd.today *{color:#1A1833!important}
+html[data-theme=dark] .bt.done i,html[data-theme=dark] .st.done::before{background:#CFCBE0!important}
+html[data-theme=dark] [style*="--c:#1A1833"]{--c:#CFCBE0!important}
+html[data-theme=dark] .tip,html[data-theme=dark] .toast{background:#2A2840}
+
+html[dir=ltr] .f-tab{right:auto;left:0}
+html[dir=ltr] .f-tab::after{left:auto;right:-22px;transform:scaleX(-1)}
 </style>
 </head>
 <body>
@@ -835,6 +900,8 @@ img.boxed{border-radius:8px}
         <header class="panel-head">
           <div class="crumb">آماد <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg><b id="crumb"></b></div>
           <div class="head-tools">
+            <button class="tgl" type="button" id="langBtn" data-notr aria-label="Language"></button>
+            <button class="tgl" type="button" id="themeBtn" aria-label="الوضع الداكن"><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
             <span class="demo">بيانات توضيحية</span>
             <button class="circle" type="button" aria-label="الرسائل"><svg class="ico sm" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5A8 8 0 1 1 21 12z"/></svg></button>
             <button class="circle" type="button" aria-label="التنبيهات"><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg><span class="ping"></span></button>
@@ -1005,6 +1072,93 @@ img.boxed{border-radius:8px}
 
 /* ---------- data ---------- */
 var TODAY = new Date(2026, 10, 16);
+/* ===== i18n: Arabic source, English via dictionary ===== */
+var EN = {
+'آماد · إدارة المشاريع':'Amaad · Project Management','آماد':'Amaad','القائمة':'Menu','القائمة الرئيسية':'Main menu','الإدارة':'Admin','حسابي':'My account',
+'نظرة عامة':'Overview','المشاريع':'Projects','المهام':'Tasks','التقويم':'Calendar','الأداء':'Performance','الأهداف':'Goals','الفريق':'Team','شعارات العملاء':'Client logos','الإعدادات · قريبًا':'Settings · soon',
+'المشاريع المثبتة':'Pinned projects','تثبيت مشروع آخر':'Pin another project','كل المشاريع مثبتة':'All projects are pinned','تم تثبيت':'Pinned',
+'بيانات توضيحية':'Sample data','الرسائل':'Messages','التنبيهات':'Notifications','بحث':'Search',
+'صباح الخير':'Good morning','مساء الخير':'Good evening','فريق آماد':'Amaad team','هذه نظرة سريعة على مشاريعكم':'A quick look at your projects',
+'السبورة · عرض تلقائي':'Board · auto play','السبورة · متوقف':'Board · paused','إيقاف العرض التلقائي':'Pause auto play','تشغيل العرض التلقائي':'Start auto play','العميل السابق':'Previous client','العميل التالي':'Next client',
+'مرحلة العمل':'Work phase','التسليم القادم':'Next delivery','الإنجاز':'Progress','المشاريع الجارية':'Active projects','عرض الكل':'View all',
+'أقرب تسليم':'Next due','نبض المحفظة':'Portfolio pulse','مشاريع نشطة':'Active projects','تسليمات الأسبوع':'This week’s deliveries','تسليمات هذا الأسبوع':'Deliveries this week','متأخر':'Late','تحتاج متابعة':'Needs follow-up','يحتاج متابعة':'Needs follow-up','متابعة':'Follow-up','على المسار':'On track','مكتمل':'Completed',
+'مهام اليوم':'Today’s tasks','كل المهام':'All tasks','حالة المشاريع':'Project status','مراحل العمل':'Work phases','منهجية آماد':'Amaad method','هذا الأسبوع':'This week','لا تسليمات هذا الأسبوع.':'No deliveries this week.',
+'نفهم':'Understand','نبتكر':'Create','ننفّذ':'Execute','نقيس':'Measure',
+'كل عملاء آماد ومرحلة كل مشروع.':'All Amaad clients and each project’s phase.','تصفية المشاريع':'Filter projects','الكل':'All','مفتوحة':'Open','منجزة':'Done',
+'على منهجية آماد: نفهم، نبتكر، ننفّذ، نقيس.':'Following the Amaad method: understand, create, execute, measure.','طريقة العرض':'View','اللوحة':'Board','الجدول الزمني':'Timeline','لا توجد مهام هنا.':'No tasks here.','إلغاء إنجاز':'Mark not done','إنجاز':'Mark done','بدون وقت':'No time',
+'مواعيد التسليم لكل المشاريع. اضغط على أي يوم لعرض تسليماته.':'Delivery dates across all projects. Click a day to see its deliveries.','الشهر السابق':'Previous month','الشهر التالي':'Next month','التسليمات القادمة':'Upcoming deliveries','عرض القادمة':'Show upcoming','المتبقي':'Remaining','لا توجد تسليمات في هذا اليوم.':'No deliveries on this day.','تسليمات':'Deliveries on',
+'شبكة':'Grid','قائمة':'List','متاح':'Available','الدور: يُحدد':'Role: TBD','البريد':'Email','واتساب':'WhatsApp','اتصال':'Call','لم يُضف بعد':'not added yet','أعضاء في فريق آماد':'members in the Amaad team','أعضاء':'members',
+'مؤشرات الأداء الرئيسية لشهر نوفمبر.':'Key performance indicators for November.','التسليم في الموعد':'On-time delivery','اعتماد الخطط الشهرية':'Monthly plan approvals','التقارير الشهرية':'Monthly reports','هذا الشهر':'This month','قبل بداية الشهر':'Before month start','لكل عقد مستمر':'Per ongoing contract','الهدف':'Target','رضا العملاء':'Client satisfaction','متوسط جولات التعديل':'Avg. revision rounds','متوسط مدة اعتماد العميل':'Avg. client approval time','جولتان أو أقل':'2 rounds or fewer','يومان':'2 days','يوم':'day','أيام':'days','يومًا':'days','يوم واحد':'1 day','من':'of',
+'عبء العمل على الفريق':'Team workload','من الطاقة الأسبوعية':'of weekly capacity','فوق 100% يعني أن المهام أكثر من طاقة الفريق هذا الأسبوع.':'Above 100% means more work than the team’s capacity this week.','الإنجاز حسب العميل':'Progress by client',
+'إدارة الحسابات':'Account management','كتابة المحتوى':'Copywriting','التصميم':'Design','المونتاج والإخراج':'Editing & directing','التصوير':'Filming',
+'الأهداف والنتائج الرئيسية للربع الرابع.':'Objectives and key results for Q4.','نسلّم كل عمل في وقته وبجودة ثابتة.':'Deliver every piece on time with consistent quality.','نثبت أثر كل حملة بالأرقام.':'Prove every campaign’s impact with numbers.','ننمّي المحفظة ونحافظ على عملائنا.':'Grow the portfolio and keep our clients.',
+'التسليم في الموعد 90%':'On-time delivery 90%','جولات التعديل جولتان أو أقل':'Revision rounds: 2 or fewer','اعتماد الخطة الشهرية قبل بداية الشهر بخمسة أيام':'Monthly plan approved 5 days before month start','تقرير شهري لكل عقد مستمر':'Monthly report for every ongoing contract','قياس قبلي وبعدي لكل حملة':'Before/after measurement for every campaign','3 عملاء جدد هذا الربع':'3 new clients this quarter','تجديد العقود السنوية':'Renew annual contracts','قيد التفاوض':'In negotiation',
+'ارفع شعار كل عميل مرة واحدة، ويظهر في السبورة والمشاريع وكل الصفحات.':'Upload each client’s logo once; it appears on the board, projects and every page.','تحميل حالة الشعارات…':'Loading logo status…','رفع الشعار':'Upload logo','تغيير':'Change','تمت الإضافة':'Added','بدون شعار':'No logo','كل الشعارات مضافة.':'All logos added.','الشعارات مأخوذة من المواقع الرسمية للعملاء. السبيعي الخيرية وجذوة بانتظار ملفات الشعار.':'Logos come from the clients’ official sites.',
+'آخر النشاط':'Recent activity','مهمة جديدة':'New task','عنوان المهمة':'Task title','اكتب المهمة واضغط إضافة':'Type a task and press Add','إضافة':'Add','أُضيفت المهمة إلى':'Task added to',
+'مكنون':'Maknoon','إثراء المتون':'Ithraa Al-Mutoon','السبيعي الخيرية':'Al-Subaie Charity','فتاة العشرين':'Fatat Al-Ishreen','نقلة':'Naqla','جذوة':'Jathwah','نورة الملاحي':'Norah Al-Mullahi',
+'الجمعية الخيرية لتحفيظ القرآن الكريم بالرياض':'Charitable Society for Quran Memorization, Riyadh','شركة غير ربحية لتطوير التعليم الشرعي':'Non-profit developing Islamic education','مؤسسة السبيعي الخيرية':'Al-Subaie Charitable Foundation','جمعية فتاة العشرين':'Fatat Al-Ishreen Association','منصة الفرص المهنية في القطاع غير الربحي':'Career platform for the non-profit sector','مؤسسة نورة الملاحي الأهلية':'Norah Al-Mullahi Foundation',
+'عقد سنوي':'Annual contract','يُحدد':'TBD','حملات تسويقية':'Marketing campaigns','برامج':'Programs','إدارة السوشل ميديا':'Social media management','إدارة التسويق':'Marketing management','العلاقات العامة':'Public relations','تفعيل وتبني الكفاءات':'Talent activation & adoption','تصميم مقاطع':'Video design','مونتاج':'Editing','إخراج':'Directing','المحتوى':'Content','بودكاست رقمي':'Digital podcast',
+'اعتماد خطة محتوى ديسمبر':'Approve December content plan','مسودة خطة العلاقات العامة':'PR plan draft','ورشة الفهم مع فريق المؤسسة':'Discovery workshop with the foundation','مونتاج المقطع الثالث':'Edit the third video','التقرير الشهري لنوفمبر':'November monthly report','تأكيد نطاق العمل مع العميل':'Confirm scope with the client','تسجيل الحلقة الثانية':'Record episode two',
+'خطة':'Plan','ورشة':'Workshop','إنتاج':'Production','تقرير':'Report','اجتماع':'Meeting',
+'مراجعة مونتاج المقطع الثالث':'Review the third video edit','اجتماع البريف مع العميل':'Brief meeting with the client','كتابة منشورات الأسبوع':'Write this week’s posts','تجهيز أسئلة ورشة الفهم':'Prepare discovery workshop questions','مراجعة مسودة العلاقات العامة':'Review the PR draft','تجهيز سكربت الحلقة الثانية':'Prepare episode two script',
+'المونتاج':'Editing','مدير الحساب':'Account manager','الاستراتيجية':'Strategy','الإبداع':'Creative','الإنتاج':'Production','التحليل':'Analytics',
+'تم رفع النسخة الثانية من المقطع الثالث للمراجعة':'Second cut of the third video uploaded for review','اعتمد العميل تصاميم منشورات الأسبوع':'Client approved this week’s post designs','اكتمل جمع أرقام التقرير الشهري':'Monthly report figures collected','أُرسلت مسودة خطة العلاقات العامة للمراجعة الداخلية':'PR plan draft sent for internal review','تم حجز الاستوديو لتسجيل الحلقة الثانية':'Studio booked for episode two','قبل ساعة':'1 hour ago','أمس':'Yesterday',
+'اجتماع البريف وتحديد النطاق':'Brief meeting & scoping','أفكار حملة رمضان':'Ramadan campaign ideas','تصاميم منشورات ديسمبر':'December post designs','قياس أداء الحملة السابقة':'Measure last campaign','جلسة أفكار حملة رمضان':'Ramadan ideas session','اجتماع البريف':'Brief meeting','كتابة سكربت الحلقة الثانية':'Write episode two script',
+'اليوم':'Today','يناير':'January','فبراير':'February','مارس':'March','أبريل':'April','مايو':'May','يونيو':'June','يوليو':'July','أغسطس':'August','سبتمبر':'September','أكتوبر':'October','نوفمبر':'November','ديسمبر':'December',
+'الأحد':'Sunday','الإثنين':'Monday','الثلاثاء':'Tuesday','الأربعاء':'Wednesday','الخميس':'Thursday','الجمعة':'Friday','السبت':'Saturday',
+'د. عبدالله صلاح الشهري':'Dr. Abdullah Salah Alshehri','م. مسفر معيض':'Eng. Musfer Muaidh','عبدالإله الوادعي':'Abdulilah Alwadei','محمد بن فهد':'Mohammed bin Fahad','محمد هاني':'Mohammed Hani','محمد أنس':'Mohammed Anas','عبدالله يحيى الشهري':'Abdullah Yahya Alshehri',
+'شعار':'Logo','اعرض':'Show','افتح':'Open','في السبورة':'on the board','عرض':'Show','تسليم':'deliveries','مشاريع':'projects','الفريق ':'Team'
+};
+var EN_EXACT = {'ح':'S','ن':'M','ث':'T','ر':'W','خ':'T','ج':'F','س':'S','ع':'A','عش':'AS','مم':'MM','عو':'AW','مف':'MF','مه':'MH','مأ':'MA','عي':'AY','ص':'AM','م':'PM'};
+var EN_RX = [
+  [/قبل (\d+) دقيقة/g,'$1 min ago'],[/قبل (\d+) ساعات/g,'$1 hours ago'],
+  [/(\d+) من (\d+) منجزة/g,'$1 of $2 done'],[/الهدف (\d+) من (\d+)/g,'Target $1 of $2'],
+  [/متأخر (\d+) أيام/g,'$1 days late'],[/متأخر يوم/g,'1 day late'],[/باقي (\d+) من (\d+) بدون شعار\./g,'$1 of $2 have no logo.'],
+  [/(\d[\d:.]*) ([صم])(?![؀-ۿ])/g,function(m,a,b){return a+' '+(b==='ص'?'AM':'PM');}],
+  [/3\.1 يوم/g,'3.1 days']
+];
+var LANG = (function(){ try{ return localStorage.getItem('amaad-lang')||'ar'; }catch(e){ return 'ar'; } })();
+function trStr(s){
+  if (LANG!=='en' || !s || !/[؀-ۿ←]/.test(s)) return s;
+  var t = s.trim(); if (!t) return s;
+  var lead = s.slice(0, s.indexOf(t)), tail = s.slice(s.indexOf(t)+t.length);
+  if (EN_EXACT[t]) return lead+EN_EXACT[t]+tail;
+  if (EN[t]) return lead+EN[t]+tail;
+  var out = s;
+  EN_RX.forEach(function(r){ out = out.replace(r[0], r[1]); });
+  out = out.replace(TR_RE, function(m){ return EN[m]; });
+  out = out.replace(/،/g, ',').replace(/←/g,'→').replace(/[،]/g, ',');
+  return out;
+}
+var TR_RE = (function(){
+  var keys = Object.keys(EN).filter(function(k){ return k.length>1; }).sort(function(a,b){ return b.length-a.length; });
+  var esc_ = function(k){ return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); };
+  return new RegExp('(?<![\\u0620-\\u065F\\u066E-\\u06D3])(?:'+keys.map(esc_).join('|')+')(?![\\u0620-\\u065F\\u066E-\\u06D3])','g');
+})();
+var TR_ATTRS = ['aria-label','title','placeholder','alt'];
+function trNode(root){
+  if (LANG!=='en') return;
+  if (root.nodeType===3){ if (root.parentElement && root.parentElement.closest('[data-notr]')) return; var v=trStr(root.nodeValue); if (v!==root.nodeValue) root.nodeValue=v; return; }
+  if (root.nodeType!==1 || root.tagName==='SCRIPT' || root.tagName==='STYLE') return;
+  TR_ATTRS.forEach(function(a){ if (root.hasAttribute && root.hasAttribute(a)){ var o=root.getAttribute(a), v=trStr(o); if (v!==o) root.setAttribute(a,v); } });
+  var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT, null), n;
+  while ((n = w.nextNode())){
+    if (n.parentElement && n.parentElement.closest('[data-notr]')) continue;
+    if (n.nodeType===3){ var v2=trStr(n.nodeValue); if (v2!==n.nodeValue) n.nodeValue=v2; }
+    else if (n.tagName!=='SCRIPT' && n.tagName!=='STYLE') TR_ATTRS.forEach(function(a){ if (n.hasAttribute(a)){ var o=n.getAttribute(a), v=trStr(o); if (v!==o) n.setAttribute(a,v); } });
+  }
+}
+function initI18n(){
+  if (LANG!=='en') return;
+  document.title = trStr(document.title);
+  trNode(document.body);
+  new MutationObserver(function(ms){ ms.forEach(function(m){
+    if (m.type==='characterData') trNode(m.target);
+    else if (m.type==='attributes') trNode(m.target.attributes ? m.target : m.target);
+    else m.addedNodes.forEach(trNode);
+  }); }).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:TR_ATTRS});
+}
+
 var MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 var WD = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 var WD_S = ['ح','ن','ث','ر','خ','ج','س'];
@@ -1548,6 +1702,14 @@ function renderTeam(){
     $('teamGrid').classList.toggle('list',b.dataset.v==='list'); }; });
 }
 renderTeam();
+
+(function(){
+  var lb=$('langBtn'); lb.textContent = LANG==='en' ? 'العربية' : 'English';
+  lb.onclick=function(){ try{ localStorage.setItem('amaad-lang', LANG==='en'?'ar':'en'); }catch(e){} location.reload(); };
+  $('themeBtn').onclick=function(){ var h=document.documentElement, d=h.getAttribute('data-theme')==='dark'?'light':'dark'; h.setAttribute('data-theme',d); try{ localStorage.setItem('amaad-theme',d); }catch(e){} };
+  if (LANG==='en') $('themeBtn').setAttribute('aria-label','Dark mode');
+  initI18n();
+})();
 initCapabilities();
 /* ---------- frosted glass scrollbars ---------- */
 (function(){
