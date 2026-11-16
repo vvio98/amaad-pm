@@ -628,14 +628,13 @@ img.boxed{border-radius:8px}
 
 /* keep original working area: frame takes the panel's padding, not the content's space */
 .panel-body:has(#v-overview.on){padding:0!important}
-#v-overview .mega{border-radius:0 0 24px 24px;padding:14px 14px 14px}
+#v-overview .mega{border-radius:0 0 24px 24px;padding:12px 10px 10px}
 #v-overview .mega .hello{padding:0 10px 12px}
-#v-overview .mega-in{padding:0;background:transparent}
-#v-overview .mega-in .tile{box-shadow:none}
+#v-overview .mega-in{padding:10px;background:#F4F2EE;border-radius:20px}
+#v-overview .mega-in .tile{box-shadow:0 0 0 1px var(--line)}
+#v-overview .mega-in .t-run,#v-overview .mega-in .t-board{box-shadow:none}
 @media (max-width:1100px){ .panel-body:has(#v-overview.on){padding:0!important} }
 #v-overview .pcard{background:#fff}
-#v-overview .t-run-head,#v-overview .t-run-head .more{color:rgba(243,236,227,.7)}
-#v-overview .t-run-head small{color:rgba(243,236,227,.45)}
 #v-overview .marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
