@@ -663,6 +663,27 @@ img.boxed{border-radius:8px}
 .member .av{width:72px;height:72px;font-size:22px}
 .member b{font-size:15.5px;font-weight:600}
 .member span{font-size:12.5px;color:var(--muted)}
+
+/* ===== layer 3 (panel) becomes the navy frame; inner content white ===== */
+.panel{background:var(--night)!important;box-shadow:none!important}
+.panel-head{border-bottom:0!important;color:var(--paper)}
+.panel-head .crumb{color:rgba(243,236,227,.6)}
+.panel-head .crumb b{color:#fff}
+.panel-head .circle{color:var(--paper);box-shadow:0 0 0 1px rgba(243,236,227,.22)}
+.panel-head .circle:hover{background:rgba(243,236,227,.08)}
+.panel-head .circle .ping{box-shadow:0 0 0 2px var(--night)}
+.panel-head .demo{color:rgba(243,236,227,.7);border-color:rgba(243,236,227,.25)}
+.panel-body{background:#fff;margin:0 10px 10px;border-radius:18px}
+/* overview: the old navy mega frame becomes plain white */
+.panel-body:has(#v-overview.on){padding:18px 20px!important}
+#v-overview .mega{background:transparent!important;padding:0!important;margin:0!important;border-radius:0!important;overflow:visible}
+#v-overview .mega::before{display:none}
+#v-overview .mega .hello{padding:0 2px 14px!important}
+#v-overview .mega .hello h1{color:var(--ink)!important}
+#v-overview .mega .hello p{color:var(--muted)!important}
+#v-overview .mega-in{padding:0!important;background:transparent!important;border-radius:0!important}
+.team-stack .av{box-shadow:0 0 0 2px #fff!important}
+.team-stack span.more{color:var(--muted)!important}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
