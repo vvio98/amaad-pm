@@ -651,6 +651,18 @@ img.boxed{border-radius:8px}
 .t-next .who{color:var(--ink-2)}
 .t-status .stack{margin:4px 0 0!important}
 .t-status .st-legend{margin-top:auto!important;padding-top:18px}
+
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:600;background:var(--c);flex:none}
+.team-stack{margin-inline-start:auto;display:flex;align-items:center;gap:0}
+.team-stack .av{width:32px;height:32px;font-size:11px;box-shadow:0 0 0 2px rgba(243,236,227,.85);margin-inline-start:-8px;transition:transform .2s var(--ease)}
+.team-stack .av:hover{transform:translateY(-3px)}
+.team-stack span.more{margin-inline-end:16px;color:rgba(243,236,227,.7);font-size:12px}
+.mega .hello{align-items:center!important}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.member{border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:22px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.member .av{width:72px;height:72px;font-size:22px}
+.member b{font-size:15.5px;font-weight:600}
+.member span{font-size:12.5px;color:var(--muted)}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -749,6 +761,7 @@ img.boxed{border-radius:8px}
     <a class="rail-btn" href="#calendar" data-page="calendar"><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor"/><circle cx="12" cy="14.5" r="1" fill="currentColor"/></svg><span class="tip">التقويم</span><span class="sr">التقويم</span></a>
     <a class="rail-btn" href="#performance" data-page="performance"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/></svg><span class="tip">الأداء</span><span class="sr">الأداء</span></a>
     <a class="rail-btn" href="#goals" data-page="goals"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg><span class="tip">الأهداف</span><span class="sr">الأهداف</span></a>
+    <a class="rail-btn" href="#team" data-page="team"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A5 5 0 0 1 21.5 19"/></svg><span class="tip">الفريق</span><span class="sr">الفريق</span></a>
     <div class="rail-sep"></div>
     <div class="rail-label">الإدارة</div>
     <a class="rail-btn" href="#logos" data-page="logos"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg><span class="tip">شعارات العملاء</span><span class="sr">شعارات العملاء</span></a>
@@ -780,6 +793,7 @@ img.boxed{border-radius:8px}
             <div class="hello">
               <h1 id="greet"></h1>
               <p id="greetSub"></p>
+              <a class="team-stack" href="#team" id="teamStack" aria-label="فريق آماد"></a>
             </div>
             <div class="mega-in">
 
@@ -875,6 +889,12 @@ img.boxed{border-radius:8px}
             </div>
           </section>
 
+          <!-- TEAM -->
+          <section class="view" id="v-team" aria-label="الفريق">
+            <div class="page-head"><div><h1>الفريق</h1><p>فريق آماد.</p></div></div>
+            <div class="team-grid" id="teamGrid"></div>
+          </section>
+
           <!-- PERFORMANCE -->
           <section class="view" id="v-performance" aria-label="الأداء">
             <div class="page-head"><div><h1>الأداء</h1><p>مؤشرات الأداء الرئيسية لشهر نوفمبر.</p></div></div>
@@ -948,6 +968,14 @@ var CLIENTS = [
 ];
 var BY = {}; CLIENTS.forEach(function(c){ BY[c.id] = c; c.soft = c.tint + '14'; });
 var PINNED = ['maknon','naqla','fatat20'];
+var TEAM = [
+  {n:'د. عبدالله صلاح الشهري', i:'عش', c:'#1A1833'},
+  {n:'م. مسفر معيض', i:'مم', c:'#5F294A'},
+  {n:'عبدالإله الوادعي', i:'عو', c:'#2B7F64'},
+  {n:'محمد بن فهد', i:'مف', c:'#0D7F9A'},
+  {n:'محمد هاني', i:'مه', c:'#9A5A23'},
+  {n:'محمد أنس', i:'مأ', c:'#626A85'}
+];
 
 var TASKS = [
   {id:'t1', t:'مراجعة مونتاج المقطع الثالث', c:'fatat20', time:'9:30 – 10:30 ص', role:'المونتاج', done:true},
@@ -1374,7 +1402,7 @@ function updateNote(){
 }
 
 /* ---------- routing ---------- */
-var NAMES = {overview:'نظرة عامة', projects:'المشاريع', tasks:'المهام', calendar:'التقويم', performance:'الأداء', goals:'الأهداف', logos:'شعارات العملاء'};
+var NAMES = {overview:'نظرة عامة', projects:'المشاريع', tasks:'المهام', calendar:'التقويم', team:'الفريق', performance:'الأداء', goals:'الأهداف', logos:'شعارات العملاء'};
 function route(){
   var p = (location.hash||'#overview').slice(1); if (!NAMES[p]) p = 'overview';
   S.page = p;
@@ -1439,6 +1467,12 @@ document.querySelector('.bov').addEventListener('click', function(e){
   renderTiles(); renderTasks();
 });
 renderTiles();
+
+function renderTeam(){
+  $('teamStack').innerHTML = '<span class="more">فريق آماد</span>' + TEAM.map(function(m){ return '<span class="av" style="--c:'+m.c+'" title="'+esc(m.n)+'">'+esc(m.i)+'</span>'; }).join('');
+  $('teamGrid').innerHTML = TEAM.map(function(m){ return '<div class="member"><span class="av" style="--c:'+m.c+'">'+esc(m.i)+'</span><b>'+esc(m.n)+'</b><span>الدور: يُحدد</span></div>'; }).join('');
+}
+renderTeam();
 initCapabilities();
 /* ---------- frosted glass scrollbars ---------- */
 (function(){
