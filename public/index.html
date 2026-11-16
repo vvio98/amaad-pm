@@ -684,6 +684,42 @@ img.boxed{border-radius:8px}
 #v-overview .mega-in{padding:0!important;background:transparent!important;border-radius:0!important}
 .team-stack .av{box-shadow:0 0 0 2px #fff!important}
 .team-stack span.more{color:var(--muted)!important}
+
+/* ===== team v2 ===== */
+.av{background:color-mix(in srgb,var(--c) 12%,#fff)!important;color:var(--c)!important;font-weight:700;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 18%,transparent)}
+.team-stack{display:flex!important;align-items:center;gap:12px;padding:5px 5px 5px 16px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line);text-decoration:none;transition:box-shadow .2s var(--ease)}
+.team-stack:hover{box-shadow:0 0 0 1px var(--line),0 6px 18px rgba(26,24,51,.07)}
+.team-stack .avs{display:flex;align-items:center}
+.team-stack .av{width:36px!important;height:36px!important;font-size:11px!important;margin-inline-start:-7px;letter-spacing:-.5px;box-shadow:0 0 0 2.5px #fff!important}
+.team-stack .av:first-child{margin-inline-start:0}
+.team-stack .av.plus{direction:ltr;background:#F3F1EC!important;color:var(--ink)!important;font-size:12px!important;font-weight:600}
+.team-stack .txt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.team-stack .txt b{color:var(--ink);font-weight:600}
+.page-head:has(#teamView){display:flex;justify-content:space-between;align-items:center}
+.seg{display:inline-flex;padding:3px;border-radius:999px;box-shadow:0 0 0 1px var(--line)}
+.seg button{border:0;background:none;font:inherit;font-size:12.5px;padding:6px 14px;border-radius:999px;color:var(--muted);cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 0 0 1px var(--line),0 1px 3px rgba(0,0,0,.05)}
+.team-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;gap:14px!important}
+.member{position:relative;background:#fff;border-radius:18px!important;padding:44px 16px 16px!important;gap:6px!important;transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
+.member:hover{box-shadow:0 0 0 1px var(--line),0 10px 26px rgba(26,24,51,.07);transform:translateY(-2px)}
+.member .m-top{position:absolute;inset:12px 12px auto 12px;display:flex;justify-content:space-between;align-items:center;color:#B9B4AC}
+.member .m-top .m-dot{width:8px;height:8px;border-radius:50%;background:#2F8A63;box-shadow:0 0 0 3px #E6F3EC}
+.member .av{width:68px!important;height:68px!important;font-size:20px!important;margin-bottom:8px}
+.member b{font-size:15px!important}
+.member .m-role{font-size:12.5px;color:var(--muted)}
+.member .m-role.m-na{color:#B9B4AC}
+.member .contacts{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);width:100%;justify-content:center}
+.ct{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 0 1px var(--line);color:var(--ink-2);text-decoration:none;transition:background .15s}
+.ct svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ct:hover{background:#F6F4F0}
+.ct.off{opacity:.35;pointer-events:none}
+.team-grid.list{grid-template-columns:1fr!important;gap:8px!important}
+.team-grid.list .member{flex-direction:row!important;padding:12px 16px!important;text-align:start;gap:14px!important}
+.team-grid.list .member .m-top{display:none}
+.team-grid.list .member .av{width:44px!important;height:44px!important;font-size:14px!important;margin:0}
+.team-grid.list .member .who{flex:1}
+.team-grid.list .member .contacts{width:auto;border:0;margin:0;padding:0}
+.member .who{display:flex;flex-direction:column;gap:3px}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -912,7 +948,7 @@ img.boxed{border-radius:8px}
 
           <!-- TEAM -->
           <section class="view" id="v-team" aria-label="الفريق">
-            <div class="page-head"><div><h1>الفريق</h1><p>فريق آماد.</p></div></div>
+            <div class="page-head"><div><h1>الفريق</h1><p id="teamCount"></p></div><div class="seg" id="teamView"><button class="on" data-v="grid">شبكة</button><button data-v="list">قائمة</button></div></div>
             <div class="team-grid" id="teamGrid"></div>
           </section>
 
@@ -990,12 +1026,13 @@ var CLIENTS = [
 var BY = {}; CLIENTS.forEach(function(c){ BY[c.id] = c; c.soft = c.tint + '14'; });
 var PINNED = ['maknon','naqla','fatat20'];
 var TEAM = [
-  {n:'د. عبدالله صلاح الشهري', i:'عش', c:'#1A1833'},
-  {n:'م. مسفر معيض', i:'مم', c:'#5F294A'},
-  {n:'عبدالإله الوادعي', i:'عو', c:'#2B7F64'},
-  {n:'محمد بن فهد', i:'مف', c:'#0D7F9A'},
-  {n:'محمد هاني', i:'مه', c:'#9A5A23'},
-  {n:'محمد أنس', i:'مأ', c:'#626A85'}
+  {n:'د. عبدالله صلاح الشهري', i:'عش', c:'#1A1833', role:'', email:'', phone:''},
+  {n:'م. مسفر معيض', i:'مم', c:'#8A3D6B', role:'', email:'', phone:''},
+  {n:'عبدالإله الوادعي', i:'عو', c:'#2B7F64', role:'', email:'', phone:''},
+  {n:'محمد بن فهد', i:'مف', c:'#0D7F9A', role:'', email:'', phone:''},
+  {n:'محمد هاني', i:'مه', c:'#B4652A', role:'', email:'', phone:''},
+  {n:'محمد أنس', i:'مأ', c:'#5B6488', role:'', email:'', phone:''},
+  {n:'عبدالله يحيى الشهري', i:'عي', c:'#7A5BB0', role:'', email:'', phone:''}
 ];
 
 var TASKS = [
@@ -1490,8 +1527,25 @@ document.querySelector('.bov').addEventListener('click', function(e){
 renderTiles();
 
 function renderTeam(){
-  $('teamStack').innerHTML = '<span class="more">فريق آماد</span>' + TEAM.map(function(m){ return '<span class="av" style="--c:'+m.c+'" title="'+esc(m.n)+'">'+esc(m.i)+'</span>'; }).join('');
-  $('teamGrid').innerHTML = TEAM.map(function(m){ return '<div class="member"><span class="av" style="--c:'+m.c+'">'+esc(m.i)+'</span><b>'+esc(m.n)+'</b><span>الدور: يُحدد</span></div>'; }).join('');
+  var IC={
+    mail:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',
+    wa:'<svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2z"/></svg>',
+    call:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>'
+  };
+  function av(m,extra){ return '<span class="av'+(extra||'')+'" style="--c:'+m.c+'" title="'+esc(m.n)+'">'+esc(m.i)+'</span>'; }
+  var show=TEAM.slice(0,4);
+  $('teamStack').innerHTML='<span class="avs">'+show.map(function(m){return av(m);}).join('')+(TEAM.length>4?'<span class="av plus">+'+(TEAM.length-4)+'</span>':'')+'</span><span class="txt">فريق آماد · <b>'+TEAM.length+'</b> أعضاء</span>';
+  $('teamCount').textContent=TEAM.length+' أعضاء في فريق آماد';
+  function ct(kind,href,label){ return '<a class="ct'+(href?'':' off')+'" '+(href?'href="'+href+'" target="_blank" rel="noopener"':'')+' title="'+label+(href?'':' · لم يُضف بعد')+'" aria-label="'+label+'">'+IC[kind]+'</a>'; }
+  $('teamGrid').innerHTML=TEAM.map(function(m){
+    var ph=(m.phone||'').replace(/\D/g,'');
+    return '<div class="member"><div class="m-top"><span class="m-dot" title="متاح"></span><span>•••</span></div>'+av(m)+
+      '<div class="who"><b>'+esc(m.n)+'</b><span class="m-role'+(m.role?'':' m-na')+'">'+esc(m.role||'الدور: يُحدد')+'</span></div>'+
+      '<div class="contacts">'+ct('mail',m.email?'mailto:'+m.email:'','البريد')+ct('wa',ph?'https://wa.me/'+ph:'','واتساب')+ct('call',ph?'tel:+'+ph:'','اتصال')+'</div></div>';
+  }).join('');
+  document.querySelectorAll('#teamView button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#teamView button').forEach(function(x){x.classList.toggle('on',x===b);});
+    $('teamGrid').classList.toggle('list',b.dataset.v==='list'); }; });
 }
 renderTeam();
 initCapabilities();
