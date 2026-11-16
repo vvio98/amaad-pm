@@ -641,6 +641,15 @@ img.boxed{border-radius:8px}
 .bd-phase,.bd-glass{background:transparent!important;border:0!important;padding:0!important;border-radius:0!important}
 .bd-side{gap:18px}
 .bd-next{justify-content:flex-end}
+
+.t-next{background:#fff!important;box-shadow:0 0 0 1px var(--line)!important}
+.t-next::after{display:none!important}
+.t-next .lbl{color:var(--muted)!important;font-weight:500}
+.t-next .num{color:var(--ink)!important}
+.t-next .num small{color:#B3261E!important}
+.t-next .who{color:var(--ink-2)}
+.t-status .stack{margin:4px 0 0!important}
+.t-status .st-legend{margin-top:auto!important;padding-top:18px}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -1395,7 +1404,7 @@ function renderTiles(){
   var wk = CLIENTS.filter(function(c){ return c.due >= ws && c.due <= we; });
   var late = CLIENTS.filter(function(c){ return c.status==='late'; }).length, warn = CLIENTS.filter(function(c){ return c.status==='warn'; }).length;
   var C = 2*Math.PI*38, on = 86;
-  $('tPulse').innerHTML = '<div class="tile-h"><b>نبض المحفظة</b><a href="#performance">الأداء ←</a></div><div class="pulse-body"><div class="pring"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#EFEDE9" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#E59758" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-on/100)).toFixed(1)+'"/></svg><div><b>'+on+'%</b></div></div>'+
+  $('tPulse').innerHTML = '<div class="tile-h"><b>نبض المحفظة</b><a href="#performance">الأداء ←</a></div><div class="pulse-body"><div class="pring"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#EFEDE9" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#2F8A63" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-on/100)).toFixed(1)+'"/></svg><div><b>'+on+'%</b></div></div>'+
     '<div class="pstats"><div class="pstat"><span><i style="--c:#1A1833"></i>مشاريع نشطة</span><b>'+CLIENTS.length+'</b></div><div class="pstat"><span><i style="--c:#E59758"></i>تسليمات الأسبوع</span><b>'+wk.length+'</b></div><div class="pstat"><span><i style="--c:#B3261E"></i>متأخر</span><b>'+late+'</b></div></div></div>';
   // today
   var done = TASKS.filter(function(t){ return t.done; }).length;
