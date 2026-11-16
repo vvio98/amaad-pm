@@ -528,6 +528,68 @@ img.boxed{border-radius:8px}
 .t-board .board-top{height:30px;padding-bottom:4px}
 .t-board .board-foot{padding-top:4px}
 .t-board .dots button{padding:6px 3px}
+
+/* board v3 */
+.t-board .board{padding:14px 16px 10px}
+.bd{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:center;color:var(--paper);padding:6px 4px}
+.bd-grid{min-height:0;max-height:100%;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;transition:opacity .25s var(--ease),transform .35s var(--ease)}
+.bd-grid.out{opacity:0;transform:translateY(4px)}
+.bd-main{display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-width:0}
+.bd-id{display:flex;align-items:center;gap:14px}
+.bd-logo{width:68px;height:68px;flex:none;border-radius:20px;background:#fff;display:grid;place-items:center;box-shadow:0 8px 24px -10px rgba(0,0,0,.5)}
+.bd-logo img{width:48px;height:48px;object-fit:contain}
+.bd-name{display:flex;flex-direction:column;min-width:0}
+.bd-desc{font-size:12px;color:rgba(243,236,227,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-name b{font-size:30px;font-weight:700;line-height:1.25;letter-spacing:-.4px}
+.bd-sv{font-size:12.5px;color:rgba(243,236,227,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-st{margin-inline-start:auto;align-self:flex-start}
+.bd-phase{background:rgba(243,236,227,.06);border:1px solid rgba(243,236,227,.1);border-radius:18px;padding:14px 16px}
+.bd-phase-h{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:rgba(243,236,227,.6);margin-bottom:12px}
+.bd-phase-h b{font-size:15px;color:var(--orange);font-weight:700}
+.bd-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.bt{display:flex;flex-direction:column;gap:8px;font-size:12px;color:rgba(243,236,227,.45)}
+.bt i{height:8px;border-radius:999px;background:rgba(243,236,227,.12)}
+.bt.done{color:rgba(243,236,227,.85)} .bt.done i{background:rgba(243,236,227,.85)}
+.bt.now{color:var(--orange);font-weight:700} .bt.now i{background:var(--orange);box-shadow:0 0 14px rgba(229,151,88,.6)}
+.bd-side{display:grid;grid-template-rows:minmax(0,1.1fr) minmax(0,1fr);gap:10px;min-width:0}
+.bd-glass{background:rgba(243,236,227,.06);border:1px solid rgba(243,236,227,.1);border-radius:18px;padding:12px 14px;min-height:0}
+.bd-ring{display:flex;align-items:center;justify-content:center;position:relative}
+.bd-ring svg{transform:rotate(-90deg);height:100%;max-height:108px;width:auto}
+.bd-side{min-height:0}
+.bd-ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.bd-ring b{font-size:24px;font-weight:700}
+.bd-ring span{font-size:11px;color:rgba(243,236,227,.55)}
+.bd-next{display:flex;flex-direction:column;gap:4px}
+.bn-l{font-size:11.5px;color:rgba(243,236,227,.55)}
+.bn-t{font-size:14px;font-weight:600;line-height:1.4}
+.bn-d{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(243,236,227,.75)}
+.bn-d span{display:flex;align-items:center;gap:5px}
+.bn-d em{font-style:normal;background:var(--orange);color:var(--night);font-weight:600;font-size:11px;padding:2px 9px;border-radius:999px}
+/* next tile: calm paper */
+.t-next{background:var(--paper)!important;color:var(--night)!important}
+.t-next::after{background:rgba(229,151,88,.18)!important}
+.t-next .lbl{color:#9A5A23;opacity:1}
+.t-next .num{color:var(--night)}
+.t-next .num small{color:#9A5A23}
+/* status tile */
+.st-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:auto}
+.st-legend div{border-radius:14px;background:var(--shell);padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.st-legend span{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)}
+.st-legend i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.st-legend b{font-size:22px;font-weight:700;line-height:1.2}
+.t-status .stack{height:12px;margin:6px 0 0}
+/* phases tile, apple-style stacks */
+.ph-col{justify-content:space-between;align-items:center;padding:12px 6px!important;gap:10px!important}
+.ph-col .ph-name{font-size:16px;font-weight:700;color:var(--ink)}
+.ph-col.now .ph-name{color:#9A5A23}
+.ph-stack{display:flex;flex-direction:row-reverse;justify-content:center;padding-inline-start:10px}
+.ph-stack button{width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px var(--shell),0 2px 6px rgba(26,24,51,.12);display:grid;place-items:center;margin-inline-start:-10px;transition:transform .2s var(--ease)}
+.ph-col.now .ph-stack button{box-shadow:0 0 0 2px var(--orange-soft),0 2px 6px rgba(26,24,51,.12)}
+.ph-stack button:hover{transform:translateY(-3px);z-index:2}
+.ph-stack img{width:19px;height:19px;object-fit:contain}
+.ph-empty{font-size:11px;color:var(--soft)}
+/* running cards: no colored line */
+.pcard::before{display:none!important}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -553,6 +615,13 @@ img.boxed{border-radius:8px}
   .page-head{margin-bottom:18px}
 }
 @media (min-width:1101px) and (max-height:920px){
+  .bd-name b{font-size:24px}
+  .bd-logo{width:56px;height:56px;border-radius:16px}
+  .bd-logo img{width:40px;height:40px}
+  .bd-main{gap:10px}
+  .bd-phase{padding:10px 14px}
+  .bd-phase-h{margin-bottom:8px}
+  .bd-glass{padding:8px 12px}
   .hello{margin-bottom:12px}
   .hello h1{font-size:22px}
 }
@@ -661,22 +730,22 @@ img.boxed{border-radius:8px}
                 <span class="bcount" id="bCount"></span>
                 <button class="bbtn" type="button" id="bNext" aria-label="العميل التالي"><svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
               </div>
-              <div class="sheet" id="sheet">
-                <div class="sheet-grid" id="sheetGrid">
-                  <div>
-                    <div class="s-head"><div class="badge" id="badge"></div><div><div class="eyebrow" id="sDesc"></div>
-                    <div class="cname" id="sName"></div></div><span id="sStatus2" style="margin-inline-start:auto"></span></div>
-                    <div class="chips" id="sTags"></div>
-                    <div class="steps" id="sSteps"></div>
-                  </div>
-                  <div class="facts">
-                    <div class="fact"><span>الحالة</span><span id="sStatus"></span></div>
-                    <div class="fact"><span>نوع العقد</span><b id="sContract"></b></div>
-                    <div>
-                      <div class="fact" style="margin-bottom:8px"><span>نسبة الإنجاز</span><b id="sPct"></b></div>
-                      <div class="segs" id="sSegs"></div>
+              <div class="bd" id="sheet">
+                <div class="bd-grid" id="sheetGrid">
+                  <div class="bd-main">
+                    <div class="bd-id">
+                      <div class="bd-logo" id="badge"></div>
+                      <div class="bd-name"><span class="bd-desc" id="sDesc"></span><b id="sName"></b><span class="bd-sv" id="sTags"></span></div>
+                      <span id="sStatus2" class="bd-st"></span>
                     </div>
-                    <div class="nextbox" id="sNext"></div>
+                    <div class="bd-phase">
+                      <div class="bd-phase-h"><span>مرحلة العمل</span><b id="sPhaseName"></b></div>
+                      <div class="bd-track" id="sSteps"></div>
+                    </div>
+                  </div>
+                  <div class="bd-side">
+                    <div class="bd-glass bd-ring" id="sRing"></div>
+                    <div class="bd-glass bd-next" id="sNext"></div>
                   </div>
                 </div>
               </div>
@@ -945,17 +1014,17 @@ function openClient(id){
 function renderBoard(anim){
   var c = CLIENTS[S.idx];
   var apply = function(){
-    var sh = $('sheet'); sh.style.setProperty('--tint', c.tint); sh.style.setProperty('--tint-soft', c.soft);
+    var sh = $('sheet'); sh.style.setProperty('--tint', c.tint);
     $('badge').innerHTML = icon(c);
     $('sDesc').textContent = c.desc;
     $('sName').textContent = c.name;
-    $('sTags').innerHTML = c.services.map(function(s){ return '<span class="chip tinted">'+esc(s)+'</span>'; }).join('');
-    $('sSteps').innerHTML = PHASES.map(function(p,i){ var k=i+1, cl = k<c.phase?'done':(k===c.phase?'now':''); return '<div class="st '+cl+'"><span class="n">'+(k<c.phase?I.check:k)+'</span>'+p+'</div>'; }).join('');
-    $('sStatus').innerHTML = pill(c.status); var s2=$('sStatus2'); if (s2) s2.innerHTML = pill(c.status);
-    $('sContract').textContent = c.contract;
-    $('sPct').textContent = c.pct + '%';
-    $('sSegs').innerHTML = segs(c.pct);
-    $('sNext').innerHTML = '<div class="cal"><b>'+c.due.getDate()+'</b><small>'+MONTHS[c.due.getMonth()]+'</small></div><div><small>التسليم القادم · '+remaining(c.due)+'</small><b>'+esc(c.next)+'</b></div>';
+    $('sTags').textContent = c.services.join(' · ');
+    $('sStatus2').innerHTML = pill(c.status);
+    $('sPhaseName').textContent = PHASES[c.phase-1];
+    $('sSteps').innerHTML = PHASES.map(function(p,i){ var k=i+1, cl = k<c.phase?'done':(k===c.phase?'now':''); return '<div class="bt '+cl+'"><i></i><span>'+p+'</span></div>'; }).join('');
+    var C = 2*Math.PI*44;
+    $('sRing').innerHTML = '<svg width="108" height="108" viewBox="0 0 108 108" aria-hidden="true"><circle cx="54" cy="54" r="44" fill="none" stroke="rgba(243,236,227,.12)" stroke-width="9"/><circle cx="54" cy="54" r="44" fill="none" stroke="#E59758" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-c.pct/100)).toFixed(1)+'"/></svg><div><b>'+c.pct+'%</b><span>الإنجاز</span></div>';
+    $('sNext').innerHTML = '<span class="bn-l">التسليم القادم</span><b class="bn-t">'+esc(c.next)+'</b><span class="bn-d"><span>'+I.cal+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span><em>'+remaining(c.due)+'</em></span>';
     $('bCount').textContent = (S.idx+1) + ' / ' + CLIENTS.length;
     $('dots').innerHTML = CLIENTS.map(function(x,i){ return '<button type="button" data-i="'+i+'" aria-label="عرض '+esc(x.name)+'" aria-current="'+(i===S.idx)+'"><i></i></button>'; }).join('');
     $('bPlay').innerHTML = S.auto ? I.pause : I.play;
@@ -1271,7 +1340,7 @@ function renderTiles(){
   var wk = CLIENTS.filter(function(c){ return c.due >= ws && c.due <= we; });
   var late = CLIENTS.filter(function(c){ return c.status==='late'; }).length, warn = CLIENTS.filter(function(c){ return c.status==='warn'; }).length;
   var C = 2*Math.PI*38, on = 86;
-  $('tPulse').innerHTML = '<div class="tile-h"><b>نبض المحفظة</b><a href="#performance">الأداء ←</a></div><div class="pulse-body"><div class="pring"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#EFEDE9" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#E59758" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-on/100)).toFixed(1)+'"/></svg><div><b>'+on+'%</b><small>في الموعد</small></div></div>'+
+  $('tPulse').innerHTML = '<div class="tile-h"><b>نبض المحفظة</b><a href="#performance">الأداء ←</a></div><div class="pulse-body"><div class="pring"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#EFEDE9" stroke-width="8"/><circle cx="46" cy="46" r="38" fill="none" stroke="#E59758" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-on/100)).toFixed(1)+'"/></svg><div><b>'+on+'%</b></div></div>'+
     '<div class="pstats"><div class="pstat"><span><i style="--c:#1A1833"></i>مشاريع نشطة</span><b>'+CLIENTS.length+'</b></div><div class="pstat"><span><i style="--c:#E59758"></i>تسليمات الأسبوع</span><b>'+wk.length+'</b></div><div class="pstat"><span><i style="--c:#B3261E"></i>متأخر</span><b>'+late+'</b></div></div></div>';
   // today
   var done = TASKS.filter(function(t){ return t.done; }).length;
@@ -1284,12 +1353,12 @@ function renderTiles(){
   var attn = CLIENTS.filter(function(c){ return c.status!=='ok'; }).sort(function(a,b){ return (a.status==='late'?0:1)-(b.status==='late'?0:1); });
   $('tStatus').innerHTML = '<div class="tile-h"><b>حالة المشاريع</b><small>'+tot+' مشاريع</small></div>'+
     '<div class="stack"><i style="flex:'+ok+';--c:#2F8A63"></i><i style="flex:'+warn+';--c:#E59758"></i><i style="flex:'+late+';--c:#B3261E"></i></div>'+
-    '<div class="legend"><span><i style="--c:#2F8A63"></i>على المسار <b>'+ok+'</b></span><span><i style="--c:#E59758"></i>متابعة <b>'+warn+'</b></span><span><i style="--c:#B3261E"></i>متأخر <b>'+late+'</b></span></div>'+
-    '<div class="attn">'+attn.map(function(c){ return '<button type="button" data-open="'+c.id+'">'+icon(c)+'<span>'+esc(c.name)+' · '+esc(c.next)+'</span>'+pill(c.status)+'</button>'; }).join('')+'</div>';
+    '<div class="st-legend"><div><span><i style="--c:#2F8A63"></i>على المسار</span><b>'+ok+'</b></div><div><span><i style="--c:#E59758"></i>متابعة</span><b>'+warn+'</b></div><div><span><i style="--c:#B3261E"></i>متأخر</span><b>'+late+'</b></div></div>';
   // phases
+  var cnt = [1,2,3,4].map(function(k){ return CLIENTS.filter(function(c){return c.phase===k;}).length; }), mx = Math.max.apply(null,cnt);
   $('tPhases').innerHTML = '<div class="tile-h"><b>مراحل العمل</b><small>منهجية آماد</small></div><div class="phs">'+
-    PHASES.map(function(p,i){ var cs = CLIENTS.filter(function(c){ return c.phase===i+1; }); var mx = Math.max.apply(null,[1,2,3,4].map(function(k){ return CLIENTS.filter(function(c){return c.phase===k;}).length; }));
-      return '<div class="ph-col'+(cs.length===mx?' now':'')+'"><b>'+cs.length+'</b><small>'+p+'</small><div class="ph-icons">'+cs.map(function(c){ return '<button type="button" data-open="'+c.id+'" title="'+esc(c.name)+'" aria-label="'+esc(c.name)+'">'+icon(c)+'</button>'; }).join('')+'</div></div>'; }).join('')+'</div>';
+    PHASES.map(function(p,i){ var cs = CLIENTS.filter(function(c){ return c.phase===i+1; });
+      return '<div class="ph-col'+(cs.length===mx?' now':'')+'"><span class="ph-name">'+p+'</span><div class="ph-stack">'+(cs.length?cs.map(function(c){ return '<button type="button" data-open="'+c.id+'" title="'+esc(c.name)+'" aria-label="'+esc(c.name)+'">'+icon(c)+'</button>'; }).join(''):'<span class="ph-empty">—</span>')+'</div></div>'; }).join('')+'</div>';
   // week
   var days = '', items = [];
   for (var i=0;i<7;i++){ var d = new Date(ws); d.setDate(ws.getDate()+i); var hits = CLIENTS.filter(function(c){ return sameDay(c.due,d); }); hits.forEach(function(c){ items.push([c,d]); });
