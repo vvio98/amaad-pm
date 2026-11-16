@@ -590,6 +590,41 @@ img.boxed{border-radius:8px}
 .ph-empty{font-size:11px;color:var(--soft)}
 /* running cards: no colored line */
 .pcard::before{display:none!important}
+
+/* ===== mega board frame ===== */
+.mega{background:var(--night);border-radius:30px;padding:20px 14px 14px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.mega::before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;left:-120px;top:-220px;background:radial-gradient(circle,rgba(229,151,88,.22),transparent 70%);pointer-events:none}
+.mega .hello{padding:2px 14px 16px;margin:0!important;position:relative}
+.mega .hello h1{color:#fff!important}
+.mega .hello p{color:rgba(243,236,227,.68)!important}
+.mega-in{background:#F4F2EE;border-radius:22px;padding:12px;display:flex;flex-direction:column;min-height:0;position:relative}
+.mega-in .bov{flex:1;min-height:0}
+/* board tile becomes light */
+.t-board .board{background:#fff!important;box-shadow:0 0 0 1px var(--line)}
+.t-board .live{color:var(--muted)}
+.t-board .bbtn{color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+.t-board .bbtn:hover{background:var(--shell)}
+.t-board .bcount{color:var(--muted)}
+.t-board .dots i{background:#DCD8D1}
+.t-board .bd{color:var(--ink)}
+.bd-desc,.bd-sv{color:var(--muted)!important}
+.bd-logo{box-shadow:0 0 0 1px var(--line),0 6px 18px -10px rgba(26,24,51,.3)!important}
+.bd-phase,.bd-glass{background:var(--shell)!important;border-color:var(--line)!important}
+.bd-phase-h{color:var(--muted)!important}
+.bd-phase-h b{color:#9A5A23!important}
+.bt{color:var(--soft)!important}
+.bt i{background:#E3E0DA!important}
+.bt.done{color:var(--ink-2)!important} .bt.done i{background:var(--night)!important}
+.bt.now{color:#9A5A23!important} .bt.now i{background:var(--orange)!important;box-shadow:0 0 12px rgba(229,151,88,.45)!important}
+.bd-ring span,.bn-l{color:var(--muted)!important}
+.bn-d{color:var(--ink-2)!important}
+.t-run-head{color:var(--muted)}
+@media (min-width:1101px){
+  #v-overview.on{display:flex;flex-direction:column;height:100%}
+  .mega{flex:1;min-height:0}
+  .mega-in{flex:1}
+  #v-overview .bov{grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto}
+}
 /* ===== fixed app frame (no page scroll) ===== */
 @media (min-width:1101px){
   html,body{height:100%;overflow:hidden}
@@ -715,10 +750,12 @@ img.boxed{border-radius:8px}
 
           <!-- OVERVIEW -->
           <section class="view" id="v-overview" aria-label="نظرة عامة">
+            <div class="mega">
             <div class="hello">
               <h1 id="greet"></h1>
               <p id="greetSub"></p>
             </div>
+            <div class="mega-in">
 
             <div class="bov">
               <div class="tile t-board">
@@ -763,6 +800,8 @@ img.boxed{border-radius:8px}
                 <div class="t-run-head"><span>المشاريع الجارية<small id="runCount"></small></span><a class="more" href="#projects">عرض الكل <svg class="ico sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a></div>
                 <div class="marquee" id="marquee"><div class="track" id="track"></div></div>
               </div>
+            </div>
+            </div>
             </div>
 
           </section>
@@ -1023,7 +1062,7 @@ function renderBoard(anim){
     $('sPhaseName').textContent = PHASES[c.phase-1];
     $('sSteps').innerHTML = PHASES.map(function(p,i){ var k=i+1, cl = k<c.phase?'done':(k===c.phase?'now':''); return '<div class="bt '+cl+'"><i></i><span>'+p+'</span></div>'; }).join('');
     var C = 2*Math.PI*44;
-    $('sRing').innerHTML = '<svg width="108" height="108" viewBox="0 0 108 108" aria-hidden="true"><circle cx="54" cy="54" r="44" fill="none" stroke="rgba(243,236,227,.12)" stroke-width="9"/><circle cx="54" cy="54" r="44" fill="none" stroke="#E59758" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-c.pct/100)).toFixed(1)+'"/></svg><div><b>'+c.pct+'%</b><span>الإنجاز</span></div>';
+    $('sRing').innerHTML = '<svg width="108" height="108" viewBox="0 0 108 108" aria-hidden="true"><circle cx="54" cy="54" r="44" fill="none" stroke="#E9E6E0" stroke-width="9"/><circle cx="54" cy="54" r="44" fill="none" stroke="#E59758" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-c.pct/100)).toFixed(1)+'"/></svg><div><b>'+c.pct+'%</b><span>الإنجاز</span></div>';
     $('sNext').innerHTML = '<span class="bn-l">التسليم القادم</span><b class="bn-t">'+esc(c.next)+'</b><span class="bn-d"><span>'+I.cal+c.due.getDate()+' '+MONTHS[c.due.getMonth()]+'</span><em>'+remaining(c.due)+'</em></span>';
     $('bCount').textContent = (S.idx+1) + ' / ' + CLIENTS.length;
     $('dots').innerHTML = CLIENTS.map(function(x,i){ return '<button type="button" data-i="'+i+'" aria-label="عرض '+esc(x.name)+'" aria-current="'+(i===S.idx)+'"><i></i></button>'; }).join('');
