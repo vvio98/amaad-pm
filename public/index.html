@@ -21,13 +21,20 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-/* glass scrollbars */
-*{scrollbar-width:thin;scrollbar-color:rgba(26,24,51,.18) transparent}
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.35);border:2px solid transparent;background-clip:padding-box;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(26,24,51,.12),inset 0 1px 0 rgba(255,255,255,.6);backdrop-filter:blur(8px)}
-::-webkit-scrollbar-thumb:hover{background:rgba(26,24,51,.16);background-clip:padding-box}
-::-webkit-scrollbar-corner{background:transparent}
+/* glass scrollbars: native hidden on mouse devices, frosted overlay thumb instead */
+@media (pointer:fine){
+  *{scrollbar-width:none}
+  ::-webkit-scrollbar{width:0;height:0;display:none}
+}
+.gthumb{position:fixed;z-index:60;width:8px;border-radius:999px;cursor:grab;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.22));
+  -webkit-backdrop-filter:blur(14px) saturate(1.8);backdrop-filter:blur(14px) saturate(1.8);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 4px 14px rgba(26,24,51,.14),0 0 0 1px rgba(26,24,51,.06),inset 0 1px 0 rgba(255,255,255,.9);
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease),width .2s var(--ease)}
+.gthumb.on{opacity:1;pointer-events:auto}
+.gthumb:hover,.gthumb.drag{width:11px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(229,151,88,.25))}
+.gthumb.drag{cursor:grabbing}
 
 html,body{margin:0}
 body{background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
@@ -1116,6 +1123,37 @@ greet(); renderRunning(); renderCal(); renderDeadlines(); renderTasks(); renderF
 renderProjects(); renderKanban(); renderTimeline(); renderPerf(); renderGoals(); renderLogosPage();
 route(); renderBoard(false);
 initCapabilities();
+/* ---------- frosted glass scrollbars ---------- */
+(function(){
+  if (!window.matchMedia || !matchMedia('(pointer:fine)').matches) return;
+  var list = [];
+  function attach(el){
+    if (!el || el._gs) return; el._gs = true;
+    var root = el === document.scrollingElement;
+    var t = document.createElement('div'); t.className = 'gthumb'; document.body.appendChild(t);
+    var hideT, drag = null;
+    function box(){ return root ? {top:0,left:0,height:innerHeight} : el.getBoundingClientRect(); }
+    function update(show){
+      var ch = root ? innerHeight : el.clientHeight, sh = el.scrollHeight, r = box();
+      if (sh <= ch + 2 || r.height === 0 || (!root && !el.offsetParent)){ t.classList.remove('on'); return; }
+      var h = Math.max(36, r.height * ch / sh), max = sh - ch, y = r.top + 4 + (r.height - h - 8) * (el.scrollTop / max);
+      t.style.height = h + 'px'; t.style.top = y + 'px'; t.style.left = (r.left + 4) + 'px';
+      if (show){ t.classList.add('on'); clearTimeout(hideT); hideT = setTimeout(function(){ if (!drag && !t.matches(':hover')) t.classList.remove('on'); }, 1200); }
+    }
+    (root ? window : el).addEventListener('scroll', function(){ update(true); }, {passive:true});
+    if (!root) el.addEventListener('mouseenter', function(){ update(true); });
+    t.addEventListener('mouseleave', function(){ update(true); });
+    t.addEventListener('pointerdown', function(e){ e.preventDefault(); drag = {y:e.clientY, s:el.scrollTop}; t.classList.add('drag'); t.setPointerCapture(e.pointerId); });
+    t.addEventListener('pointermove', function(e){ if (!drag) return; var r = box(), ch = root ? innerHeight : el.clientHeight, h = t.offsetHeight; el.scrollTop = drag.s + (e.clientY - drag.y) * (el.scrollHeight - ch) / Math.max(1, r.height - h - 8); });
+    t.addEventListener('pointerup', function(){ drag = null; t.classList.remove('drag'); update(true); });
+    list.push(update);
+  }
+  function scan(){ document.querySelectorAll('.panel-body,.aside-body,.kcol,.tl-scroll').forEach(attach); attach(document.scrollingElement); list.forEach(function(u){ u(false); }); }
+  window.addEventListener('resize', function(){ list.forEach(function(u){ u(false); }); });
+  window.addEventListener('hashchange', function(){ setTimeout(scan, 60); });
+  setTimeout(scan, 100);
+})();
+
 })();
 </script>
 </body>
